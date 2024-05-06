@@ -1,0 +1,115 @@
+<div fxLayout="column" fxFlex="80" fxFlexOffset="10">
+    <app-bez-torg-reg-header *ngIf="app.id" [task]="task" [sectionId]="sectionId"
+        (getApplication)="getApplication($event)" [templates]="templates" [app]="app">
+    </app-bez-torg-reg-header>
+
+    <div class="control_panel">
+        <app-files-upload *ngIf="app.id" [sectionId]="sectionId" [type]="'userapp'" [taskDecide]="dataTaskDecide" [fileCategories]="appFileCategories"
+            [app]="app" (changeSignData)="changeSignData()">
+        </app-files-upload>
+    </div>
+
+    <div fxFlex="80 " class="control_panel resolution" *ngIf="isRegKanc()">
+        <mat-panel-title fxLayoutAlign="center center">{{'DocumentRegistration' | translate}}</mat-panel-title>
+
+        <div fxLayoutAlign="space-between">
+            <mat-form-field class="field_width" fxFlex="100">
+                <input [disabled]="sectionId !== '9'" type="number" matInput placeholder="Номер *"
+                    [(ngModel)]="dataTaskDecide.number">
+            </mat-form-field>
+            <mat-form-field class="field_width" fxFlexOffset="2">
+                <input [disabled]="sectionId !== '9'" matInput [matDatepicker]="pickerDate"
+                    placeholder="{{'Date' | translate}}  *" [(ngModel)]="dataTaskDecide.date">
+                <mat-datepicker-toggle matSuffix [for]="pickerDate"></mat-datepicker-toggle>
+                <mat-datepicker #pickerDate></mat-datepicker>
+            </mat-form-field>
+            <button mat-button class="ozo_btn" fxFlex="20" (click)="genRegNumberAndDate()"
+                [disabled]="sectionId !== '9' "> {{'ToForm' | translate}}
+            </button>
+        </div>
+        <app-files-upload *ngIf="app.id && [34].includes(+dataTaskDecide.order)" [sectionId]="sectionId" [type]="'userapp'" 
+        [fileCategories]="electCopyResolution" [app]="app"> </app-files-upload>
+    </div>
+
+    <!-- сервисы для коммунал -->
+    <div fxFlex="80" *ngIf="isSubId([152]) && dataTaskDecide.order > 24">
+        <button mat-button class="ozo_btn" *ngIf="isActResultEgkn()" [disabled]="sectionId !== '9' || disableOnSend == 1"
+            (click)="genFinalActMerged()">
+            {{ (dataTaskDecide.actResult ? 'FormPositiveActOfChoice' : 'FormNegativeActOfChoice') | translate }}
+        </button>
+        <button mat-button class="ozo_btn" *ngIf="isActResultEgkn()" [disabled]="sectionId !== '9' || disableOnSend == 2"
+            (click)="sendEgknMio()">
+            {{ (dataTaskDecide.actResult ? 'TransferPositiveStatusToThePAC' : 'TransferTheStatusToThePAC') | translate }}
+        </button>
+        <button mat-button class="ozo_btn" *ngIf="isActResultEgkn()" [disabled]="sectionId !== '9' || disableOnSend == 3"
+            (click)="sendActApplicant()">
+            {{ (dataTaskDecide.actResult ? 'TransferPositiveActToTheApplicant' : 'TransferTheActToTheApplicant') | translate }}
+        </button>
+        <button mat-button class="ozo_btn" *ngIf="dataTaskDecide.order == 35" [disabled]="sectionId !== '9'"
+            (click)="auctionAddressData()">
+            {{'AuctionData' | translate}}
+        </button>
+        <button mat-button class="ozo_btn" *ngIf="dataTaskDecide.order == 35" [disabled]="sectionId !== '9'"
+            (click)="sendAuctionData()">
+            {{'sendAuctionData' | translate}}
+        </button>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+        <app-show-application-accordion *ngIf="app.id" [app]="app"></app-show-application-accordion>
+        <div fxFlex="28">
+            <app-arch-map *ngIf="app.id" [app]="app">
+            </app-arch-map>
+        </div>
+    </div>
+
+    <div fxLayout="column" class="control_panel" *ngIf="isApprovalSheet()">
+        <app-approval-sheet *ngIf="app.id" [task]="task" [sectionId]="sectionId" [currentUser]="currentUser" [app]="app"
+            [taskDecide]="dataTaskDecide"></app-approval-sheet>
+    </div>
+
+    <!-- сервисы для коммунал -->
+    <div fxLayout="row" fxLayoutAlign="start center" [style.margin]="'15px 0px'">
+        <button mat-button class="ozo_btn" [disabled]="sectionId !== '9'" *ngIf="isFinalAct()"
+            (click)="genFinalAct()">
+            {{'FormTheFinalAct' | translate}}
+        </button>
+        <button mat-button class="ozo_btn" fxFlex="35"  (click)="modalDetermine()"  *ngIf="isOpenListParallel()" [disabled]="sectionId !== '9'">
+            {{'DetermineTheDivisibility' | translate}}
+        </button>
+        <button mat-button class="ozo_btn" fxFlex="19" [disabled]="sectionId !== '9'" *ngIf="isOpenListParallel()"
+            (click)="openListParallel()">
+            {{'AddApprovers' | translate}}
+        </button>
+    </div>
+
+    <div class="template_b" *ngIf="isTemplates()">
+        <div class="btn_list">
+            <div *ngFor="let template of templates;">
+                <mat-button-toggle-group class="confirm_button">
+                    <mat-button-toggle (click)="setTemplate(template)"
+                        [ngClass]="{'button_agreement': template.approved, 'btn_warn': !template.approved}"
+                        mat-raised-button> {{template.nameRu}}
+                        <span class="active_links"></span>
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isEditor()">
+        <div fxLayoutAlign="start center">
+            <button mat-button (click)="previewPdf(null, titleVal)">{{'Preview' | translate}}</button>
+        </div>
+        <div class="ng_editor">
+            <mat-list role="list" class="field_width sub_title">
+                <mat-list-item role="listitem">{{ 'ApprRefLetter' | translate}}</mat-list-item>
+                <mat-divider></mat-divider>
+            </mat-list>
+            <app-editor [text]="textVal" [sectionId]="sectionId" (setText)="setText($event, titleVal)"
+                [hasComment]="false">
+            </app-editor>
+        </div>
+    </div>
+
+</div>

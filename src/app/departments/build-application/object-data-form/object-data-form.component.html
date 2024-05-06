@@ -1,0 +1,507 @@
+<div fxLayout="column" [formGroup]="objectInfoForm">
+  <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users" fxFlexOffset="2">
+      <p>{{'ClaimCreation' | translate}}:</p>
+    </div>
+    <div>
+      <div fxLayout="row" class="header_btn_groups">
+        <button mat-button (click)="changeRoute(currentNavLinks[prevPosition], prevPosition)">{{'Back' | translate}}
+        </button>
+        <button mat-button (click)="validate()">{{'Next' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div fxLayout="column" class="control_panel">
+    <div fxLayout="row" fxFlex="90" fxFlexOffset="5" fxLayoutAlign="space-between start">
+      <div fxFlex="45" *ngIf="subserviceId !== '37'" [ngClass]="{'without_eskiz': subserviceId === '21'}">
+        <!-- <div *ngIf="subserviceId === '17'">
+           <div class="form_container_check">
+             <mat-checkbox class="checkbox-margin" formControlName="checkbox_value">Отдельно стоящее здание
+             </mat-checkbox>
+           </div>
+         </div>-->
+        <mat-form-field class="object_data_cad_btn">
+          <input matInput placeholder="{{'NumberKadastr' | translate }} {{getBadgeRequired('cadastreNumber')}}:"
+                 formControlName="cadastreNumber">
+          <div *ngIf="cadastralError">
+            <mat-error>{{'CadErrMsg' | translate}}</mat-error>
+          </div>
+          <button mat-raised-button matSuffix color="primary"
+                  (click)="checkCadNumber()">{{'Check' | translate }}
+          </button>
+          <button mat-raised-button matSuffix color="warn" *ngIf="false"
+                  (click)="removeCadPolygonGeom()">
+            <mat-icon aria-label="delete">delete</mat-icon>
+          </button>
+        </mat-form-field>
+        <!--<mat-hint>
+            <strong>04066025574, 4066011577, 04066003559, 04066004055</strong>
+          </mat-hint>-->
+        <div *ngIf="subserviceId === '21'" class="objectdata_field field_width">
+          <mat-form-field class="entity_width">
+            <input type="text" matInput placeholder="{{'Designer' | translate}}*" formControlName="designer">
+          </mat-form-field>
+          <mat-form-field class="entity_width">
+            <input type="number" matInput placeholder="{{'CatLicGSL' | translate}}*"
+                   formControlName="licenseCategoryGsl">
+            <div *ngIf="formControls.licenseCategoryGsl.errors">
+              <!--<mat-error *ngIf="formControls.licenseCategoryGsl.errors.required">Это объязательное поле!</mat-error>-->
+              <mat-error *ngIf="formControls.licenseCategoryGsl.errors.max">Максимальное значение 3</mat-error>
+              <mat-error *ngIf="formControls.licenseCategoryGsl.errors.min">Минимальное значение 1</mat-error>
+            </div>
+
+          </mat-form-field>
+          <mat-form-field class="entity_width">
+            <input type="number" matInput placeholder="{{'LicNumGSL' | translate}}*" formControlName="licenseNumberGsl">
+          </mat-form-field>
+          <mat-form-field class="entity_width">
+            <input matInput (change)="onDate($event)" [matDatepicker]="dp" placeholder="{{'LicDateGSL' | translate}} *"
+                   formControlName="licenseDateGsl">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp></mat-datepicker>
+          </mat-form-field>
+
+
+        </div>
+        <mat-form-field class="entity_width" *ngIf="serviceWithouName()">
+          <mat-label>{{'ObjName' | translate }}:</mat-label>
+          <input matInput placeholder="{{'ObjName' | translate }}:" formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field *ngIf="subserviceId === '23'">
+          <mat-label>{{ 'NameLandProject' | translate }}: *</mat-label>
+          <input matInput placeholder="{{'NameLandProject' | translate }}" formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field class="entity_width">
+          <mat-label>{{'ObjAddress' | translate }}: *</mat-label>
+          <input matInput placeholder="{{'ObjAddress' | translate}}" formControlName="address">
+        </mat-form-field>
+
+        <div *ngIf="subserviceId === '18'">
+
+          <mat-form-field>
+            <mat-label>{{ 'SpecialPurpose' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'SpecialPurpose' | translate }}" formControlName="purpose">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'BasisTitleDocuments' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'BasisTitleDocuments' | translate }}" formControlName="rightDocsReason">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'StateCertificateNumber' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'StateCertificateNumber' | translate }}" formControlName="gosAktNumber">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'AkimsDecisionNumber' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'AkimsDecisionNumber' | translate }}" formControlName="akimDecisionNumber">
+          </mat-form-field>
+
+          <span class="note">{{'PurposeApplicantAppeal' | translate }}:</span>
+          <mat-form-field class="entity_width">
+            <mat-label>*{{'FreeField' | translate }}</mat-label>
+            <input matInput placeholder="{{'FreeField' | translate}}" formControlName="changeReason">
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="isServiceBezTorgReg()">
+          <mat-form-field>
+            <mat-label>{{ 'AreaGA' | translate }}: *</mat-label>
+            <input type="number" matInput placeholder="{{'AreaGA' | translate }}" formControlName="area">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ 'RightToUseZU' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'RightToUseZU' | translate }}" formControlName="useRight">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ 'SpecialPurpose' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'SpecialPurpose' | translate }}" formControlName="purpose">
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>{{ 'uzoAndOzo' | translate }}: *</mat-label>
+            <mat-select formControlName="uzoOzo">
+              <mat-option *ngFor="let type of uzoOzoTypes" [value]="type.nameru">
+                {{type['name' + currentLang]}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="isZuPl()">
+          <mat-form-field>
+            <mat-label>{{ 'AreaGA' | translate }}: *</mat-label>
+            <input type="number" matInput placeholder="{{'AreaGA' | translate }}" formControlName="area">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ 'SpecialPurpose' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'SpecialPurpose' | translate }}" formControlName="purpose">
+          </mat-form-field>
+          <mat-form-field>
+            <input type="number" matInput placeholder="{{'FloorAmount' | translate}}" formControlName="floorsCount">
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="subserviceId === '7' || subserviceId === '27'">
+          <mat-form-field appearance="fill">
+            <mat-label>{{ 'Object' | translate }}</mat-label>
+            <mat-select formControlName="gos">
+              <mat-option *ngFor="let type of gosTypes" [value]="type.value">
+                {{type['name' + currentLang]}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="subserviceId === '1' || subserviceId ==='2' || subserviceId === '3' || subserviceId === '4' ||
+        subserviceId === '9'" class="objectdata_field field_width">
+          <mat-form-field class="entity_width">
+            <input type="text" matInput placeholder="{{'BuildTimeStandards' | translate}}" formControlName="period">
+          </mat-form-field>
+          <mat-form-field class="entity_width">
+            <input type="number" matInput placeholder="{{'FloorAmount' | translate}}" formControlName="floorsCount">
+          </mat-form-field>
+          <mat-form-field class="entity_width">
+            <input type="text" matInput (keypress)="checkEventValueType($event)"
+                   placeholder="{{'SqMeters' | translate}}" formControlName="area">
+          </mat-form-field>
+          <mat-form-field class="entity_width">
+            <input type="text" matInput (keypress)="checkEventValueType($event)"
+                   placeholder="{{'ApartmentsAmount' | translate}}" formControlName="flatsCount">
+          </mat-form-field>
+          <!--<mat-form-field class="entity_width">
+            <input type="number" matInput placeholder="{{'RoomsAmount' | translate}}" formControlName="roomsCount">
+          </mat-form-field>-->
+          <mat-form-field class="entity_width">
+            <input type="number" matInput placeholder="{{'CabinetsAmount' | translate}}"
+                   formControlName="cabinetsCount">
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="subserviceId === '25' || subserviceId === '75' || subserviceId === '50'">
+
+          <!-- <mat-form-field>
+             <mat-label>{{'PlotLocation' | translate }}: *</mat-label>
+             <input matInput placeholder="{{'PlotLocation' | translate }}" formControlName="address">
+           </mat-form-field>-->
+
+          <mat-form-field>
+            <mat-label>{{ 'RightToUseZU' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'RightToUseZU' | translate }}" formControlName="useRight">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'AreaGA' | translate }}: *</mat-label>
+            <input type="number" matInput placeholder="{{'AreaGA' | translate }}" formControlName="area">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'SpecialPurposeCurrent' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'SpecialPurposeCurrent' | translate }}" formControlName="purpose">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'SpecialPurposeReq' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'SpecialPurposeReq' | translate }}" formControlName="purposeRequested">
+          </mat-form-field>
+
+
+          <mat-form-field>
+            <mat-label matTooltip="{{'ReasonChangePurpose' | translate}}">{{'ReasonChangePurpose' | translate}}*
+            </mat-label>
+            <input matInput placeholder="{{'ReasonChangePurpose' | translate}}"
+                   formControlName="changeReason">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'identDocNumber' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'identDocNumber' | translate }}" formControlName="identDocNumber">
+          </mat-form-field>
+
+          <mat-form-field class="entity_width">
+            <input matInput (change)="onDate($event)" [matDatepicker]="identDocNumber"
+                   placeholder="{{'identDocDate' | translate }} *"
+                   formControlName="identDocDate">
+            <mat-datepicker-toggle matSuffix [for]="identDocNumber"></mat-datepicker-toggle>
+            <mat-datepicker #identDocNumber></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'legalDocNumber' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'legalDocNumber' | translate }}" formControlName="legalDocNumber">
+          </mat-form-field>
+
+          <mat-form-field class="entity_width">
+            <input matInput (change)="onDate($event)" [matDatepicker]="legalDocDate"
+                   placeholder="{{'legalDocDate' | translate }} *"
+                   formControlName="legalDocDate">
+            <mat-datepicker-toggle matSuffix [for]="legalDocDate"></mat-datepicker-toggle>
+            <mat-datepicker #legalDocDate></mat-datepicker>
+          </mat-form-field>
+
+          <mat-checkbox (change)="additionalPurposeUseChanged($event.checked)" formControlName="additionalPurposeUse">
+            {{'TargSupplement' | translate}}
+          </mat-checkbox>
+
+          <mat-form-field>
+            <mat-label>{{ 'additionalArea' | translate }}:</mat-label>
+            <input matInput (keypress)="checkEventValueType($event)" placeholder="{{'additionalArea' | translate }}"
+                   formControlName="additionalArea">
+          </mat-form-field>
+
+
+        </div>
+        <div *ngIf="subserviceId === '23' || subserviceId === '33' || subserviceId === '34'">
+
+          <mat-form-field *ngIf="subserviceId === '23'">
+            <mat-label>{{ 'RightToUseZU' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'RightToUseZU' | translate }}" formControlName="useRight">
+          </mat-form-field>
+
+
+          <mat-form-field>
+            <mat-label>{{ 'AreaGA' | translate }}: *</mat-label>
+            <input (keypress)="checkEventValueType($event)" matInput placeholder="{{'AreaGA' | translate }}"
+                   formControlName="area">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'SpecialPurposeCurrent' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'SpecialPurposeCurrent' | translate }}" formControlName="purpose">
+          </mat-form-field>
+
+          <div fxLayoutAlign="center center" *ngIf="subserviceId === '23'">
+            <h3 class="instruction" (click)="showInstructions()">{{ 'HowToSpecifyTheBoundariesOfThePlot' | translate
+              }}</h3>
+          </div>
+        </div>
+
+        <div *ngIf="subserviceId === '8'">
+          <mat-form-field>
+            <mat-label>{{ 'AreaGA' | translate }} {{getBadgeRequired('area')}}:</mat-label>
+            <input (keypress)="checkEventValueType($event)" matInput placeholder="{{'AreaGA' | translate }}"
+                   formControlName="area">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'CultBuilding' | translate }} {{getBadgeRequired('cultBuilding')}}:</mat-label>
+            <input matInput placeholder="{{'CultBuilding' | translate }}" formControlName="cultBuilding">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'FinancingSource' | translate }} {{getBadgeRequired('financingSource')}}:</mat-label>
+            <input matInput placeholder="{{'FinancingSource' | translate }}" formControlName="financingSource">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'BuildingCapacity' | translate }} {{getBadgeRequired('buildingCapacity')}}:</mat-label>
+            <input matInput placeholder="{{'BuildingCapacity' | translate }}" formControlName="buildingCapacity">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'Religion' | translate }} {{getBadgeRequired('religion')}}:</mat-label>
+            <input matInput placeholder="{{'Religion' | translate }}" formControlName="religion">
+          </mat-form-field>
+
+        </div>
+
+        <div *ngIf="subserviceId === '12'">
+          <mat-form-field>
+            <mat-label>{{ 'Religion' | translate }} {{getBadgeRequired('religion')}}:</mat-label>
+            <input matInput placeholder="{{'Religion' | translate }}" formControlName="religion">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'Repurposing' | translate }} {{getBadgeRequired('religion')}}:</mat-label>
+            <input matInput placeholder="{{'Repurposing' | translate }}" formControlName="purpose">
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="subserviceId === '134'">
+          <mat-form-field>
+            <mat-label>{{ 'AreaGA' | translate }}: *</mat-label>
+            <input matInput (keypress)="checkEventValueType($event)" placeholder="{{'AreaGA' | translate }}"
+                   formControlName="area">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'SpecialPurpose' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'SpecialPurposeCurrent' | translate }}" formControlName="purpose">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'ReclamationOfDisturbedLands' | translate }}:</mat-label>
+            <input matInput placeholder="{{ 'ReclamationOfDisturbedLands' | translate }}" formControlName="name">
+          </mat-form-field>
+
+          <mat-form-field class="field_width">
+            <input matInput  placeholder="{{'DeveloperProjectForReclamationOfDisturbedLands' | translate}}"
+                   formControlName="designer">
+          </mat-form-field>
+
+          <mat-form-field class="field_width">
+            <input matInput (keypress)="checkEventValueType($event)" placeholder="{{'NumberCopiesDisturbedLandReclamationProject' | translate}}*"
+                   formControlName="copyCount">
+          </mat-form-field>
+
+
+          <div>
+            <span class="note">{{'DecisionLocalExecutiveBody' | translate }}:</span>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <mat-form-field fxFlex="47">
+                <input matInput placeholder="{{'Number' | translate}} " formControlName="akimDecisionNumber">
+              </mat-form-field>
+
+
+              <mat-form-field fxFlex="47">
+                <input matInput [matDatepicker]="akimDecisionDateDp" placeholder="Дата "
+                       formControlName="akimDecisionDate">
+                <mat-datepicker-toggle matSuffix [for]="akimDecisionDateDp"></mat-datepicker-toggle>
+                <mat-datepicker #akimDecisionDateDp></mat-datepicker>
+              </mat-form-field>
+
+            </div>
+
+          </div>
+
+          <span class="note">{{ '16ArticleRK' | translate }}:</span>
+          <mat-form-field appearance="fill">
+            <mat-label>{{ 'ProvisionOfLandPlotsForSubsoilUsePurposes' | translate }}</mat-label>
+            <mat-select formControlName="uzoOzo">
+              <mat-option *ngFor="let type of articleTypes" [value]="type.nameru">
+                {{type['name' + currentLang]}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="subserviceId === '135'">
+          <mat-form-field>
+            <mat-label>{{ 'SurveyWorkType' | translate }}: *</mat-label>
+            <input matInput placeholder="{{'SurveyWorkType' | translate }}" formControlName="surveyWorkType">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'SurveyWorkPurpose' | translate }}:</mat-label>
+            <input matInput placeholder="{{ 'SurveyWorkPurpose' | translate }}" formControlName="surveyWorkPurpose">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'SurveyWorkReason' | translate }}:</mat-label>
+            <input matInput placeholder="{{ 'SurveyWorkReason' | translate }}" formControlName="surveyWorkReason">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'AreaGA' | translate }}: *</mat-label>
+            <input (keypress)="checkEventValueType($event)" matInput placeholder="{{'AreaGA' | translate }}"
+                   formControlName="area">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'LandType' | translate }}:</mat-label>
+            <input matInput placeholder="{{ 'LandType' | translate }}" formControlName="landType">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'Term' | translate }}:</mat-label>
+            <input (keypress)="checkEventValueType($event)" matInput placeholder="{{ 'Term' | translate }}" formControlName="term">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'WorkSchedule' | translate }}:</mat-label>
+            <input matInput placeholder="{{ 'WorkSchedule' | translate }}" formControlName="workSchedule">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" *ngIf="app.regionId !== 1">
+            <mat-label>{{'LandCodeRK' | translate}}:</mat-label>
+            <mat-select formControlName="uzoOzo">
+              <mat-option *ngFor="let type of landCodeTypes" [value]="type['name' + currentLang]">
+                {{type['name' + currentLang]}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="subserviceId === '77'">
+          <mat-form-field>
+            <mat-label>{{ 'AreaGA' | translate }}:</mat-label>
+            <input (keypress)="checkEventValueType($event)" matInput placeholder="{{'AreaGA' | translate }}"
+                   formControlName="area">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'SpecialPurpose' | translate }}:</mat-label>
+            <input matInput placeholder="{{'SpecialPurposeCurrent' | translate }}" formControlName="purpose">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'TypeOfLaw' | translate }}:</mat-label>
+            <input matInput placeholder="{{ 'TypeOfLaw' | translate }}" formControlName="useRight">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'Based' | translate }}:</mat-label>
+            <input matInput placeholder="{{ 'Based' | translate }}" formControlName="reason">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{ 'PurposeOfTheSection' | translate }}:</mat-label>
+            <input matInput placeholder="{{ 'PurposeOfTheSection' | translate }}" formControlName="sectionPurpose">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" *ngIf="notShowInCity()">
+            <mat-label>{{ 'LandCodeRK' | translate }}:</mat-label>
+            <mat-select formControlName="uzoOzo">
+              <mat-option *ngFor="let type of articleTypesDivisibility" [value]="type.nameru">
+                {{type['name' + currentLang]}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div fxFlex="45" *ngIf="subserviceId === '37'">
+        <!--<mat-form-field class="entity_width">
+          <mat-label>{{'Area' | translate }}: *</mat-label>
+          <input matInput placeholder="{{'Area' | translate}}" formControlName="area">
+        </mat-form-field>-->
+        <mat-form-field appearance="fill">
+          <mat-label>{{ 'Area' | translate }}: *</mat-label>
+          <mat-select formControlName="area">
+            <mat-option *ngFor="let type of specregAreaTypes" [value]="type['name' + currentLang]">
+              {{type['name' + currentLang]}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <app-select-region [subserviceId]="39"
+                           (setSelectedRegionId)="setSelectedRegionIdInUserAndRoleForm($event)"
+                           class="full-width"></app-select-region>
+
+        <!--<mat-form-field class="entity_width">
+          <mat-label>{{'ObjAddress' | translate }}: *</mat-label>
+          <input matInput placeholder="{{'ObjAddress' | translate}}" formControlName="address">
+        </mat-form-field>-->
+
+        <mat-form-field>
+          <mat-label>{{ 'SpecialPurpose' | translate }}: *</mat-label>
+
+          <mat-select formControlName="purpose">
+            <mat-option *ngFor="let type of specregPurposeTypes" [value]="type['name' + currentLang]">
+              {{type['name' + currentLang]}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="45" *ngIf="subserviceId !== '37'">
+        <div id="objectmapid"></div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

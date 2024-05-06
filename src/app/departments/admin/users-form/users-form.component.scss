@@ -1,0 +1,229 @@
+
+.email_form {
+  margin-left: 70px;
+  mat-form-field {
+    width: 300px;
+  }
+}
+
+.user_content {
+  margin-left: 11vh;
+  .text {
+    height: 30px;
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 15px;
+    text-align: center;
+    color: #FFFFFF;
+    background: #0096D5;
+    //padding: 0 50px;
+    width: 140px;
+    margin-right: 20px;
+  }
+}
+
+.user_btns {
+  margin-left: 15px;
+}
+
+@import "../../../../assets/fonts/Spectral/font-stylesheet.css";
+
+.container {
+  margin-left: 0;
+  margin-top: -20px;
+  margin-bottom: 15px;
+}
+
+.filter_text {
+  font-family: Spectral-Medium, sans-serif;
+  font-size: 10px;
+  line-height: 13px;
+  color: #4C4C4C;
+}
+
+.add_role {
+
+  height: 36px;
+  background: #0096D5;
+  border-radius: 4px;
+  font-family: Spectral-Medium, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  color: #FFFFFF;
+
+}
+
+.filter {
+  mat-button-toggle-group {
+    border: none;
+  }
+
+  input {
+    background: #FFFFFF;
+    border-radius: 4px;
+    border: none;
+    width: 249px;
+    height: 35px;
+  }
+  mat-button-toggle {
+    @extend .add_role;
+    width: 126px;
+    margin-left: -10px;
+  }
+  .mat-button-toggle-label-content {
+    line-height: 15px;
+  }
+
+}
+
+.select_param {
+  mat-button-toggle {
+    width: 35px !important;
+  }
+}
+
+.btn_groups {
+  margin-top: 28px;
+}
+
+.export {
+  width: 115px;
+  height: 36px;
+  border-radius: 2px;
+  background: #0096D5;
+  span {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 16px;
+    text-align: center;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+  }
+
+  img {
+    margin-left: 15px;
+  }
+
+}
+.region{
+  margin-top: 20px;
+}
+.refresh {
+  width: 50px;
+  margin-left: 15px;
+  height: 36px;
+  background: #009648;
+  border-radius: 2px;
+}
+
+.table_title {
+  font-family: Spectral-Medium, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  background: #f2f2f2;
+  border: 1px solid #D2D2D2;
+  border-radius: 7px 7px 0 0;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 20px 0 60px 0;
+  color: #000000;
+  margin: 0 0 -60px 0;
+  position: relative;
+}
+
+.external_table {
+  margin-bottom: 98px;
+  border-radius: 7px 7px 0 0;
+  mat-header-row {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 11px;
+    line-height: 14px;
+    text-align: center;
+    text-transform: uppercase;
+    mat-header-cell {
+      color: #000000 !important;
+      z-index: 1000;
+    }
+  }
+}
+
+.action_btn {
+  min-width: 50px !important;
+}
+
+.my_pagination {
+  .ngx-pagination .current {
+    color: #2CAD29 !important;
+    border: 2px solid #2CAD29 !important;
+    background-color: #f4f4f4 !important;
+    font-size: 16px !important;
+    font-weight: 400;
+  }
+  .ngx-pagination a, .ngx-pagination button {
+    color: #666 !important;
+    font-size: 16px !important;
+    text-decoration: none;
+    background-color: #f4f4f4 !important;
+    font-weight: 400;
+
+  }
+  .ngx-pagination a:hover, .ngx-pagination button:hover {
+    color: #2CAD29 !important;
+    border: 2px solid #2CAD29 !important;
+    background-color: #f4f4f4 !important;
+  }
+}
+
+.refusal {
+  color: #ff1f1c;
+}
+
+.approved {
+  color: #2CAD29;
+}
+
+@media only screen and (max-width: 1279px) {
+  .filter {
+    input {
+      width: 100% !important;
+    }
+
+  }
+
+}
+
+@media only screen and (max-width: 959px) {
+  .filter {
+    display: none;
+  }
+}
+
+.edit {
+  color: orange;
+  background: none;
+}
+
+.remove {
+  color: red;
+  background: none;
+}
+
+.mat-select-panel {
+  max-width: 50vh !important;
+}
+.mat-select-panel mat-option.mat-option {
+  height: unset !important;
+}
+
+.mat-option-text.mat-option-text {
+  white-space: normal !important;
+}
+
+.filterOrgs {
+  height: 50px !important;
+  padding: 10px !important;
+}
+.user_error_message{
+  margin-left: 10px;
+}

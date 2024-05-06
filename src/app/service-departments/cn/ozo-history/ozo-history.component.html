@@ -1,0 +1,43 @@
+<div fxLayout="column" fxFlex="80" fxFlexOffset="10">
+  <div fxFlex="100">
+    <button mat-stroked-button (click)="goBack()"><i class="material-icons">arrow_back</i></button>
+  </div>
+
+
+  <!--<div fxLayout="column" class="control_panel" *ngIf="history">
+
+    <div fxLayout="row wrap" fxFlex="90" fxFlexOffset="5" fxLayoutAlign="space-between center">
+      <mat-form-field *ngIf="history.name" fxFlex="100">
+        <mat-label>Задача</mat-label>
+        <input matInput [disabled]="true" [(ngModel)]="history.name">
+      </mat-form-field>
+
+
+      <mat-form-field *ngIf="history.startTime">
+        <mat-label> Дата поступления</mat-label>
+        <input matInput [disabled]="true" [value]="history.startTime | date:'dd.MM.yyyy HH:mm'">
+      </mat-form-field>
+
+      <mat-form-field *ngIf="history.endTime">
+        <mat-label>Дата исполнения:</mat-label>
+        <input matInput [disabled]="true" [value]="history.endTime | date:'dd.MM.yyyy HH:mm'">
+      </mat-form-field>
+
+      <mat-form-field *ngIf="history.assignee">
+        <mat-label>Исполнитель:</mat-label>
+        <input matInput [disabled]="true" [value]="history.assignee">
+      </mat-form-field>
+    </div>
+
+  </div>-->
+
+  <div *ngIf=" history ">
+    <h3>Текст постановления:</h3>
+
+    <div class="ckeditor" *ngIf=" history && history.value ">
+      <app-editor [sectionId]="'9'" [text]="history.value" (setText)="setText($event)" [hasComment]="false"></app-editor>
+    </div>
+  </div>
+
+
+</div>

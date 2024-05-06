@@ -1,0 +1,209 @@
+<div fxLayout="column" fxFlex="76" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="7"
+     fxFlexOffset="12">
+  <div fxLayout="column" *ngIf="!iin && !bin">
+    <!--<mat-form-field appearance="fill" class="report_type">
+      <mat-label>Выберите вид отчета</mat-label>
+      <mat-select [(ngModel)]="reportTypesFC">
+        <mat-option *ngFor="let type of reportTypes" [value]="type">
+          {{type.nameRu}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>-->
+    <mat-form-field appearance="fill" class="report_type">
+      <mat-label>Выберите вид отчета</mat-label>
+      <mat-select [(ngModel)]="reportTypesFC">
+        <mat-option  [value]="true">
+          Согласовано
+        </mat-option>
+        <mat-option  [value]="false">
+          Отказано
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="admin_container">
+      <mat-sidenav-container>
+        <mat-sidenav-content>
+          <div [formGroup]="searchForm" class="statistic_form">
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+              <mat-form-field fxFlex="45">
+                <input matInput [matDatepicker]="picker" formControlName="startDate"
+                       placeholder="{{'PerioStart' | translate}}">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field fxFlex="45">
+                <input matInput [matDatepicker]="picker2" formControlName="endDate"
+                       placeholder="{{'PeriodBetween' | translate}}">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <!--<div fxLayout="row" fxLayoutAlign="space-between center">
+              <mat-form-field fxFlex="45">
+                <mat-label>{{'iin' | translate}}</mat-label>
+                <input matInput formControlName="iin" [maxlength]="12" (keypress)="checkEventValueType($event)"
+                       placeholder="{{'iin' | translate}}">
+                <div *ngIf="formControls.iin.errors">
+                  <mat-error *ngIf="formControls.iin.errors.minlength">ИИН должен содержать 12 цифр |
+                    Текущее длина содержить {{formControls.iin.errors.minlength.actualLength}} цифр
+                  </mat-error>
+
+                </div>
+              </mat-form-field>
+
+              <mat-form-field fxFlex="45">
+                <mat-label>{{'bin' | translate}}</mat-label>
+                <input matInput [maxlength]="12" (keypress)="checkEventValueType($event)" formControlName="bin"
+                       placeholder="{{'bin' | translate}}">
+                <div *ngIf="formControls.bin.errors">
+                  <mat-error *ngIf="formControls.bin.errors.minlength">БИН должен содержать 12 цифр |
+                    Текущее длина содержить {{formControls.bin.errors.minlength.actualLength}} цифр
+                  </mat-error>
+                </div>
+              </mat-form-field>
+            </div>-->
+
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+              <mat-form-field appearance="fill" class="report_type">
+                <mat-label>Выберите вид услуги
+                </mat-label>
+                <mat-select [formControl]="subserviceFormControl" multiple>
+                  <mat-select-trigger>
+                    <span *ngIf="subserviceFormControl.value?.length > 0">{{subserviceFormControl.value ? subserviceFormControl.value[0].shortNameRu : ''}}</span>
+                    <span *ngIf="subserviceFormControl.value?.length > 1" class="example-additional-selection">
+                  (+{{subserviceFormControl.value.length - 1}} {{subserviceFormControl.value?.length === 2 ? 'other' : 'others'}})
+                </span>
+                  </mat-select-trigger>
+
+                  <input class="filterOrgs" matInput focused="'true'" type="text"
+                         (keyup)="searchByServices($event.target.value)"
+                         autocomplete="off" placeholder="Поиск по услугам">
+                  <mat-divider></mat-divider>
+
+                  <mat-option [value]="allServices">Все</mat-option>
+                  <mat-option *ngFor="let service of reserveServices" [value]="service">{{service.shortNameRu}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <div fxFlex="45" fxLayoutAlign="space-around center">
+                <button mat-raised-button (click)="search()" class="confirm_button statistic_btn_bg">{{'ToForm' |
+                  translate}}
+                </button>
+
+                <button mat-raised-button class="confirm_button" color="success" (click)="export()">
+                  Экспорт
+                </button>
+              </div>
+
+
+            </div>
+
+            <h2 fxLayoutAlign="center center" class="main_title">Отчеты</h2>
+
+            <div>
+              <p *ngIf="totalElements" class="report_code">
+                <span>Количества: {{totalElements}}</span>
+              </p>
+            </div>
+          </div>
+
+        </mat-sidenav-content>
+      </mat-sidenav-container>
+    </div>
+
+    <!--<p fxLayout="row" fxLayoutAlign="end center" class="report_code">
+      <span *ngIf="reportTypesFC">Код отчета: {{reportTypesFC.code}}</span>
+    </p>-->
+  </div>
+  <div class="applicant_name" *ngIf="iin || bin">
+    <p>История заявлений: <span>{{iin}}, {{applicantName}}</span></p>
+  </div>
+  <div *ngIf="dataSource.length > 0; else content">
+    <p ngClass="table_title"><!--{{'referenceBook' | translate}}--></p>
+    <mat-table [dataSource]="dataSource" ngClass="external_table" class="mat-elevation-z8">
+
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> №.</mat-header-cell>
+        <mat-cell *matCellDef="let element;let i = index"> {{getCount() + i+1}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="city">
+        <mat-header-cell *matHeaderCellDef>Қала, аудан</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span>Тараз қаласы</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="appId">
+        <mat-header-cell *matHeaderCellDef>Сәулет жоспарлау тапсырмасы</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.factEndDate | date:'dd.MM.yyyy HH:mm'}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="purpose">
+        <mat-header-cell *matHeaderCellDef>{{'SpecialPurpose' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.factEndDate | date:'dd.MM.yyyy HH:mm'}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="startTime">
+        <mat-header-cell *matHeaderCellDef>{{'ObjAddress' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.objectInfo.address}}
+        </mat-cell>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="applicant">
+        <mat-header-cell *matHeaderCellDef>Заявитель</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span>
+            {{element.firstName}} {{element.lastName}}
+          </span>
+        </mat-cell>
+      </ng-container>
+
+
+      <!--<ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>{{'Operations' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <button mat-button class="edit" matTooltip="Редактировать" (click)="edit(row)">
+            <i class="material-icons" >edit</i>
+          </button>
+          <button mat-button class="remove" matTooltip="Удалить" (click)="delete(row)">
+            <i class="material-icons">close</i>
+          </button>
+        </mat-cell>
+      </ng-container>-->
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="showTask(row)"></mat-row>
+    </mat-table>
+
+    <ul style="display: none;">
+      <li> Emp Name | Emp code</li>
+      <li
+        *ngFor="let item of dataSource  | paginate:{itemsPerPage: pageSize, currentPage:currentPage, totalItems: totalElements }">
+        {{item.name}} | {{item.id}}
+      </li>
+    </ul>
+    <pagination-controls class="my_pagination" fxLayout="row" fxLayoutAlign="end center" [directionLinks]="false"
+                         (pageChange)="pageChange($event)"></pagination-controls>
+  </div>
+  <ng-template #content>
+    <div class="applicant_name" *ngIf="iin || bin">
+      <p>Пусто</p>
+    </div>
+  </ng-template>
+</div>

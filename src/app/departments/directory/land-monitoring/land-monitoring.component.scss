@@ -1,0 +1,95 @@
+//@import "../../../../app/departments/admin/users-form/users-form.component.scss";
+@import "../../../../assets/fonts/Spectral/font-stylesheet.css";
+@import "../../admin/service-executors/service-executors.component.scss";
+
+.user_content {
+  //margin-left: 0vh;
+  .text {
+    //height: 30px;
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 15px;
+    text-align: center;
+    color: #FFFFFF;
+    background: #0096D5;
+    padding: 10px 5px;
+    width: 220px;
+    margin-right: 20px;
+  }
+}
+
+.user_btns {
+  margin-left: 15px;
+}
+
+app-arch-map {
+  width: 100%;
+}
+
+.mat-column-position {
+  flex: 0 0 4%;
+}
+
+/*.mat-column-nameKk {
+  flex: 0 0 8%;
+}*/
+mat-header-cell, mat-cell {
+  justify-content: center;
+}
+
+mat-row {
+  cursor: pointer;
+}
+
+.applicant_name {
+  font-family: Spectral-Medium, sans-serif;
+  line-height: 13px;
+  font-size: 16px;
+  p, span {
+    color: #37393a;
+  }
+  span {
+    cursor: pointer;
+  }
+}
+
+.mat-card {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #F4F4F4 -94.12%, rgba(255, 255, 255, 0) 100%), #F0F3F9;
+}
+
+.landform {
+  height: 100%;
+}
+
+.circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  font-size: 15px;
+  color: #37393a;
+
+  line-height: 80px;
+  text-align: center;
+  background: #ffffff;
+  margin-bottom: 10px;
+}
+
+.circle_agreement {
+  border: 1px solid #0096D5;
+  span {
+    color: #0096D5;
+  }
+}
+
+.circle_warn {
+  border: 1px solid red;
+  span {
+    color: red;
+  }
+}
+
+.circle_content_data {
+  width: 160px;
+  text-align: center;
+}

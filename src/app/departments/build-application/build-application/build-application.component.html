@@ -1,0 +1,72 @@
+
+
+<div fxFlex="90" fxLayout="column" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="5" fxFlexOffset="5">
+  <h2> {{subservice["name"+capitalizeFirstLetter(currentLang)]}}</h2>
+  <div class="progressbar-wrapper">
+    <ul class="progressbar" *ngIf="navigationStandardService()">
+      <li  [ngClass]="{'active':number === 0, 'passed': number > 0}">{{'FillingApplication' | translate }}</li>
+      <li  [ngClass]="{'active':number === 1, 'passed': number > 1}">{{'ObjectData' | translate }}</li>
+      <li  [ngClass]="{'active':number === 2, 'passed': number > 2}">{{'ElectronicCopiesDocuments' | translate }}</li>
+      <li  [ngClass]="{'active':number === 3, 'passed': number > 3}">{{'SignECP' | translate }}</li>
+    </ul>
+
+    <ul class="progressbar" *ngIf="subserviceId === '23'"  >
+      <li  [ngClass]="{'active':number === 0, 'passed': number > 0}">{{'FillingApplication' | translate }}</li>
+      <li  [ngClass]="{'active':number === 1, 'passed': number > 1}">{{'EarthDataOfTheProject' | translate }}</li>
+      <li  [ngClass]="{'active':number === 2, 'passed': number > 2}">{{'ObjectData' | translate }}</li>
+      <li  [ngClass]="{'active':number === 3, 'passed': number > 3}">{{'ElectronicCopiesDocuments' | translate }}</li>
+      <li  [ngClass]="{'active':number === 4, 'passed': number > 4}">{{'SignECP' | translate }}</li>
+    </ul>
+
+    <ul class="progressbar" *ngIf="subserviceId === '14'">
+      <li  [ngClass]="{'active':number === 0, 'passed': number > 0}">{{'FillingApplication' | translate }}</li>
+      <li  [ngClass]="{'active':number === 1, 'passed': number > 1}">{{'ElectronicCopiesDocuments' | translate }}</li>
+      <li  [ngClass]="{'active':number === 2, 'passed': number > 2}">{{'SignECP' | translate }}</li>
+    </ul>
+
+    <ul class="progressbar" *ngIf="subserviceId === '37'">
+      <li  [ngClass]="{'active':number === 0, 'passed': number > 0}">{{'FillingApplication' | translate }}</li>
+      <li  [ngClass]="{'active':number === 1, 'passed': number > 1}">{{'ObjectData' | translate }}</li>
+      <li  [ngClass]="{'active':number === 2, 'passed': number > 2}">{{'SignECP' | translate }}</li>
+    </ul>
+
+    <ul class="progressbar" [ngClass]="{'subservice_apz': subserviceId === '1'}" *ngIf="subserviceId === '1' || subserviceId ==='2'
+    || subserviceId === '3' || subserviceId === '4' || subserviceId === '9'">
+      <li  [ngClass]="{'active':number === 0, 'passed': number > 0}">{{'FillingApplication' | translate }}</li>
+      <li  [ngClass]="{'active':number === 1, 'passed': number > 1}">{{'ObjectData' | translate }}</li>
+      <li  [ngClass]="{'active':number === 2, 'passed': number > 2}">{{'ElectronicCopiesDocuments' | translate }}</li>
+      <li  [ngClass]="{'active':number === 3, 'passed': number > 3}" *ngIf="!stateTu">{{'QuestEl' | translate}}</li>
+      <li  [ngClass]="{'active':number === 4, 'passed': number > 4}" *ngIf="!stateTu">{{'QuestWater' | translate}}</li>
+      <li  [ngClass]="{'active':number === 5, 'passed': number > 5}" *ngIf="!stateTu">{{'QuestSewerage' | translate}}</li>
+      <li  [ngClass]="{'active':number === 6, 'passed': number > 6}" *ngIf="!stateTu">{{'QuestHeat' | translate}}</li>
+      <li  [ngClass]="{'active':number === 7, 'passed': number > 7}" *ngIf="!stateTu">{{'QuestGas' | translate}}</li>
+      <li [ngClass]="{'active':number === 8, 'passed': number > 8}">{{'SignECP' | translate }}</li>
+    </ul>
+
+    <ul class="progressbar" *ngIf="subserviceId === '38'">
+      <li  [ngClass]="{'active':number === 0, 'passed': number > 0}">{{'FillingApplication' | translate }}</li>
+      <li  [ngClass]="{'active':number === 1, 'passed': number > 1}">{{'ObjectData' | translate }}</li>
+      <li  [ngClass]="{'active':number === 2, 'passed': number > 2}">{{'QuestGas' | translate}}</li>
+      <li  [ngClass]="{'active':number === 3, 'passed': number > 3}">{{'ElectronicCopiesDocuments' | translate }}</li>
+      <li  [ngClass]="{'active':number === 4, 'passed': number > 4}">{{'SignECP' | translate }}</li>
+    </ul>
+
+    <ul class="progressbar" *ngIf="subserviceId === '31'">
+      <li  [ngClass]="{'active':number === 0, 'passed': number > 0}">{{'FillingApplication' | translate }}</li>
+      <li  [ngClass]="{'active':number === 1, 'passed': number > 1}">{{'ObjectData' | translate }}</li>
+      <li  [ngClass]="{'active':number === 2, 'passed': number > 2}">{{'QuestWater' | translate}}</li>
+      <li  [ngClass]="{'active':number === 3, 'passed': number > 3}">{{'ElectronicCopiesDocuments' | translate }}</li>
+      <li  [ngClass]="{'active':number === 4, 'passed': number > 4}">{{'SignECP' | translate }}</li>
+    </ul>
+
+    <ul class="progressbar" *ngIf="subserviceId === '32'">
+      <li  [ngClass]="{'active':number === 0, 'passed': number > 0}">{{'FillingApplication' | translate }}</li>
+      <li  [ngClass]="{'active':number === 1, 'passed': number > 1}">{{'ObjectData' | translate }}</li>
+      <li  [ngClass]="{'active':number === 2, 'passed': number > 2}">{{'QuestHeat' | translate}}</li>
+      <li  [ngClass]="{'active':number === 3, 'passed': number > 3}">{{'ElectronicCopiesDocuments' | translate }}</li>
+      <li  [ngClass]="{'active':number === 4, 'passed': number > 4}">{{'SignECP' | translate }}</li>
+    </ul>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

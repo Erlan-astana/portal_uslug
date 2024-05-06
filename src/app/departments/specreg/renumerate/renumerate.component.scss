@@ -1,0 +1,63 @@
+.control_panel {
+  background: #FFFFFF;
+  margin-bottom: 1%;
+  padding: 0 2% 2% 2%;
+  box-shadow: 1px 2px 15px rgba(114, 135, 167, 0.11);
+  border-radius: 7px;
+
+
+  .header_btn_groups {
+    margin-right: 1%;
+    button:nth-child(1) {
+      margin-right: 3%;
+    }
+  }
+  .mat-form-field-appearance-legacy .mat-form-field-underline {
+    height: 0 !important;
+  }
+  input.mat-input-element {
+    background: #F2F2F2;
+    border-radius: 4px;
+    padding: 10px 0px 10px 10px;
+    width: 90%;
+  }
+
+  .mat-form-field-prefix, .mat-form-field-suffix {
+    top: -10px;
+  }
+
+}
+.text-center{
+  font-family: Spectral-Medium, sans-serif;
+  text-align: center;
+}
+button {
+  font-family: Spectral-Medium, sans-serif;
+  font-size: 14px;
+}
+.succes_btn{
+  background: #0091CE;
+  color: #fff;
+}
+.external_table {
+  width: 100%;
+  margin-bottom: 98px;
+  border-radius: 7px 7px 0 0;
+  mat-header-row {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 11px;
+    line-height: 14px;
+    text-align: center;
+    text-transform: uppercase;
+    mat-header-cell {
+      color: #000000 !important;
+      z-index: 1000;
+    }
+  }
+}
+.Reason_File{
+  margin-top: -10vh;
+}
+.renumerate_action_block{
+  margin-top: 10vh;
+}

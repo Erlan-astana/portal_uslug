@@ -1,0 +1,108 @@
+<div fxFlex="90" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="5" fxFlexOffset="5">
+  <div class="container" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxFlex="60" fxFlex.sm="0" fxFlex.xs="0" fxLayoutAlign="space-between center">
+      <mat-form-field>
+        <mat-label>С</mat-label>
+        <input #fromInput matInput [matDatepicker]="pickerFrom"
+               (dateChange)="changeDateAtBetweenOperation($event, 'from')">
+        <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFrom></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>По</mat-label>
+        <input #byInput matInput [matDatepicker]="pickerBy"
+               (dateChange)="changeDateAtBetweenOperation($event,'by')">
+        <mat-datepicker-toggle matSuffix [for]="pickerBy"></mat-datepicker-toggle>
+        <mat-datepicker #pickerBy></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-button (click)="getDocuments()" class="filterBtn">{{'Action' | translate}}</button>
+    </div>
+
+
+    <div fxLayout="row" [fxFlexOffset.sm]="2" fxFlex.xs="100" fxLayoutAlign="space-around center" class="btn_groups">
+
+      <button mat-button class="export" (click)="downloadExcelFile()">
+        <span>EXCEL</span>
+
+        <img src="../../../../assets/icons/file.svg">
+      </button>
+
+      <button mat-button class="refresh" (click)="refresh()">
+        <img src="../../../../assets/icons/refresh.svg">
+      </button>
+
+    </div>
+
+
+  </div>
+  <div>
+    <p ngClass="table_title">{{sectionName | translate }}</p>
+    <mat-table [dataSource]="dataSource" ngClass="external_table" class="mat-elevation-z8">
+
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> №.</mat-header-cell>
+        <mat-cell *matCellDef="let element;let i = index"> {{i}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>{{'Count' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <span>{{element.count}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="roleName">
+        <mat-header-cell *matHeaderCellDef>{{'Role' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.userRole.role.nameRu}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef>{{'Polzovatel' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.userRole.user.firstName }} {{element.userRole.user.lastName}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="subservice">
+        <mat-header-cell *matHeaderCellDef>{{'JustService' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.userRole.subservice.shortNameRu}}
+        </mat-cell>
+      </ng-container>
+
+    <!--  <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Операции</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <button mat-button class="edit" (click)="edit(row.id)">
+            <i class="material-icons">edit</i>
+          </button>
+          <button mat-button class="remove" (click)="delete(row)">
+            <i class="material-icons">close</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+-->
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="goToMyTasks(row)"></mat-row>
+    </mat-table>
+
+    <!--  <ul style="display: none;">
+        <li> Emp Name | Emp code</li>
+        <li
+          *ngFor="let item of dataSource  | paginate:{itemsPerPage: pageSize, currentPage:currentPage, totalItems: totalElements }">
+          {{item.name}} | {{item.id}}
+        </li>
+      </ul>
+      &lt;!&ndash;<pagination-controls class="my_pagination" fxLayout="row" fxLayoutAlign="end center" [directionLinks]="false"
+                           (pageChange)="pageChange($event)"></pagination-controls>&ndash;&gt;-->
+  </div>
+</div>
+
+

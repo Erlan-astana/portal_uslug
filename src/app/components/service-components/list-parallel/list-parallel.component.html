@@ -1,0 +1,93 @@
+<div>
+    <h2 class="exp-h2">Список согласующих</h2>
+
+    <div *ngIf="dataTaskDecide.subserviceId == 107">
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.gas">
+            7. Рассмотрение в ГАЗАЙМАК
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.TazaSu">
+            10. Рассмотрение в Таза СУ
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.KulanEnergoJylu">
+            13. Рассмотрение в Құлан-энерго жылу
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.energo">
+            16. Рассмотрение РЭС
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.kazahtelecom">
+            19. Рассмотрение в Казахтелеком
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.transtelecom">
+            22. Рассмотрение в Транстелеком
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.ozo">
+            25. Рассмотрение в ОЗО
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.BaizakSu">
+            28. Рассмотрение в КГП на ПХВ "Байзак су"
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.MerkeSu">
+            31. Рассмотрение в ТОО "Меркі су"
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.Igilik">
+            34. Рассмотрение в КГП на ПХВ "Многопрофильное предприятие "Игілік" Акимата Таласского района"
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.JanatasSuJylu">
+            37. Рассмотрение в КГП на ПХВ "Жанатас-Су-Жылу"
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.KordaiSu">
+            40. Рассмотрение в КГП на ПХВ "Қордай су"
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.AksuKordai">
+            43. Рассмотрение в ТОО "Аксу-Кордай"
+        </mat-checkbox>
+    </div>
+
+    <div *ngIf="[130, 131, 132].includes(dataTaskDecide.subserviceId)">
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.gas">
+            Рассмотрение в ГАЗАЙМАК
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.energo_zhes">
+            Рассмотрение в ЖЭС
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.kazahtelecom">
+            Рассмотрение в Казахтелеком
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.transtelecom">
+            Рассмотрение в Транстелеком
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.water_zhambyl_su">
+            Рассмотрение в Жамбыл Су
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.teplo_zhambyl_zhylu">
+            Рассмотрение в Жамбыл Жылу
+        </mat-checkbox>
+    </div>
+
+    <div *ngIf="[152].includes(dataTaskDecide.subserviceId)">
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.gas">
+            7. Рассмотрение в ГАЗАЙМАК
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.water_zhambyl_su">
+            10. Рассмотрение в Жамбыл Су
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.teplo_zhambyl_zhylu">
+            13. Рассмотрение в Жамбыл Жылу
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.energo_zhes">
+            16. Рассмотрение в ЖЭС
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.kazahtelecom">
+            19. Рассмотрение в Казахтелеком
+        </mat-checkbox>
+        <mat-checkbox class="exp-section" [(ngModel)]="dataTaskDecide.transtelecom">
+            22. Рассмотрение в Транстелеком
+        </mat-checkbox>
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="center stretch">
+        <button mat-button color="primary" (click)="save()">Сохранить</button>
+        <button mat-button color="warn" (click)="close()">Закрыть</button>
+    </div>
+
+</div>

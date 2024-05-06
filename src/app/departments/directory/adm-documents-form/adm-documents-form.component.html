@@ -1,0 +1,94 @@
+<div [formGroup]="documentForm" fxLayout="column" fxFlex="80" fxFlexOffset="10">
+  <div fxFlex="100">
+    <button mat-stroked-button (click)="goBack()"><i class="material-icons">arrow_back</i></button>
+  </div>
+
+  <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users" fxFlexOffset="2">
+      <p>{{'ClaimCreation' | translate}}:</p>
+    </div>
+
+    <div class="arch_users" formGroupName="employee">
+      <mat-form-field class="field_width">
+        <mat-label>Работник</mat-label>
+        <mat-select formControlName="id">
+          <mat-option *ngFor="let item of executors" [value]="item.id">{{item.lastName}} {{item.firstName}}
+          </mat-option>
+        </mat-select>
+        <!--<div *ngIf="documentForm.get('executor').get('id').errors">
+          <mat-error *ngIf="correspondenceForm.get('executor').get('id').errors.required">Это объязательное поле!</mat-error>
+        </div>-->
+      </mat-form-field>
+    </div>
+
+
+    <div class="arch_users">
+      <p>Контролер</p>
+    </div>
+
+    <div>
+      <div fxLayout="row" class="header_btn_groups">
+        <button mat-button (click)="save()">{{'Save' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div fxLayout="column" class="control_panel">
+
+
+    <div fxLayout="row" fxFlex="90" fxFlexOffset="5" fxLayoutAlign="space-between center">
+      <mat-form-field>
+        <mat-label>Автор:</mat-label>
+        <input matInput [disabled]="true" placeholder="Автор:">
+      </mat-form-field>
+
+
+      <mat-form-field>
+        <mat-label>Название (рус):</mat-label>
+        <input matInput formControlName="nameRu" placeholder="Название (рус):">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Название (eng):</mat-label>
+        <input matInput formControlName="nameEn" placeholder="Название (eng):">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Название (қаз):</mat-label>
+        <input matInput formControlName="nameKk" placeholder="Название (қаз):">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxFlex="90" fxFlexOffset="5" fxLayoutAlign="space-between center">
+      <mat-form-field>
+        <input matInput formControlName="date" [matDatepicker]="outDatePicker" placeholder="{{'Date' | translate}}  *">
+        <mat-datepicker-toggle matSuffix [for]="outDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #outDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <div></div>
+
+      <div></div>
+
+      <mat-form-field formGroupName="category" class="field_width">
+        <mat-label>Вид документа</mat-label>
+        <mat-select formControlName="id">
+          <mat-option *ngFor="let item of categories" [value]="item.id">{{item.nameRu}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <app-files-upload *ngIf="document.id" [type]="'adm-documents'" [fileCategories]="fileCategories"
+                      [app]="document"></app-files-upload>
+  </div>
+
+
+  <div class="ckeditor">
+    <div fxLayoutAlign="center center">
+      <app-editor [sectionId]="'9'" [text]="documentForm.controls.body.value"  (setText)="setText($event)" [hasComment]="false"></app-editor>
+    </div>
+  </div>
+
+</div>

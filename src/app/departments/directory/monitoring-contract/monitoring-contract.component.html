@@ -1,0 +1,163 @@
+<div fxFlex="90" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="5" fxFlexOffset="5">
+  <div class="container" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxFlex="30" fxFlex.sm="0" fxFlex.xs="0" fxLayoutAlign="space-between center">
+      <div  fxLayout="row" class="sort_monitoring" fxLayoutAlign="center center">
+        <p class="filter_text">{{'Arrange' | translate}}:</p>
+
+          <mat-radio-group [(ngModel)]="sort" class="example-radio-group">
+            <mat-radio-button (change)="getContracts($event.value)" checked value="date">{{'ByContDate' | translate}}</mat-radio-button>
+            <mat-radio-button (change)="getContracts($event.value)" value="preDate">{{'ByFirstPaymDelay' | translate}}</mat-radio-button>
+            <mat-radio-button (change)="getContracts($event.value)" value="mainDate">{{'ByMainPaymDeadline' | translate}}</mat-radio-button>
+          </mat-radio-group>
+          <!--<mat-button-toggle value="bold" fxLayoutAlign="center center">Действие
+          </mat-button-toggle>-->
+
+      </div>
+    </div>
+
+
+    <div fxLayout="row" [fxFlexOffset.sm]="2" fxFlex.xs="100" fxLayoutAlign="space-around center" class="btn_groups">
+      <!--<button mat-button class="add_role" (click)="create()">
+        Добавить договор
+      </button>-->
+
+      <button mat-button class="export" (click)="downloadExcelFile()">
+        <span>EXCEL</span>
+
+        <img src="../../../../assets/icons/file.svg">
+      </button>
+
+      <button mat-button class="refresh" (click)="refresh()">
+        <img src="../../../../assets/icons/refresh.svg">
+      </button>
+
+    </div>
+
+
+  </div>
+  <div>
+    <p ngClass="table_title">{{'monitoringContract' | translate}}</p>
+    <mat-table [dataSource]="dataSource" ngClass="external_table" class="mat-elevation-z8">
+
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> №.</mat-header-cell>
+        <mat-cell *matCellDef="let element;let i = index"> {{getCount() + i+1}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="subjectName">
+        <mat-header-cell *matHeaderCellDef>{{'ContractSubject' | translate}}*</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <span>{{element.subject.nameRu}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="number">
+        <mat-header-cell *matHeaderCellDef>Номер договора</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.number }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="createDate">
+        <mat-header-cell *matHeaderCellDef>Дата договора</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.date | date:'dd.MM.yyyy HH:mm' }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="customer">
+        <mat-header-cell *matHeaderCellDef>Заказчик (ФИО / наименование ЮЛ)</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.customer.lastName }} {{element.customer.firstName}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="sum">
+        <mat-header-cell *matHeaderCellDef>Сумма</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.sum }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="dueDate">
+        <mat-header-cell *matHeaderCellDef>Срок исполнения</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.dueDate | date:'dd.MM.yyyy HH:mm'}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="author">
+        <mat-header-cell *matHeaderCellDef>Автор</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span *ngIf="element.author">{{element.author.firstName }} {{element.author.lastName }}</span>
+
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="preDate">
+        <mat-header-cell *matHeaderCellDef>Конечная дата оплаты первого платежа</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.preDate | date:'dd.MM.yyyy HH:mm'}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="mainDate">
+        <mat-header-cell *matHeaderCellDef>Конечная дата оплаты основного платежа</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.mainDate | date:'dd.MM.yyyy HH:mm'}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="preLateDays">
+        <mat-header-cell *matHeaderCellDef>Просрочка перв. платежа</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span>{{element.preLateDays }}</span>
+
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="mainLateDays">
+        <mat-header-cell *matHeaderCellDef>Просрочка осн. платежа</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span>{{element.mainLateDays }}</span>
+
+        </mat-cell>
+      </ng-container>
+
+      <!--<ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Операции</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <button  mat-icon-button class="edit" matTooltip="Редактировать" (click)="edit(row.id)">
+            <i class="material-icons" >edit</i>
+          </button>
+          <button  mat-icon-button class="add_btn" (click)="createOnTheGrounds(row.id)" matTooltip="Создать новый договор на оснований">
+            <i class="material-icons">
+              library_add
+            </i>
+          </button>
+          <button  mat-icon-button class="remove" matTooltip="Удалить" (click)="delete(row)">
+            <i class="material-icons">close</i>
+          </button>
+        </mat-cell>
+      </ng-container>-->
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"(click)="show(row)"></mat-row>
+    </mat-table>
+
+    <ul style="display: none;">
+      <li> Emp Name | Emp code</li>
+      <li
+        *ngFor="let item of dataSource  | paginate:{itemsPerPage: pageSize, currentPage:currentPage, totalItems: totalElements }">
+        {{item.name}} | {{item.id}}
+      </li>
+    </ul>
+    <pagination-controls class="my_pagination" fxLayout="row" fxLayoutAlign="end center" [directionLinks]="false"
+                         (pageChange)="pageChange($event)"></pagination-controls>
+  </div>
+</div>
+
+

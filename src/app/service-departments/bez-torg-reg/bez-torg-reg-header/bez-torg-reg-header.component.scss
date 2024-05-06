@@ -1,0 +1,307 @@
+@import "../../../../assets/fonts/Spectral/font-stylesheet.css";
+
+.control_panel {
+    background: #ffffff;
+    padding: 26px 11px;
+    margin-bottom: 1%;
+    padding-right: 3%;
+    box-shadow: 1px 2px 15px rgba(114, 135, 167, 0.11);
+    border-radius: 7px;
+
+    .arch_users {
+        display: flex;
+        font-family: Spectral-Medium, sans-serif;
+        font-size: 14px;
+        line-height: 12px;
+        border: 1px solid #0096d5;
+        padding: 0 20px;
+        background: #ffffff;
+        border-radius: 2px;
+
+        img {
+            margin-right: 10px;
+        }
+    }
+
+    button {
+        font-family: Spectral-Medium, sans-serif;
+        font-size: 14px;
+        color: #fff;
+        background: #0096d5;
+    }
+
+    .information_title {
+        margin-bottom: 5px;
+    }
+
+    .refusal {
+        background: red;
+    }
+
+    .header_btn_groups {
+        margin-right: 1%;
+
+        button:nth-child(1) {
+            margin-right: 20%;
+        }
+    }
+
+    .app_data {
+        margin-left: 15px;
+
+        span {
+            font-family: Spectral-Medium, sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 23px;
+            text-transform: uppercase;
+            color: #0096d5;
+        }
+
+        .service_name {
+            font-family: Spectral-Medium, sans-serif;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 18px;
+            color: #25a94c;
+            margin-top: 20px;
+        }
+
+        .service_text {
+            font-family: Spectral-Medium, sans-serif;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 13px;
+            line-height: 16px;
+            color: #4c4c4c;
+        }
+
+        .aisgzk_btn {
+            margin-bottom: 10px;
+            padding: 0 40px;
+        }
+    }
+
+    .app_data_date {
+        color: #0096d5;
+        font-family: Spectral-Medium, sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 18px;
+        text-align: right;
+
+        span {
+            color: #4a4a4a;
+        }
+
+        .service_btn_groups {
+            margin: 1vh 0;
+        }
+
+        .checkbox {
+            border: 1px solid #e8e8e8;
+            box-sizing: border-box;
+            border-radius: 4px;
+            padding: 5px 24px;
+            color: #4a4a4a !important;
+        }
+    }
+}
+
+.head_control_panel {
+    padding: 6px 0 6px 0;
+    margin-bottom: 1%;
+
+    .info_title {
+        font-family: Spectral-Medium, sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 18px;
+        text-transform: uppercase;
+        color: #2b3a51;
+
+        span {
+            color: #0096d5;
+        }
+    }
+
+    .arch_users {
+        display: flex;
+        font-family: Spectral-Medium, sans-serif;
+        font-size: 14px;
+        line-height: 12px;
+        padding: 0 20px 0 0;
+
+        border-radius: 2px;
+
+        img {
+            margin-right: 10px;
+        }
+
+        mat-checkbox {
+            font-family: Spectral-Medium, sans-serif;
+            font-size: 14px;
+            line-height: 12px;
+        }
+    }
+
+    button {
+        font-family: Spectral-Medium, sans-serif;
+        font-size: 14px;
+        color: #fff;
+        background: #0096d5;
+        width: 14vh;
+    }
+
+    .information_title {
+        margin-bottom: 5px;
+    }
+
+    .refusal {
+        background: red;
+        min-width: unset;
+        width: 20vh;
+    }
+
+    .header_btn_groups {
+        margin-right: 1%;
+
+        button:nth-child(1) {
+            margin-left: 20px;
+        }
+    }
+
+    .ozo_fields {
+        margin-left: 2%;
+        font-family: Spectral-Medium, sans-serif;
+        font-size: 14px;
+        line-height: 12px;
+    }
+}
+
+.checkbox_container {
+    mat-form-field {
+        width: 100%;
+    }
+}
+
+.field_width {
+    width: 100%;
+}
+
+.toForm {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    color: #fff;
+    background: #0096d5;
+}
+
+.zk_files {
+    margin-top: 20px;
+}
+
+.ozo_fields {
+    mat-panel-title {
+        margin: 20px 0;
+        background: #0096d5;
+        color: #ffffff;
+        padding: 10px;
+        font-family: Spectral-Medium, sans-serif;
+        font-size: 14px;
+        line-height: 12px;
+    }
+
+    mat-label {
+        margin: 10px 0;
+    }
+
+    .checkbox {
+        border: 1px solid #e8e8e8;
+        box-sizing: border-box;
+        border-radius: 4px;
+        padding: 10px 14px;
+        color: #4a4a4a !important;
+    }
+}
+
+.ozo_preview {
+    margin-top: 10px;
+    margin-left: 0 !important;
+}
+
+.template_b {
+    padding: 10px;
+
+    .btn_list {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .btn_list > div {
+        margin-top: 10px;
+    }
+
+    .btn_list button {
+        margin-right: 10px;
+    }
+
+    .button_agreement {
+        background: #5cb85c;
+        color: #fff;
+    }
+
+    .btn_warn {
+        background: #f44336;
+        color: #fff;
+    }
+
+    .confirm_button {
+        margin-right: 10px;
+    }
+}
+
+.ozo_btn {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    color: #fff;
+    background: #0096d5;
+    max-height: 45px;
+    margin-left: 50px;
+}
+
+.arch-komu {
+    background-color: #30b32e;
+    color: #fff;
+    border-radius: 3px;
+    margin-right: 8%;
+    padding: 10px;
+}
+
+.filterBtn {
+    background: #0096d5;
+    color: #ffffff;
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    text-align: left;
+    min-width: 60px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.mat-column-status {
+    flex: 0 0 14%;
+}
+
+mat-panel-title {
+    margin: 20px 0;
+    background: #0096D5;
+    color: #FFFFFF;
+    padding: 10px;
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    line-height: 12px;
+  }

@@ -1,0 +1,40 @@
+.leaflet-popup {
+    .leaflet-popup-content {
+        width: 280px !important;
+    }
+
+    .leaflet-custom-popup-content {
+        width: 100%;
+    }
+
+    .table-container {
+        height: 150px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .table-bordered {
+        border: 1px solid #eceeef;
+
+        td, th {
+            border: 1px solid #eceeef;
+        }
+    }
+
+    .table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        border-collapse: collapse;
+        background-color: transparent;
+        box-sizing: inherit;
+
+        td, th {
+            width: 50%;
+            max-width: 50%;
+            padding: 4px;
+            vertical-align: top;
+            border-top: 1px solid #eceeef;
+        }
+    }
+}

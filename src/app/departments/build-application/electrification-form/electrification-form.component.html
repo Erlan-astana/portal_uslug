@@ -1,0 +1,178 @@
+<div fxLayout="column" class="electrification_container"  [formGroup]="electricForm">
+  <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users" fxFlexOffset="2">
+      <p>{{'ElSupply' | translate}}:</p>
+    </div>
+    <div>
+      <div fxLayout="row" class="header_btn_groups">
+        <button mat-button (click)="changeRoute(currentNavLinks[prevNavPosition], prevNavPosition)">{{'Back' | translate}}</button>
+        <button mat-button (click)="onUpdateApp()">{{'Next' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+  <div class="form_container">
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'ReqPower' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="requiredPower">
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'LoadNature' | translate}}</p>
+        <mat-form-field>
+          <mat-select formControlName="phase">
+            <mat-option *ngFor="let phase of phases" [value]="phase.id">{{currentLang === 'ru' ? phase.nameRu : phase.nameKk}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'LoadNatFreq' | translate}}</p>
+        <mat-form-field>
+          <mat-select formControlName="phasePeriod" [(value)]="phasePeriod.id">
+            <mat-option *ngFor="let phasePeriod of phasesPeriods" [value]="phasePeriod.id">{{currentLang === 'ru' ? phasePeriod.nameRu : phasePeriod.nameKk}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-list role="list" class="sub_title">
+      <mat-list-item role="listitem">{{'ReliabilityCat' | translate}}</mat-list-item>
+    </mat-list>
+    <div class="flex-container">
+      <div>
+        <mat-form-field class="field_width">
+          <mat-select placeholder="Категория*" disableRipple formControlName="relCat" [(value)]="electricInfo.relCat">
+            <mat-option value="1">{{'Category1' | translate}}</mat-option>
+            <mat-option value="2">{{'Category2' | translate}}</mat-option>
+            <mat-option value="3">{{'Category3' | translate}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <button mat-button style="color: #31B52E" (click)="openRelCategoryDescription()">
+         {{'HowToRelCat' | translate}}
+        </button>
+      </div>
+      <div>
+      </div>
+    </div>
+    <mat-list role="list" class="sub_title">
+      <mat-list-item role="listitem">{{'MaxLoadExpl' | translate}}</mat-list-item>
+    </mat-list>
+    <div class="flex-container">
+      <div *ngFor="let maxLoadObj of maxLoadByYearsObjectLst; let i = index">
+        <p class="field_title">{{i + 1}} {{'queue' | translate}} *</p>
+        <mat-form-field>
+          <input type="number" matInput [(ngModel)]="maxLoadObj.year" [ngModelOptions]="{standalone: true}">
+          <button mat-raised-button matSuffix disabled>{{'Year' | translate}}</button>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="number" matInput [(ngModel)]="maxLoadObj.power" [ngModelOptions]="{standalone: true}">
+          <button mat-raised-button matSuffix disabled>кВт</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="buttons_field">
+      <button mat-raised-button class="confirm_button"
+              (click)="addMaxLoadItem()">{{'AddQueue' | translate}}
+      </button>
+    </div>
+    <mat-list role="list" class="sub_title">
+      <mat-list-item role="listitem">{{'AtReconstruction' | translate}}</mat-list-item>
+    </mat-list>
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'ElBoilers' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="boilerCount">
+          <button mat-raised-button matSuffix disabled>{{'ShortCount' | translate}}</button>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="number" matInput formControlName="boilerPower">
+          <button mat-raised-button matSuffix disabled>кВт</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'Electroheaters' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="heaterCount">
+          <button mat-raised-button matSuffix disabled>{{'ShortCount' | translate}}</button>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="number" matInput formControlName="heaterPower">
+          <button mat-raised-button matSuffix disabled>кВт</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'Hotplates' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="stoveCount">
+          <button mat-raised-button matSuffix disabled>{{'ShortCount' | translate}}</button>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="number" matInput formControlName="stovePower">
+          <button mat-raised-button matSuffix disabled>кВт</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'ElFurnaces' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="furnaceCount">
+          <button mat-raised-button matSuffix disabled>{{'ShortCount' | translate}}</button>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="number" matInput formControlName="furnacePower">
+          <button mat-raised-button matSuffix disabled>кВт</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'ElWaterHeaters' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="waterHeaterCount">
+          <button mat-raised-button matSuffix disabled>{{'ShortCount' | translate}}</button>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="number" matInput formControlName="waterHeaterPower">
+          <button mat-raised-button matSuffix disabled>кВт</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'TransPower1' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="transformerNumber1">
+          <button mat-raised-button matSuffix disabled>ТП</button>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="number" matInput formControlName="transformerPower1">
+          <button mat-raised-button matSuffix disabled>кВА</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'TransPower2' | translate}} *</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="transformerNumber2">
+          <button mat-raised-button matSuffix disabled>ТП</button>
+        </mat-form-field>
+        <mat-form-field>
+          <input type="number" matInput formControlName="transformerPower2">
+          <button mat-raised-button matSuffix disabled>кВА</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'ExMaxLoad' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="maxLoad">
+          <button mat-raised-button matSuffix disabled>кВт (кВА)</button>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

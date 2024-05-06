@@ -1,0 +1,185 @@
+<div fxFlex="90" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="5" fxFlexOffset="5">
+  <div class="container" fxLayout="row" fxLayoutAlign="space-between center">
+
+
+    <div fxLayout="row" [fxFlexOffset.sm]="2" fxFlex="100" fxFlex.xs="100" fxLayoutAlign="space-between center"
+         class="filter">
+
+      <button mat-button class="add_role" *ngIf="excludeSpecregsBtn" (click)="excludeSpecregs()">
+        Исключить
+      </button>
+
+
+      <button mat-stroked-button class="add_role" (click)="close()">
+        {{'Close' | translate}}
+      </button>
+
+      <button mat-stroked-button *ngIf="data.reasonDetails" class="add_role" (click)="rollbackSpecreg()">
+        {{'ApplicantToWaitingList' | translate}}
+      </button>
+    </div>
+
+  </div>
+  <div *ngIf="!data.showSpecregExcluded">
+    <p ngClass="table_title">{{'Specreg' | translate }}</p>
+    <mat-table [dataSource]="dataSource" ngClass="external_table" class="mat-elevation-z8 specreg_table">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> №.</mat-header-cell>
+        <mat-cell *matCellDef="let element;let i = index"> {{ + i+1}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>{{'specregDate'| translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <span>{{element.specregDate  | date:'dd.MM.yyyy HH:mm'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="SpecRegNumber">
+        <mat-header-cell *matHeaderCellDef>{{'specregNumber' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span>{{element.specregNumber}}</span>
+
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="fio">
+        <mat-header-cell *matHeaderCellDef>{{'FIO' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.secondName}} {{element.firstName}} {{element.lastName}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="iin">
+        <mat-header-cell *matHeaderCellDef>{{'iin' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.iin}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="regAddressRu">
+        <mat-header-cell *matHeaderCellDef>Адрес прописки</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.regAddressRu}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="factAddress">
+        <mat-header-cell *matHeaderCellDef>Адрес фактического проживания</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.factAddressRu}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="phone">
+        <mat-header-cell *matHeaderCellDef>{{'PhoneNumber' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.phone}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="SpecregSourceType">
+        <mat-header-cell *matHeaderCellDef>{{'specregSourceType' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span>{{element.specregSourceType}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Статус</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{getStatusStr(element.specregStatus) }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="SpecregNumberType">
+        <mat-header-cell *matHeaderCellDef>{{'SpecregNumberType' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span *ngIf="element.orderNumber">{{element.orderNumber}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+
+    <!--<ul style="display: none;">
+      <li> Emp Name | Emp code</li>
+      <li
+        *ngFor="let item of dataSource  | paginate:{itemsPerPage: pageSize, currentPage:currentPage, totalItems: totalElements }">
+        {{item.name}} | {{item.id}}
+      </li>
+    </ul>-->
+    <!--<pagination-controls class="my_pagination" fxLayout="row" fxLayoutAlign="end center" [directionLinks]="false"
+                         (pageChange)="pageChange($event)"></pagination-controls>-->
+  </div>
+
+  <mat-form-field appearance="fill" *ngIf="excludeSpecregsBtn">
+    <mat-label>{{ 'Status' | translate }}:</mat-label>
+    <mat-select [(ngModel)]="selectedStatus">
+      <mat-option *ngFor="let status of statusList" [value]="status.id">
+        {{getStatusStr(status.id)}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div>
+    <table *ngIf="data.showSpecregExcluded" mat-table [dataSource]="excludedDataSource"
+           class="external_table mat-elevation-z8">
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> №.</th>
+        <td mat-cell *matCellDef="let element;let i = index"> {{ + i+1}}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> {{'FIO' | translate}}</th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngFor="let specreg of element.specreg">
+            <span *ngIf="specreg">{{specreg.firstName}} {{specreg.lastName}}</span>
+          </div>
+        </td>
+
+
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="weight">
+    <th mat-header-cell *matHeaderCellDef> {{'Date' | translate}}</th>
+    <td mat-cell *matCellDef="let element">
+      <span *ngIf="element.lastExcludedDate">{{element.lastExcludedDate | date:'dd.MM.yyyy HH:mm'}}</span>
+    </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="symbol">
+    <th mat-header-cell *matHeaderCellDef> {{'Operations' | translate}}</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-button class="edit" (click)="showExcludedSpecregData(element)">
+        <i class="material-icons">insert_drive_file</i>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="exludedDisplayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: exludedDisplayedColumns;"></tr>
+  </table>
+
+</div>
+
+<app-files-upload *ngIf="!data.showSpecregExcluded" [currentUser]="null" (updateTask)="removeFile($event)"
+                  [fileCategories]="fileCategories"
+                  [app]="null" [sectionId]="sectionId" [taskDecide]="null"></app-files-upload>
+
+</div>
+
+

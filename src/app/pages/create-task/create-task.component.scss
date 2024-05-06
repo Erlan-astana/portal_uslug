@@ -1,0 +1,226 @@
+@import "../../../assets/fonts/Spectral/font-stylesheet.css";
+
+.card_1 {
+  margin-right: 1%;
+}
+
+.card_2 {
+  margin-left: 1%;
+}
+
+.card_1, .card_2 {
+  background: #FFFFFF;
+  box-shadow: 1px 2px 15px rgba(33, 81, 113, 0.11);
+  border-radius: 7px;
+  width: 470px;
+  height: 155px;
+
+  .number {
+    font-family: Roboto, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 56px;
+    text-align: center;
+    letter-spacing: -0.045em;
+    color: #0096D5;
+  }
+  .card_title {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #2B3A51;
+  }
+  p {
+    margin: 0;
+  }
+}
+
+.calendar_events {
+  height: 100px;
+  .title {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 26px;
+    line-height: 33px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #2B3A51;
+  }
+
+  .calendars_btn {
+    height: 35px;
+    background: #FFFFFF;
+    border-radius: 6px;
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height */
+    text-align: center;
+    text-transform: uppercase;
+    color: #2B2B51;
+    margin-left: 18px;
+  }
+}
+
+.spinner {
+  .month, .year {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 26px;
+    line-height: 33px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #0096D5;
+  }
+  .year {
+    color: #7287A7;
+  }
+}
+
+.spinner_btn_active {
+  background: #FFFFFF;
+  border-radius: 6px;
+  color: #2CAD29 !important;
+}
+
+.spinner_btn {
+  width: 143px;
+  height: 35px;
+  font-family: Spectral-Medium, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #2B3A51;
+}
+
+.first_btn {
+  margin-left: 13%;
+}
+
+.days {
+  p {
+    height: 18px;
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 10px;
+    line-height: 18px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    color: #7287A7;
+  }
+}
+
+.calendar {
+
+  //box-shadow: 1px 2px 15px rgba(33, 81, 113, 0.11);
+  border-radius: 7px;
+  margin-bottom: 100px;
+  .day {
+    width: 100%;
+    background: #FFFFFF;
+    height: 100.42px;
+    border: 1px solid #BACAE2;
+    box-sizing: border-box;
+    padding-right: 20px;
+  }
+}
+
+.day {
+  .number {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 18px;
+    line-height: 23px;
+    text-align: right;
+    text-transform: uppercase;
+    color: #2B3A51;
+    margin: 1em 0 0 0;
+  }
+  .event {
+    margin-top: 20%;
+  }
+  .name {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 11px;
+    line-height: 14px;
+    color: #2B2B51;
+    margin: 0 5px 0 1vh;
+  }
+  .time {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 10px;
+    line-height: 13px;
+    text-align: right;
+    color: #7287A7;
+    margin: 0 -10px 0 0;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    background: #ff1e1c;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .card_1 {
+    margin-right: 0;
+    margin-bottom: 4%;
+  }
+  .card_2 {
+    margin-left: 0;
+  }
+  .calendars_btn, .spinner_btn {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 959px) {
+  .calendar_events {
+    .title {
+      font-size: 18px;
+      margin-right: 0;
+    }
+    .calendars_btn {
+      font-size: 10px;
+      margin-left: 10px;
+    }
+  }
+
+  .first_btn {
+    margin-left: 0;
+  }
+  .spinner_btn {
+    font-size: 10px;
+  }
+
+  .spinner {
+    .month, .year {
+      font-size: 18px;
+    }
+  }
+  .event {
+    flex-direction: column !important;
+    place-content: center center !important;
+    align-items: center !important;
+    text-align: center;
+  }
+  .day {
+    padding-right: 0 !important;
+    .name {
+      margin: 0;
+      font-size: 8px;
+    }
+  }
+  .number {
+    padding-right: 20px;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .event {
+    display: none !important;
+  }
+}

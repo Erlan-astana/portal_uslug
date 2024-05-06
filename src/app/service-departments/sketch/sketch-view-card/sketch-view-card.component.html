@@ -1,0 +1,29 @@
+
+<div fxLayout="column" fxFlex="80" fxFlexOffset="10">
+
+  <app-header-arch-specialist *ngIf="app.id" [task]="task" [sectionId]="sectionId" [app]="app"></app-header-arch-specialist>
+
+  <app-sketch-header *ngIf="app.id && app.subservice.id === 21" [sectionId]="sectionId" [task]="task" [app]="app"></app-sketch-header>
+
+
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <div fxLayout="column" fxFlexOffset="8" fxFlex="40">
+      <mat-form-field class="field_width">
+        <input matInput placeholder="{{'Applicant' | translate}}*" disabled [(ngModel)]="app.firstName || nodata">
+      </mat-form-field>
+      <mat-form-field class="field_width">
+        <input matInput placeholder="{{'NumberKadastr' | translate}}" disabled [(ngModel)]="app.objectInfo.cadastreNumber || nodata">
+      </mat-form-field>
+    </div>
+    <div fxFlex="28" fxFlexOffset="21">
+      <app-arch-map *ngIf="app.id" [app]="app"></app-arch-map>
+    </div>
+  </div>
+
+
+  <div style="margin-top: 3%">
+    <app-show-application-accordion *ngIf="app.id" [app]="app"></app-show-application-accordion>
+  </div>
+
+</div>
+

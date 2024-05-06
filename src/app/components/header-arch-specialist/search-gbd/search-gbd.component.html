@@ -1,0 +1,200 @@
+<div fxLayout="column" class="overall-container">
+  <div class="header">
+    <div fxLayout="row">
+      <div fxFlex="95%" fxLayoutAlign="center">
+        <span>Поиск по Государственным базам данных</span>
+      </div>
+      <div class="close-button">
+        <button mat-raised-button (click)="onClose()">Закрыть</button>
+      </div>
+    </div>
+    <div
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      fxLayoutGap="10px"
+      class="search-container"
+    >
+      <mat-form-field class="container-width">
+        <input #userInput matInput placeholder="Введите ИИН/БИН/КадНомер" />
+      </mat-form-field>
+
+      <mat-form-field class="container-width">
+        <mat-select placeholder="Выберите тип поиска" [(value)]="searchOption">
+          <mat-option *ngFor="let option of searchOptions" value="{{option.value}}">{{option.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        class="search"
+        (click)="onSearchClick(searchOption)"
+      >
+        Поиск
+      </button>
+    </div>
+  </div>
+  <div class="search-results-wrapper" fxLayoutAlign="center center">
+    <div class="search-results">
+      <mat-spinner color="primary" [strokeWidth]="1" [diameter]="25" *ngIf="isSpinnerOpened"></mat-spinner>
+      <mat-grid-list
+        class="grid-list"
+        cols="2"
+        *ngIf="personsData"
+        gutterSize="9px"
+      >
+        <mat-grid-tile
+          *ngFor="let person of personsData; let i = index"
+          [style.border]="'2px solid #9e9e9e'"
+        >
+          <mat-grid-tile-header
+          >Данные из ГБД ФЛ {{ i + 1 }}</mat-grid-tile-header
+          >
+          <div class="data-container" fxLayout="column" fxLayoutGap="5px">
+            <span>Фамилия: "{{ person.surame }}"</span>
+            <span>Имя: "{{ person.firstname }}"</span>
+            <span>Отчество: "{{ person.secondname }}"</span>
+            <span>Пол: "{{ person.gender }}"</span>
+            <span>Адрес: "{{ person.regAddressCountryId }}"</span>
+            <span>"{{ person.regAddressRegion }}"</span>
+            <span>"{{ person.regAddressDistrictName }}"</span>
+            <span>"{{ person.regAddressCity }}"</span>
+            <span>"{{ person.regAddressStreet }}"</span>
+            <span>"{{ person.regAddressBuilding }}"</span>
+            <span>"{{ person.regAddressCorpus }}"</span>
+            <span>кв: "{{ person.regAddressFlat }}"</span>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <mat-grid-list
+        class="grid-list"
+        cols="2"
+        *ngIf="facesData"
+        gutterSize="9px"
+      >
+        <mat-grid-tile
+          *ngFor="let entity of facesData; let i = index"
+          [style.border]="'2px solid #9e9e9e'"
+        >
+          <mat-grid-tile-header
+          >Данные из ГБД ЮЛ {{ i + 1 }}</mat-grid-tile-header
+          >
+          <div class="data-container" fxLayout="column" fxLayoutGap="5px">
+            <span>БИН: "{{ entity.bin }}"</span>
+            <span>Полное наименование(каз): "{{ entity.fullnameKz }}"</span>
+            <span>Полное наименование(рус): "{{ entity.fullnameRu }}"</span>
+            <span>Дата регистрации: "{{ entity.registrationActionDate }}"</span>
+            <span>Тел: "{{ entity.phone }}"</span>
+            <span>Email: "{{ entity.email }}"</span>
+            <span>Статус: "{{ entity.registrationActionCode }}"</span>
+            <span>ID: "{{ entity.ID }}"</span>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <mat-grid-list
+        class="grid-list"
+        cols="2"
+        *ngIf="realtiesData"
+        gutterSize="9px"
+      >
+        <mat-grid-tile
+          *ngFor="let realty of realtiesData; let i = index"
+          [style.border]="'2px solid #9e9e9e'"
+        >
+          <mat-grid-tile-header
+          >Данные из ГБД РН {{ i + 1 }}</mat-grid-tile-header
+          >
+          <div class="data-container" fxLayout="column" fxLayoutGap="5px">
+            <span>Область: "{{ realty.region }}"</span>
+            <span>Город, район: "{{ realty.district }}"</span>
+            <span>Правообладатель: "{{ realty.rightholder }}"</span>
+            <span>ИИН/БИН: "{{ realty.iinBin }}"</span>
+            <span>Тип объекта: "{{ realty.objType }}"</span>
+            <span>Кад.номер: "{{ realty.kadNo }}"</span>
+            <span>Целевое назначение: "{{ realty.target }}"</span>
+            <span>Адрес: "{{ realty.address }}"</span>
+            <span>Дата регистрации: "{{ realty.rightRegDate }}"</span>
+            <span>Идентификационый документ: "{{ realty.rightDoc }}"</span>
+            <span>Дата регистрации залога: "{{ realty.pledgeRegDate }}"</span>
+            <span>Id: "{{ realty.ID }}"</span>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <mat-grid-list
+        class="grid-list"
+        cols="2"
+        *ngIf="zagsDeathData"
+        gutterSize="9px"
+      >
+        <mat-grid-tile
+          *ngFor="let item of zagsDeathData; let i = index"
+          [style.background]="'#AB9AC0'"
+        >
+          <mat-grid-tile-header
+          >Данные из ЗАГС (Смерть) {{ i + 1 }}</mat-grid-tile-header
+          >
+          <div class="data-container" fxLayout="column" fxLayoutGap="5px">
+            <span>Номер акта: "{{ item.numberAkt }}"</span>
+            <span>ИИН: "{{ item.personIin }}"</span>
+            <span>ФИО: "{{ item.personSurname }} {{ item.personName }} {{ item.personSecondname }}"</span>
+            <span>Дата рождения: "{{ item.personBirthDate }}"</span>
+            <span>ЗАГС: "{{ item.zagsId }}"</span>
+            <span>Дата регистрации в ЗАГСе: "{{ item.regDate }}"</span>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <mat-grid-list
+        class="grid-list"
+        cols="2"
+        *ngIf="zagsChangeFio"
+        gutterSize="9px"
+      >
+        <mat-grid-tile
+          *ngFor="let item of zagsChangeFio; let i = index"
+          [style.background]="'#AB9AC0'"
+        >
+          <mat-grid-tile-header
+          >Данные из ЗАГС (Смена ФИО) {{ i + 1 }}</mat-grid-tile-header
+          >
+          <div class="data-container" fxLayout="column" fxLayoutGap="5px">
+            <span>Номер акта: "{{ item.numberAkt }}"</span>
+            <span>ИИН: "{{ item.personIin }}"</span>
+            <span>ФИО: "{{ item.surname }} {{ item.name }} {{ item.secondname }}"</span>
+            <span>Дата рождения: "{{ item.birthDate }}"</span>
+            <span>ЗАГС: "{{ item.zagsId }}"</span>
+            <span>Дата регистрации в ЗАГСе: "{{ item.regDate }}"</span>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <mat-grid-list
+        class="grid-list"
+        cols="2"
+        *ngIf="zagsBirthData"
+        gutterSize="9px"
+      >
+        <mat-grid-tile
+          *ngFor="let item of zagsBirthData; let i = index"
+          [style.background]="'#AB9AC0'"
+        >
+          <mat-grid-tile-header
+          >Данные из ЗАГС (Смена ФИО) {{ i + 1 }}</mat-grid-tile-header
+          >
+          <div class="data-container" fxLayout="column" fxLayoutGap="5px">
+            <span>Номер акта: "{{ item.numberAkt }}"</span>
+            <span>ИИН ребенка: "{{ item.childIin }}"</span>
+            <span>ФИО ребенка: "{{ item.childSurname }} {{ item.childName }} {{ item.childSecondname }}"</span>
+            <span>Дата рождения ребенка: "{{ item.childBirthDate }}"</span>
+            <span>Место рождения: "{{ item.childBirthCountryId }} {{ item.childBirthDistrictId }} {{ item.childBirthRegionId }}"</span>
+            <span>ИИН матери: "{{ item.motherIin }}"</span>
+            <span>ФИО матери: "{{ item.motherSurname }} {{ item.motherName }} {{ item.motherSecondname }}"</span>
+            <span>Дата рождения матери: "{{ item.motherBirthDate }}"</span>
+            <span>ИИН отца: "{{ item.fatherIin }}"</span>
+            <span>ФИО отца: "{{ item.fatherSurname }} {{ item.fatherName }} {{ item.fatherSecondname }}"</span>
+            <span>Дата рождения отца: "{{ item.fatherBirthDate }}"</span>
+            <span>ЗАГС: "{{ item.zagsId }}"</span>
+            <span>Дата регистрации в ЗАГСе: "{{ item.regDate }}"</span>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<h3 mat-dialog-title>{{'movHistory' | translate}}</h3>
+<div mat-dialog-content class="task_content">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+
+    <!--<ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element;let i = index"> {{i+1}} </td>
+    </ng-container>-->
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>{{'Task' | translate}}</th>
+      <td mat-cell *matCellDef="let element"> {{element.name}}</td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="startTime">
+      <th mat-header-cell *matHeaderCellDef>{{'ReceivedDate' |translate}}</th>
+      <td mat-cell *matCellDef="let element"> {{element.startTime | date:'dd.MM.yyyy HH:mm'}}</td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="endTime">
+      <th mat-header-cell *matHeaderCellDef> Дата исполнения</th>
+      <td mat-cell *matCellDef="let element"> {{element.endTime | date:'dd.MM.yyyy HH:mm'}}</td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="executorName">
+      <th mat-header-cell *matHeaderCellDef> Исполнитель</th>
+      <td mat-cell *matCellDef="let element"> {{element.assignee}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Операции</th>
+      <td mat-cell *matCellDef="let element">
+        <button (click)="showTaskHistory(element)" mat-button matTooltip="Посмотрет текст постановления">
+          <i class="material-icons">
+          remove_red_eye
+        </i>
+        </button>
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</div>
+<div mat-dialog-actions fxLayoutAlign="end end" class="closeBtn">
+  <button mat-button (click)="onOkClick()" cdkFocusInitial>ОК</button>
+</div>

@@ -1,0 +1,30 @@
+<div fxLayout="column" class="control_panel">
+  <div fxFlex="80" class="ozo_fields">
+    <mat-panel-title fxLayoutAlign="center center">Регистрация постановления (скан, номер, дата)</mat-panel-title>
+
+    <div fxLayoutAlign="space-between">
+      <mat-form-field class="field_width" fxFlex="100">
+        <input matInput (change)="setParentTaskDecide()" [disabled]="!checkTaskRoles()"
+               placeholder="Номер *" [(ngModel)]="taskDecide.number">
+      </mat-form-field>
+
+      <mat-form-field class="field_width" fxFlexOffset="2">
+        <input [disabled]="!checkTaskRoles()" (change)="onDate($event)" (dateChange)="setParentTaskDecide()"
+               matInput
+               [matDatepicker]="pickerDate" placeholder="Дата  *"
+               [(ngModel)]="taskDecide.date">
+        <mat-datepicker-toggle matSuffix [for]="pickerDate"></mat-datepicker-toggle>
+        <mat-datepicker #pickerDate></mat-datepicker>
+      </mat-form-field>
+
+    <!--  <button mat-button class="ozo_btn" fxFlex="20" (click)="generateRegistrationNumberAndDate()"
+              [disabled]="sectionId !== '9' "> Сформировать
+      </button>-->
+    </div>
+
+    <app-files-upload [sectionId]="sectionId" *ngIf="taskDecide && app.id" [type]="'userapp'"
+                      [fileCategories]="fileCategories"
+                      [app]="app" [taskDecide]="taskDecide"></app-files-upload>
+  </div>
+
+</div>

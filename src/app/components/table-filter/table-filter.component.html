@@ -1,0 +1,100 @@
+<div fxLayout="row wrap" fxLayoutAlign="space-between center">
+  <div *ngFor="let table of filterTable; let index = index;" fxFlex="90"
+       [ngClass]="{'main_container': parallelForm}" [fxLayout]="getFlexDirection()">
+    <div class="filter_container" fxLayout="row" fxFlex.sm="0" fxFlex.xs="0" fxLayoutAlign="space-between center">
+
+      <div class="filter" *ngIf="!parallelForm" fxFlex="30">
+
+        <!--<mat-form-field>
+          <mat-label></mat-label>
+          <mat-select [(ngModel)]="table.key" (ngModelChange)="onSelectionChangeFilterColumn($event, index)">
+            <mat-option *ngFor="let data of displayedColumnsForFilter" [value]="data.name">
+              <span>{{data.name | translate}}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>-->
+        <mat-form-field>
+          <!--<mat-label>{{table.key | translate}}</mat-label>-->
+          <input matInput disabled value="{{table.key | translate}}" type="text">
+        </mat-form-field>
+      </div>
+
+      <div class="filter" *ngIf="!parallelForm" fxFlex="30">
+
+        <mat-form-field>
+          <mat-label></mat-label>
+          <mat-select [(ngModel)]="table.operation" (ngModelChange)="onSelectionChangeOperation($event, index)">
+            <mat-option *ngFor="let data of searchOperations" [value]="data.nameEn">
+              {{data.nameRu}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="filter" fxFlex="100" [ngClass]="{'filterDate': table.type === 'date'}">
+
+        <mat-form-field *ngIf="table.type === 'date'">
+          <input matInput [matDatepicker]="picker" [placeholder]="table.key | translate"
+                 (dateChange)="changeDate($event, index)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="table.type === 'string'">
+          <input matInput [(ngModel)]="table.value" [placeholder]="table.key | translate">
+        </mat-form-field>
+
+        <mat-form-field *ngIf="table.type === 'int'">
+          <input matInput type="number" [(ngModel)]="table.value" [placeholder]="table.key | translate">
+        </mat-form-field>
+
+        <mat-radio-group [(ngModel)]="table.value" *ngIf="table.type === 'boolean'">
+          <mat-radio-button value="true">{{'Comfirmed' | translate}}</mat-radio-button>
+          <mat-radio-button value="false">{{'Rejected' | translate}}</mat-radio-button>
+        </mat-radio-group>
+        <div fxLayout="row" >
+          <mat-form-field *ngIf="table.type === 'between'">
+            <mat-label>С</mat-label>
+            <input matInput [matDatepicker]="pickerFrom"
+                   (dateChange)="changeDateAtBetweenOperation($event, index, 'from')">
+            <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+            <mat-datepicker #pickerFrom></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="second_date" *ngIf="table.type === 'between'">
+            <mat-label>По</mat-label>
+            <input matInput [matDatepicker]="pickerBy"
+                   (dateChange)="changeDateAtBetweenOperation($event, index, 'by')">
+            <mat-datepicker-toggle matSuffix [for]="pickerBy"></mat-datepicker-toggle>
+            <mat-datepicker #pickerBy></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field   *ngIf="table.type === 'dropdown'">
+            <mat-label>{{table.key | translate}}</mat-label>
+            <mat-select [(ngModel)]="table.value">
+              <mat-option *ngFor="let opt of table.options" [value]="opt.id">
+                {{opt.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+        <app-select-subservice *ngIf="table.type === 'subservice'"
+                               (setSelectSubservice)="setSelectSubservice($event, index)"
+                               class="field_width"></app-select-subservice>
+
+      </div>
+
+      <div>
+        <!--<button mat-button class="refresh remove_filter" matTooltip="Удалить фильтр"
+                (click)="removeFilterByIndex(index)">
+        <span class="material-icons">
+        remove
+        </span>
+        </button>-->
+      </div>
+    </div>
+  </div>
+
+</div>

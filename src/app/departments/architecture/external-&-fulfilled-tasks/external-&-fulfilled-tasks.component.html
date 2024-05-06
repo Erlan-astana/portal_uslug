@@ -1,0 +1,150 @@
+<div fxFlex="90" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="5" fxFlexOffset="5">
+  <div class="container" fxLayout="row" fxLayoutAlign="space-between start">
+    <div fxLayout="column">
+      <app-table-filter [parallelForm]="false" *ngIf="isFilterComponent" fxFlex="70"
+                        [displayedColumnsForFilter]="displayedColumnsForFilter"></app-table-filter>
+      <div class="filter" fxLayoutAlign="end center">
+        <button class="filter_btns filter_close_btn" mat-button *ngIf="isFilterComponent" (click)="showFilterComponent()"
+                fxLayoutAlign="center center">{{'Close' | translate}}</button>
+        <button class="filter_btns" mat-button *ngIf="isFilterComponent" (click)="filter()"
+                fxLayoutAlign="center center">{{'Execute' | translate}}</button>
+      </div>
+    </div>
+
+
+    <div fxLayout="row" fxFlex="30" [fxFlexOffset.sm]="2" fxFlex.xs="100" fxLayoutAlign="space-around center"
+         class="filter">
+      <button mat-button class="filter_btns" *ngIf="!isFilterComponent"
+              (click)="showFilterComponent()" fxLayoutAlign="center center">{{'Filter' | translate}}
+      </button>
+
+
+
+      <button mat-button class="export" (click)="downloadExcelFile()">
+        <span>EXCEL</span>
+
+        <img src="../../../assets/icons/file.svg">
+      </button>
+
+      <button mat-button class="refresh" (click)="refresh()">
+        <img src="../../../assets/icons/refresh.svg">
+      </button>
+
+    </div>
+
+
+  </div>
+
+  <div>
+    <p ngClass="table_title">{{taskName | translate}}</p>
+    <mat-table [dataSource]="dataSource" ngClass="external_table" matSort (matSortChange)="sortData($event)"
+               class="mat-elevation-z8">
+
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> №.</mat-header-cell>
+        <mat-cell *matCellDef="let element;let i = index"> {{getCount() + i+1}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header="appId">{{'RegNumberApps'| translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          {{element.appId || element.idx}} <span class="active_links">*</span>
+        </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="iin">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{'IINBIN' |translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.iin }} | {{element.bin}}</mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="createDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{'DateReceived' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.createDate | date:'dd.MM.yyyy HH:mm' }}</mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="firstName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{'Applicant' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span *ngIf="!element.bin">{{element.firstName}} {{element.lastName}}</span>
+          <span *ngIf="element.bin">{{element.orgName}}</span></mat-cell>
+
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>{{'subservice' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span *ngIf="element.subservice">{{element.subservice.shortNameRu}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="planEndDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{'planEndDate' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.planEndDate | date:'dd.MM.yyyy HH:mm' }}
+        </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="approved" *ngIf="sectionId === '4' || sectionId ==='5' ">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'Status' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <i class="material-icons refusal" *ngIf="!element.approved" matTooltip="Отказано">
+            remove_circle_outline
+          </i>
+          <i class="material-icons approved" matTooltip="Положительно" *ngIf="element.approved === true">
+            check_circle_outline
+          </i>
+
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="factEndDate" *ngIf="sectionId === '4'">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'ExecutionFact' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.factEndDate | date:'dd.MM.yyyy HH:mm' }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="currentExecutor" *ngIf="sectionId === '5'">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> {{'currentExecutor' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.currentExecutor}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="ResponsibleExecutor" *ngIf="sectionId === '5'">
+        <mat-header-cell *matHeaderCellDef> {{'ResponsibleExecutor' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.currentExecutor}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="currentTaskName" *ngIf="sectionId === '5'">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>{{'currentStatus' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.currentTaskName }}
+        </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="createApp(row)"></mat-row>
+    </mat-table>
+
+    <ul style="display: none;">
+      <li> Emp Name | Emp code</li>
+      <li
+        *ngFor="let item of dataSource  | paginate:{itemsPerPage: pageSize, currentPage:currentPage, totalItems: totalElements }"></li>
+    </ul>
+    <pagination-controls class="my_pagination" fxLayout="row" fxLayoutAlign="end center" [directionLinks]="false"
+                         (pageChange)="pageChange($event)"></pagination-controls>
+  </div>
+</div>
+
+

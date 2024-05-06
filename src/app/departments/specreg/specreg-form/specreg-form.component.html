@@ -1,0 +1,32 @@
+<div fxLayout="column" fxFlex="80" fxFlexOffset="10">
+  <div fxFlex="100">
+    <button mat-stroked-button (click)="goBack()"><i class="material-icons">arrow_back</i></button>
+  </div>
+
+  <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users" fxFlexOffset="2">
+      <p>{{'Specreg' | translate}}:</p>
+    </div>
+
+
+    <div>
+      <div fxLayout="row" class="header_btn_groups">
+        <button mat-button (click)="validate()">{{'Save' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div fxLayout="row" class="control_panel">
+
+
+    <div fxLayout="column wrap" fxFlex="80" fxFlexOffset="5">
+      <app-dinamic-form *ngIf="!specregId || specreg" [formFields]="formFields" [formData]="specreg"></app-dinamic-form>
+
+      <app-select-region [subserviceId]="39" (setSelectedRegionId)="setSelectedRegionId($event)" class="full-width"></app-select-region>
+    </div>
+     <div fxFlex="20">
+
+     </div>
+  </div>
+</div>

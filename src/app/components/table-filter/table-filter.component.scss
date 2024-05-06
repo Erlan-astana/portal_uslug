@@ -1,0 +1,54 @@
+
+.filter_container{
+  max-height: 75px;
+  width: 100%;
+  .mat-select-arrow-wrapper{
+    background-color: #0096D5;
+    border-radius: 8px;
+    .mat-select-arrow{
+      color: white;
+      background-image: url("../../../assets/icons/arrow_list_down.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      border: none !important;
+      height: 30px;
+      width: 45px;
+    }
+  }
+  .mat-form-field-appearance-legacy .mat-form-field-underline{
+    height: 1px;
+    //background-color: #0096D5;
+  }
+}
+.filter{
+  mat-form-field{
+    width: 90%;
+  }
+}
+.filterDate{
+  display: flex;
+  align-items: center;
+}
+mat-radio-group{
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+
+  mat-radio-button{
+    margin: 0 10px;
+  }
+}
+
+
+mat-button-toggle{
+  color: #FFFFFF !important;
+}
+.remove_filter{
+  color: red;
+}
+.second_date{
+  margin-left: 10vh;
+}
+.main_container{
+  max-width: 33% !important;
+}

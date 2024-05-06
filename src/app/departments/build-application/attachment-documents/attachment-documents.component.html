@@ -1,0 +1,27 @@
+<div fxLayout="column" fxFlex="80" fxFlexOffset="10">
+  <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users" fxFlexOffset="2">
+      <p>{{'ClaimCreation' | translate}}:</p>
+    </div>
+    <div>
+      <div fxLayout="row" class="header_btn_groups">
+        <button mat-button (click)="changeRoute(currentNavLinks[prevPosition], prevPosition)">{{'Back' | translate}}</button>
+        <button mat-button (click)="checkfiles();">{{'Next' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="app_file_container ">
+    <mat-slide-toggle class="head_control_panel" *ngIf="app.id && hasApzBysubserviceId()"
+      [(ngModel)]="stateTU" (change)="ToggleApzTuFiles()">
+      <span class="info_title">
+        {{'AttachSpecifications' | translate}}
+      </span>
+    </mat-slide-toggle>
+
+    <app-files-upload [sectionId]="'9'" *ngIf="app.id" [type]="'userapp'" [fileCategories]="appFileCategories" [app]="app"></app-files-upload>
+
+  </div>
+
+</div>

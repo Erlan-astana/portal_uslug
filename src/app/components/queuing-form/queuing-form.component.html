@@ -1,0 +1,21 @@
+<div class="control_panel">
+  <mat-panel-title fxLayoutAlign="center center">Решение по заявлению
+  </mat-panel-title>
+
+  <button mat-stroked-button (click)="copyFromApp()">Скопировать из заявления
+  </button>
+
+  <button mat-stroked-button *ngIf="isSpecregNumber" class="specreg_number" (click)="createSpecreg()">
+    {{'SpecregNumberType' | translate}}
+  </button>
+  <div fxLayout="row">
+    <div fxLayout="column" fxFlex="100">
+      <app-dinamic-form [formFields]="formFields" [formData]="specreg"></app-dinamic-form>
+
+    </div>
+
+
+  </div>
+  <button mat-stroked-button (click)="validateForm()">Сохранить
+  </button>
+</div>

@@ -1,0 +1,62 @@
+
+<div [formGroup]="documentForm" *ngFor="let data of formFields" class="form_block">
+  <div [ngSwitch]="data.controlType">
+
+    <div fxLayout="row" *ngSwitchCase="'textbox'" class="user_content" fxLayoutAlign="space-beetwen center">
+      <mat-label fxFlex="35"  class="text" fxLayoutAlign="start center">{{data.label | translate}}: </mat-label>
+
+      <mat-form-field fxFlex="53">
+        <input matInput [id]="data.key" [type]="data.type" (keypress)="checkEventValueType($event, data.key)"
+               [formControlName]="data.key" placeholder="{{data.label | translate}}">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" *ngSwitchCase="'textarea'" class="user_content" fxLayoutAlign="space-beetwen center">
+      <mat-label fxFlex="35"  class="text" fxLayoutAlign="start center">{{data.label | translate}}: </mat-label>
+
+      <mat-form-field fxFlex="53">
+        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="2" cdkAutosizeMaxRows="13"
+                  [formControlName]="data.key"></textarea>
+      </mat-form-field>
+    </div>
+
+
+    <div fxLayout="row" *ngSwitchCase="'number'" class="user_content" fxLayoutAlign="start center">
+      <mat-label fxFlex="35"  class="text" fxLayoutAlign="start center">{{data.label | translate}}: </mat-label>
+
+      <mat-form-field fxFlex="53">
+        <input matInput [id]="data.key" type="number"
+               [formControlName]="data.key" placeholder="{{data.label | translate}}">
+      </mat-form-field>
+    </div>
+
+
+    <div fxLayout="row" *ngSwitchCase="'dropdown'" class="user_content" fxLayoutAlign="start center">
+      <mat-label fxFlex="35" [id]="data.key" class="text" fxLayoutAlign="start center">{{data.label | translate}}:</mat-label>
+
+
+      <mat-form-field fxFlex="53">
+
+        <mat-select [formControlName]="data.key">
+          <mat-option *ngFor="let opt of data.options" [value]="opt.id">
+            {{opt.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+    <div fxLayout="row" *ngSwitchCase="'date'" class="user_content" fxLayoutAlign="start center">
+      <mat-label fxFlex="35"  class="text" fxLayoutAlign="start center">{{data.label | translate}} </mat-label>
+
+      <mat-form-field fxFlex="53">
+        <input matInput [matDatepicker]="picker" [formControlName]="data.key"
+               placeholder="{{data.label | translate}}">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+  </div>
+</div>

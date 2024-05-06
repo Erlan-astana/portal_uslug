@@ -1,0 +1,46 @@
+<div [formGroup]="userRoleForm">
+  <div fxLayout="row" fxLayoutAlign=" center">
+    <div>
+      <mat-label class="text" fxLayoutAlign="center center">БП</mat-label>
+    </div>
+    <div fxFlex="100">
+      <mat-form-field>
+        <mat-label>Услуги</mat-label>
+        <mat-select formControlName="serviceId" (selectionChange)="serviceChange($event)">
+          <mat-option>Выбрать...</mat-option>
+          <mat-option *ngFor="let service of subservices" [value]="service.id">{{service.shortNameRu || service.nameRu}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign=" center">
+    <div>
+      <mat-label class="text" fxLayoutAlign="center center">Роль</mat-label>
+    </div>
+    <div fxFlex="100">
+      <mat-form-field>
+        <mat-label>Роли</mat-label>
+        <mat-select formControlName="roleId" [disabled]="roles.length === 0">`
+          <mat-option>Выбрать...</mat-option>
+          <mat-option   *ngFor="let role of roles" [value]="role.id">{{role.nameRu}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign=" center">
+    <div>
+      <mat-label class="text" fxLayoutAlign="center center">По умолчанию</mat-label>
+    </div>
+    <div fxFlex="100">
+      <mat-checkbox formControlName="current"></mat-checkbox>
+    </div>
+  </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="end center">
+  <button mat-stroked-button [disabled]="this.userRoleForm.invalid" (click)="saveRoleAndSubservice()">{{'Save' | translate}}</button>
+  <button mat-stroked-button (click)="close()">Закрыть</button>
+</div>

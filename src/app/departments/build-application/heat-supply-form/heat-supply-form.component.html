@@ -1,0 +1,68 @@
+<div fxLayout="column" class="heatsupply_container" [formGroup]="heatForm">
+  <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users" fxFlexOffset="2">
+      <p>{{'HeatSupply' | translate}}:</p>
+    </div>
+    <div>
+      <div fxLayout="row" class="header_btn_groups">
+        <button mat-button (click)="changeRoute(currentNavLinks[prevNavPosition], prevNavPosition)">{{'Back' | translate}}</button>
+        <button mat-button (click)="onUpdateApp()">{{'Next' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+  <div class="form_container">
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'TotHeatLoad' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="total">
+          <button mat-raised-button matSuffix disabled>{{'Gkal' | translate}}</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-list role="list" class="sub_title">
+      <mat-list-item role="listitem">{{'Including' | translate}}</mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'Heating' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="heating">
+          <button mat-raised-button matSuffix disabled>{{'Gkal' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'Ventilation' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="ventilation">
+          <button mat-raised-button matSuffix disabled>{{'Gkal' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'HotWaterSupply' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="hotWater">
+          <button mat-raised-button matSuffix disabled>{{'Gkal' | translate}}</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'TechNeeds' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="technical">
+          <button mat-raised-button matSuffix disabled>{{'Gkal' | translate}}</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-list role="list" class="sub_title"></mat-list>
+    <mat-form-field class="">
+      <textarea matInput placeholder="{{'HousBuiltLoad' | translate}}"></textarea>
+    </mat-form-field>
+    <mat-form-field class="">
+      <textarea matInput placeholder="{{'EnergySavingAct' | translate}}"></textarea>
+    </mat-form-field>
+  </div>
+</div>

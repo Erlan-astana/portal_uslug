@@ -1,0 +1,71 @@
+@import "../../../../assets/fonts/Spectral/font-stylesheet.css";
+.control_panel {
+  background: #FFFFFF;
+  margin-bottom: 1%;
+  padding: 0 2% 2% 2%;
+  box-shadow: 1px 2px 15px rgba(114, 135, 167, 0.11);
+  border-radius: 7px;
+
+  button {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    color: #fff;
+    background: #0096D5;
+
+  }
+
+  .mat-form-field-appearance-legacy .mat-form-field-underline {
+    height: 0 !important;
+  }
+  input.mat-input-element {
+    background: #F2F2F2;
+    border-radius: 4px;
+    padding: 10px 0px 10px 10px;
+    width: 100%;
+  }
+
+  .mat-form-field-prefix, .mat-form-field-suffix {
+    top: -10px;
+  }
+
+}
+
+
+.head_control_panel {
+
+  padding: 6px 0 6px 0;
+  margin-bottom: 1%;
+  p {
+    text-transform: uppercase;
+  }
+  .arch_users {
+    display: flex;
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    line-height: 12px;
+    padding: 0 20px 0 0;
+
+    border-radius: 2px;
+
+  }
+  button {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    color: #fff;
+    background: #0096D5;
+
+  }
+
+  .header_btn_groups {
+    margin-right: 1%;
+    button:nth-child(1) {
+      margin-right: 3%;
+    }
+  }
+
+
+}
+
+.specreg_history_table{
+  margin-bottom: 20px;
+}

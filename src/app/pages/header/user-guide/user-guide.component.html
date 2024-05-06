@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>{{'UserManual' | translate}}</h1>
+<div mat-dialog-content>
+  <mat-list>
+    <div mat-subheader>{{'Files' | translate}}</div>
+    <mat-list-item *ngFor="let folder of folders">
+      <mat-icon mat-list-icon>picture_as_pdf</mat-icon>
+      <div mat-line>
+        <button mat-button (click)="showGuideFile(folder)">{{folder.name}}</button>
+      </div>
+      <!--<div mat-line> {{folder.updated | date}}</div>-->
+    </mat-list-item>
+    <mat-divider></mat-divider>
+  </mat-list>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end" >
+  <button mat-button (click)="onNoClick()">{{'Close' | translate}}</button>
+</div>

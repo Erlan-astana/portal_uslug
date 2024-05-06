@@ -1,0 +1,204 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <mat-form-field fxFlex="68" class="example-full-width">
+    <mat-label>{{'NumberKadastr' | translate}}</mat-label>
+    <input matInput (keypress)="checkCadNumberLength($event)" [(ngModel)]="cadastralNumber" maxLength="13"  placeholder="{{'NumberKadastr' | translate}}">
+  </mat-form-field>
+
+  <button fxFlex="24" mat-stroked-button [disabled]="cadastralNumber.length < 9" (click)="searchByCadastreNumber()">
+    Запрос
+  </button>
+</div>
+
+<div *ngIf="spinner">
+  <mat-card class="form-container scrollable-content" fxLayout="column">
+    <mat-card-header class="header" fxLayout="row nowrap" fxLayoutAlign="space-between center">
+      <mat-card-title class="title">
+        Информация по кадастровому номеру
+        <span class="text-prop" style="font-size: 1.25em;">{{ cadastralNumber }}</span>
+      </mat-card-title>
+      <mat-icon class="close" matRipple (click)="onNoClick()">close</mat-icon>
+    </mat-card-header>
+    <div *ngIf="!spinner || !gzkAttrsInfo">
+      <mat-spinner color="primary"></mat-spinner>
+    </div>
+
+
+    <!--//<perfect-scrollbar class="gzki-content">-->
+      <mat-card-content #gzkContent class="content" fxLayout="column" fxLayoutGap="13px" fxFlex="100%">
+
+        <!--new service data start-->
+        <mat-list *ngIf="gzkAttrsInfo">
+
+          <mat-list-item>
+            <p mat-line><span class="text-prop">Адрес участка:</span></p>
+            <p mat-line class="bottom-space">{{gzkAttrsInfo.ADDRESS_RU}}</p>
+            <p mat-line *ngIf="gzkAttrsInfo.CODE_RKA"><span class="text-prop">Регистрационный код адреса:</span></p>
+            <p mat-line class="bottom-space" *ngIf="gzkAttrsInfo.CODE_RKA">{{gzkAttrsInfo.CODE_RKA}}</p>
+            <p mat-line><span class="text-prop">Категория земель:</span></p>
+            <p mat-line class="bottom-space">{{gzkAttrsInfo.KAT_ZU_NAIM}}</p>
+            <p mat-line class="bottom-space">
+              <span class="text-prop">Делимость:</span> {{gzkAttrsInfo.DELIM === 1 ? 'делимый' : 'не делимый' }}
+            </p>
+            <p mat-line class="bottom-space" *ngIf="gzkAttrsInfo.LANDDOC && gzkAttrsInfo.LANDDOC.length > 0">
+          <span class="text-prop">Дата возникновения:
+          </span>{{gzkAttrsInfo.LANDDOC[0].DOCUMENT.ISSUE_DATE | date:'dd.MM.yyyy'}}
+            </p>
+            <p mat-line class="bottom-space"><span class="text-prop">Площадь:
+          </span> {{gzkAttrsInfo.SQUARE + ' кв.м.'}}
+            </p>
+            <p mat-line class="bottom-space" *ngIf="gzkAttrsInfo.OWNERSHIPS && gzkAttrsInfo.OWNERSHIPS.length > 0">
+              <span class="text-prop">Вид права:</span> {{gzkAttrsInfo.OWNERSHIPS[0].RIGHT_NAIM}}
+            </p>
+            <p mat-line class="bottom-space">
+              <span class="text-prop">Целевое назначение:</span> {{gzkAttrsInfo.PURPOSE.NAZN_RUS}}
+            </p>
+            <p mat-line class="bottom-space">
+              <span class="text-prop">Идентификационные документы:</span> {{''}}
+            </p>
+            <div mat-line class="bottom-space" *ngIf="gzkAttrsInfo.LANDDOC && gzkAttrsInfo.LANDDOC.length > 0">
+              <span class="text-prop">Документы основания возникновения участка:</span>
+              <p style="margin:0;" *ngFor="let landdoc of gzkAttrsInfo.LANDDOC; let idx = index">
+                <span style="font-weight: bold">{{ idx + 1 }}.</span> {{landdoc.DOCUMENT.NAME}}
+                №{{landdoc.DOCUMENT.NUMBER}} от {{landdoc.DOCUMENT.ISSUE_DATE | date:'dd.MM.yyyy'}}
+              </p>
+            </div>
+          </mat-list-item>
+        </mat-list>
+        <!--new service data end-->
+
+        <mat-accordion>
+
+          <!--      <mat-expansion-panel>-->
+          <!--        <mat-expansion-panel-header>-->
+          <!--          <mat-panel-title>Зарегистрированные права</mat-panel-title>-->
+          <!--          <mat-panel-description></mat-panel-description>-->
+          <!--        </mat-expansion-panel-header>-->
+          <!--      </mat-expansion-panel>-->
+
+          <!--Зарегистрированные права-->
+          <mat-expansion-panel *ngIf="gzkAttrsInfo && gzkAttrsInfo.OWNERSHIPS && gzkAttrsInfo.OWNERSHIPS.length > 0">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Зарегистрированные права ({{gzkAttrsInfo.OWNERSHIPS.length}})</mat-panel-title>
+              <mat-panel-description></mat-panel-description>
+            </mat-expansion-panel-header>
+            <div *ngFor="let ownership of gzkAttrsInfo.OWNERSHIPS; let idx = index"
+                 [ngStyle]="{'background-color': idx % 2 !== 0 ? 'rgba(0,0,0,0.04)' : 'transparent'}">
+              <h3 mat-line class="bottom-space title-prop">
+                {{ idx + 1 }})
+                {{ ownership.SUBJECT.LASTNAME }} {{ownership.SUBJECT.FIRSTNAME}} {{ownership.SUBJECT.SECONDNAME}}
+              </h3>
+              <p mat-line class="bottom-space"><span class="text-prop">ИИН/БИН:</span> {{ownership.SUBJECT.UIN}}</p>
+              <p mat-line class="bottom-space"><span class="text-prop">Дата рождения/регистрации:
+            </span>{{ownership.SUBJECT.DATER | date:'dd.MM.yyyy'}}
+              </p>
+              <p mat-line class="bottom-space"><span class="text-prop">Предоставленное право:
+            </span>{{ownership.RIGHT_NAIM}}
+              </p>
+              <p mat-line class="bottom-space" *ngIf="ownership.OWNERSHIPDOCUMENTS && ownership.OWNERSHIPDOCUMENTS.length > 0">
+                <span class="text-prop">Дата начала: </span>
+                {{ownership.OWNERSHIPDOCUMENTS[0].DOCUMENT.ISSUE_DATE | date:'dd.MM.yyyy'}}
+              </p>
+              <p mat-line class="bottom-space"><span class="text-prop">Дата аннулирования (факт): </span>{{ownership.DATEAN}}
+              </p>
+              <div mat-line class="bottom-space"><span class="text-prop">Основания возникновения: </span>
+                <p style="margin:0;" *ngFor="let ownDocs of ownership.OWNERSHIPDOCUMENTS; let ldIdx = index;">
+                  <span style="font-weight: bold">{{ ldIdx + 1 }}.</span> {{ownDocs.DOCUMENT.NAME}}
+                  {{ownDocs.DOCUMENT.NUMBER}} от {{ownDocs.DOCUMENT.ISSUE_DATE | date:'dd.MM.yyyy'}}</p>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel *ngIf="gzkAttrsInfo && gzkAttrsInfo.LANDCHILD && gzkAttrsInfo.LANDCHILD.length > 0">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Зарегистрированные права</mat-panel-title>
+              <mat-panel-description></mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div *ngIf="gzkAttrsInfo.LANDCHILD && gzkAttrsInfo.LANDCHILD.length > 0">
+              <div *ngFor="let landChild of gzkAttrsInfo.LANDCHILD; let idx = index"
+                   [ngStyle]="{'background-color': idx % 2 !== 0 ? 'rgba(0,0,0,.04)' : 'transparent'}">
+                <mat-divider class="content-divider"></mat-divider>
+
+                <mat-list-item>
+                  <p mat-line><span class="text-prop">
+              Часть №{{ idx + 1 }} <span *ngIf="landChild.RECEIVE_LIQUIDATION_DATE">
+              (Дата ликвидации: {{landChild.RECEIVE_LIQUIDATION_DATE | date:'dd.MM.yyyy'}})</span>
+            </span></p>
+                  <p mat-line class="bottom-space"><span class="text-prop">Площадь:
+              </span> {{landChild.SQUARE + ' кв.м.'}}
+                  </p>
+                  <p mat-line class="bottom-space" *ngIf="landChild.OWNERSHIPS && landChild.OWNERSHIPS.length > 0">
+                    <span class="text-prop">Вид права:</span> {{landChild.OWNERSHIPS[0].RIGHT_NAIM}}
+                  </p>
+                  <p mat-line class="bottom-space" *ngIf="landChild.CODE_RKA">
+                    <span class="text-prop">Регистрационный код адреса: </span>{{landChild.CODE_RKA}}
+                  </p>
+                </mat-list-item>
+
+                <div *ngIf="landChild.OWNERSHIPS && landChild.OWNERSHIPS.length > 0">
+                  <mat-list-item *ngFor="let ownership of landChild.OWNERSHIPS; let idx = index">
+                    <p mat-line><span class="text-prop">Зарегистрированные права ({{ idx + 1 }}):</span></p>
+                    <p mat-line class="bottom-space" *ngIf="landChild.OWNERSHIPS && landChild.OWNERSHIPS.length > 0
+                && landChild.OWNERSHIPS[0].SUBJECT">
+              <span class="text-prop">{{ idx + 1 }}.
+                {{landChild.OWNERSHIPS[0].SUBJECT.LASTNAME}} {{landChild.OWNERSHIPS[0].SUBJECT.FIRSTNAME}}
+              </span></p>
+                    <p mat-line class="bottom-space"><span class="text-prop">ИИН/БИН:</span> {{ownership.SUBJECT.UIN}}</p>
+                    <p mat-line class="bottom-space"><span class="text-prop">Дата рождения/регистрации:
+                </span>{{ownership.SUBJECT.DATER | date:'dd.MM.yyyy'}}
+                    </p>
+                    <p mat-line class="bottom-space"><span class="text-prop">Предоставленное право:
+                </span>{{ownership.RIGHT_NAIM}}
+                    </p>
+
+                    <div mat-line *ngIf="ownership.OWNERSHIPDOCUMENTS && ownership.OWNERSHIPDOCUMENTS.length > 0">
+                      <p mat-line class="bottom-space"><span class="text-prop">Дата рождения/регистрации:
+                  </span>{{ownership.OWNERSHIPDOCUMENTS[0].DOCUMENT.ISSUE_DATE | date:'dd.MM.yyyy'}}
+                      </p>
+                      <p mat-line class="bottom-space"><span class="text-prop">Предоставленное право:</span>
+                        {{ownership.OWNERSHIPDOCUMENTS[0].DOCUMENT.NAME}} №{{ownership.OWNERSHIPDOCUMENTS[0].DOCUMENT.NUMBER}}
+                        от {{ownership.OWNERSHIPDOCUMENTS[0].DOCUMENT.ISSUE_DATE | date:'dd.MM.yyyy'}}
+                      </p>
+                    </div>
+                  </mat-list-item>
+                </div>
+              </div>
+            </div>
+
+          </mat-expansion-panel>
+
+          <!--Ограничения и обременения использования-->
+          <mat-expansion-panel *ngIf="gzkAttrsInfo && gzkAttrsInfo.ENCUMBRANCE">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Ограничения и обременения использования</mat-panel-title>
+              <mat-panel-description></mat-panel-description>
+            </mat-expansion-panel-header>
+            <div *ngFor="let encumbrance of gzkAttrsInfo.ENCUMBRANCE; let idx = index;"
+                 [ngStyle]="{'background-color': idx % 2 !== 0 ? 'rgba(0,0,0,.04)' : 'transparent'}">
+              <p mat-line><span class="text-prop">Часть №: ({{ idx + 1 }}):</span>
+                (Дата начала: {{encumbrance.DATEST | date:'dd.MM.yyyy'}})
+              </p>
+              <p mat-line class="bottom-space" *ngIf="encumbrance.RESTRICTION">
+                <span class="text-prop">Ограничения и обременения использования:</span>
+                {{encumbrance.RESTRICTION[0].NAIM}}</p>
+            </div>
+          </mat-expansion-panel>
+
+
+        </mat-accordion>
+
+
+
+
+      </mat-card-content>
+    <!--</perfect-scrollbar>-->
+  </mat-card>
+</div>
+
+<div *ngIf="errorMessage">
+  <h3>{{errorMessage}}</h3>
+</div>
+<div mat-dialog-actions class="pull-right" *ngIf="spinner">
+  <button mat-stroked-button (click)="onNoClick()">Ok</button>
+  <button mat-stroked-button (click)="generatePdfWithGzkInfo()" cdkFocusInitial>Загрузить в заявку</button>
+</div>

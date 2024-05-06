@@ -1,0 +1,16 @@
+.external_table {
+  width: 100%;
+  margin-bottom: 98px;
+  border-radius: 7px 7px 0 0;
+  mat-header-row {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 11px;
+    line-height: 14px;
+    text-align: center;
+    text-transform: uppercase;
+    mat-header-cell {
+      color: #000000 !important;
+      z-index: 1000;
+    }
+  }
+}

@@ -1,0 +1,65 @@
+<div fxLayout="column" fxFlex="76" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="7"
+     fxFlexOffset="12">
+  <div>
+    <mat-form-field class="block__half">
+      <mat-select placeholder="{{'AllSubjects' | translate}}" [(ngModel)]="selectedSubjectId"
+                  (ngModelChange)="getTemplates( selectedSubjectId);">
+        <!--  [compareWith]="compareFnSubSers"-->
+        <mat-option *ngFor="let item of subjects" value="{{item.id}}">
+          {{item.nameRu}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <div class="template_b">
+      <h4 class="title_template">{{'Patterns' | translate}}</h4>
+
+      <div class="btn_list">
+        <div *ngFor="let template of subjectTemplates;">
+          <mat-button-toggle-group class="confirm_button">
+            <mat-button-toggle (click)="setTemplate(template)" class="button_agreement" mat-raised-button>
+              {{template.nameRu}}
+              <span class="active_links"></span>
+            </mat-button-toggle>
+            <mat-button-toggle (click)="removeTemplate(template)" class="btn_warn">x</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <button mat-raised-button color="primary" (click)="addNewTemplate()">{{'AddNewPattern' | translate}}</button>
+    </div>
+
+
+    <div fxFlex="30" fxLayoutAlign="space-between center">
+      <button mat-raised-button (click)="cancel()" *ngIf="hasTemplate">Отмена</button>
+      <button mat-raised-button color="primary" (click)="saveTemplate()" *ngIf="hasTemplate">{{'Save' | translate}} шаблон</button>
+    </div>
+  </div>
+
+  <div fxLayout="row" style="margin-top: 20px">
+    <div fxLayout="column" fxFlex="50">
+      <mat-form-field class="field_width">
+        <input matInput type="text" [(ngModel)]="templateData.nameRu" placeholder="{{'PatterNameRu'| translate}}">
+      </mat-form-field>
+      <mat-form-field class="field_width">
+        <input matInput type="text" [(ngModel)]="templateData.nameKk" placeholder="{{'PatterNameKk' | translate}}">
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <div fxLayoutAlign="start center">
+    <button class="preview_pdf" mat-button (click)="previewPdf()">{{'Preview' | translate}}</button>
+  </div>
+
+  <div fxLayoutAlign="center center">
+    <app-editor [text]="templateData.text" [sectionId]="'9'" (setText)="setText($event)" [hasComment]="false"></app-editor>
+
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<div fxLayout="column">
+  <div fxLayout="column" fxFlex="100">
+    <div fxLayout="row" class="user_content" fxLayoutAlign="space-beetwen center">
+      <mat-label fxFlex="35" class="text" fxLayoutAlign="start center">{{'SolutionNumber' | translate}} </mat-label>
+
+      <mat-form-field fxFlex="53">
+        <input matInput [(ngModel)]="decreeNumber" placeholder="{{'SolutionNumber' | translate}}">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" class="user_content" fxLayoutAlign="start center">
+      <mat-label fxFlex="35" class="text" fxLayoutAlign="start center">{{'SolutionDate' | translate}} </mat-label>
+
+      <mat-form-field fxFlex="53">
+        <input matInput [matDatepicker]="picker" [(ngModel)]="decreeDate"
+               placeholder="{{'SolutionDate' | translate}}">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <app-files-upload [currentUser]="null" (updateTask)="removeFile($event)" [fileCategories]="fileCategories"
+                    [app]="null" [sectionId]="'9'" [taskDecide]="null" ></app-files-upload>
+  <mat-table #table [dataSource]="dataSource" *ngIf="data.specregId === null">
+
+    <!--Checkbox Column-->
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef class="small_column">
+        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row" class="small_column">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row) || row.sent">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <mat-header-cell *matHeaderCellDef> №.</mat-header-cell>
+      <mat-cell *matCellDef="let element;let i = index"> {{ i}}</mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="lotStatus">
+      <mat-header-cell *matHeaderCellDef> {{'SpecregNumberType' | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{getAuctionLandStatusStr(element.specregNumberType)}}</mat-cell>
+    </ng-container>
+
+    <!-- lotNumber Column -->
+    <ng-container matColumnDef="lotNumber">
+      <mat-header-cell *matHeaderCellDef> {{'SpecRegNumber' | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.specregNumber}}</mat-cell>
+    </ng-container>
+
+    <!-- lotNumber Column -->
+    <ng-container matColumnDef="PlotLocation">
+      <mat-header-cell *matHeaderCellDef> {{'iin' | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.iin}}</mat-cell>
+    </ng-container>
+
+    <!-- SpecialPurpose Column -->
+    <ng-container matColumnDef="SpecialPurpose">
+      <mat-header-cell *matHeaderCellDef> {{'FIO' | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.secondName}} {{element.firstName}} {{element.lastName}}</mat-cell>
+    </ng-container>
+
+    <!-- area Column -->
+  <!--  <ng-container matColumnDef="area">
+      <mat-header-cell *matHeaderCellDef> {{'AddresPhoneNumber' | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.regAddressRu}}
+        {{element.phone}}</mat-cell>
+    </ng-container>-->
+
+    <ng-container matColumnDef="SpecregDate">
+      <mat-header-cell *matHeaderCellDef> {{'specregDate' | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.specregDate}}</mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+  <div mat-dialog-actions fxLayoutAlign="end end" class="closeBtn">
+    <button mat-raised-button class="right_button" color="primary" (click)="sendFilesAndAuctions()">Отправить</button>
+
+    <button mat-button (click)="close()" cdkFocusInitial>{{'Close' | translate}}</button>
+  </div>
+</div>

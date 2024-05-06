@@ -1,0 +1,108 @@
+<div fxLayout="column" fxFlex="76" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="7"
+     fxFlexOffset="12">
+  <div class="admin_container">
+    <mat-sidenav-container>
+      <mat-sidenav-content>
+        <div [formGroup]="searchForm" class="statistic_form">
+          <div fxLayout="row" fxLayoutAlign="space-between center">
+            <mat-form-field fxFlex="45">
+              <input matInput  [matDatepicker]="picker" formControlName="startDate"
+                     placeholder="{{'PerioStarts' | translate}}">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="45">
+              <input matInput  [matDatepicker]="picker2" formControlName="endDate"
+                     placeholder="{{'PeriodBetweens' | translate}}">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="space-between center">
+            <app-select-subservice (setSelectSubservice)="setSelectSubservice($event)" fxFlex="45" class="field_width"></app-select-subservice>
+
+
+            <div fxFlex="45" fxLayoutAlign="space-around center">
+              <button mat-raised-button (click)="search()" class="confirm_button statistic_btn_bg" >{{'Poisk' | translate}}</button>
+
+              <button mat-raised-button class="confirm_button" color="success">
+                Экспорт
+              </button>
+            </div>
+
+
+          </div>
+
+          <h2 fxLayoutAlign="center center" class="main_title"> {{'ExecutedAppStat' | translate}}</h2>
+        </div>
+
+        <div *ngIf="overView" class="form_container">
+          <div class="wr_stat">
+            <div class="wr_stat-header">
+              <h3 class="title">{{'StatisticsTitle' | translate}}</h3>
+            </div>
+            <div class="wr_stat-body">
+              <div class="wr_stat-body__intro">
+                <h4 class="sub_title_s">
+                  <span *ngIf="currentLang === 'ru'">{{'StatisticsSubTitle' | translate}}</span>
+                  {{getTodayString() }}  <span *ngIf="currentLang === 'kz'">{{'StatisticsSubTitle' | translate}}</span>
+                  <span class="pull-right">{{overView.all}}</span>
+                </h4>
+              </div>
+              <div class="wr_stat-body__content">
+                <div class="h-stat">
+                  <span>&nbsp; </span>
+                </div>
+                <table class="table">
+                  <tr>
+                    <td>{{'IssuedBy' | translate}}</td>
+                    <td>{{overView.approved}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{'Rejected' | translate}}</td>
+                    <td>{{overView.rejected}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{'InProcessings' | translate}}</td>
+                    <td>{{overView.finished}}</td>
+                  </tr>
+                </table>
+                <table class="table" style="border-bottom: 0px;">
+                  <tbody>
+                    <tr>
+                      <td style="width: 76.7%; border-bottom: 0px;"></td>
+                      <td style="border-bottom: 0px; text-align: center;">
+                        {{'InProcessings' | translate}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table class="table" style="border-top: 0px;">
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td>{{'IssuedBy' | translate}}</td>
+                    <td>{{'Rejected' | translate}}</td>
+                    <td style="border-top: 0px; text-align: center;"></td>
+                  </tr>
+                  <ng-container *ngFor="let item of subservices">
+                    <tr [ngClass]="{ 'bg-gray': item.highlight }">
+                      <td>{{item.number}}</td>
+                      <td>{{item.nameRu}}</td>
+                      <td>{{item.approved}}</td>
+                      <td>{{item.rejected}}</td>
+                      <td>{{item.finished}}</td>
+                    </tr>
+                  </ng-container>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div>
+

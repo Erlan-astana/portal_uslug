@@ -1,0 +1,37 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="region_container">
+  <div *ngIf="selectedRegion;else content">{{currentLang === 'ru' ? selectedRegion.nameRu : selectedRegion.nameKk}}</div>
+  <ng-template #content>
+    <div class="choose_region">{{currentLang === 'ru' ? 'Выбрать регион...' : 'Аймақты таңдаңыз...'}}</div>
+  </ng-template>
+  <mat-select>
+
+    <mat-option>
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <!-- This is the tree node template for leaf nodes -->
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+          <!--{{node.name}}-->
+          <button mat-button [ngClass]="{'active': selectedRegionId === node.id}" (click)="saveSelectedRegion(node)">
+            {{currentLang === 'ru' ? node.nameRu : node.nameKk}} <i class="material-icons active_icon" *ngIf="selectedRegionId === node.id">
+            done_all
+          </i></button>
+
+        </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+          <button mat-icon-button matTreeNodeToggle
+                  [attr.aria-label]="'toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+            <span>{{currentLang === 'ru' ? node.nameRu : node.nameKk}}</span>
+          </button>
+
+        </mat-tree-node>
+      </mat-tree>
+    </mat-option>
+  </mat-select>
+
+</div>
+<hr>

@@ -1,0 +1,31 @@
+<div>
+  <h2 class="instruction">{{ 'SpecifyTheBoundariesofTheSite' | translate }}</h2>
+
+  <!-- <div fxLayout="row" fxLayoutAlign="space-around center">
+    <img src="../../../../../assets/images/img1-min.png" [width]="350">
+    <img src="../../../../../assets/images/img2-min.png" [width]="350">
+  </div>
+
+  <div fxLayoutAlign="center center" class="last_content">
+    <img src="../../../../../assets/images/img3-min.png" [width]="500">
+  </div> -->
+  <div *ngIf="currentLang === 'ru'">
+    <img src="../../../../../assets/images/img1-min.png" [width]="350">
+    <img src="../../../../../assets/images/img2-min.png" [width]="350">
+  </div>
+  <div *ngIf="currentLang === 'kk'">
+    <img src="../../../../../assets/images/img1-min-kz.jpg" [width]="350">
+    <img src="../../../../../assets/images/img2-min-kz.jpg" [width]="350">
+  </div>
+
+  <div *ngIf="currentLang === 'ru'">
+    <img src="../../../../../assets/images/img3-min.png" [width]="500">
+  </div>
+  <div *ngIf="currentLang === 'kk'">
+    <img src="../../../../../assets/images/img3-min-kz.jpg" [width]="500">
+  </div>
+
+</div>
+<div fxLayout="row" fxLayoutAlign="end center" >
+  <button mat-raised-button (click)="onNoClick()">Закрыть</button>
+</div>

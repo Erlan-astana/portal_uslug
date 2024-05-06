@@ -1,0 +1,35 @@
+mat-form-field {
+  width: 80%;
+}
+
+.role_title {
+  font-family: Spectral-Medium, sans-serif;
+  text-transform: uppercase;
+  color: #2B3A51;
+}
+
+.action_btn {
+  height: 35px;
+
+  border-radius: 4px;
+  font-family: Spectral-Medium, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  color: #FFFFFF;
+  margin: 0 10px;
+}
+
+.role_cancel {
+  @extend .action_btn;
+  background: #ff1f1c;
+}
+
+.role_add {
+  @extend .action_btn;
+  background: #0096D5;
+
+}
+.workDaysOnly{
+  width: 80%;
+}

@@ -1,0 +1,130 @@
+<div [formGroup]="correspondenceForm" fxLayout="column" fxFlex="80" fxFlexOffset="10">
+  <div fxFlex="100">
+    <button mat-stroked-button (click)="goBack()"><i class="material-icons">arrow_back</i></button>
+  </div>
+
+  <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users" fxFlexOffset="2">
+
+      <p>{{'ClaimCreation' | translate}}:</p>
+    </div>
+
+    <div class="arch_users" formGroupName="executor">
+
+      <mat-form-field class="field_width">
+        <mat-label>Исполнитель</mat-label>
+        <mat-select formControlName="id" [disabled]="!correspondence.executable">
+          <mat-option *ngFor="let item of executors" [value]="item.id">{{item.lastName}} {{item.firstName}}
+          </mat-option>
+        </mat-select>
+        <div *ngIf="correspondenceForm.get('executor').get('id').errors">
+          <mat-error *ngIf="correspondenceForm.get('executor').get('id').errors.required">Это объязательное поле!
+          </mat-error>
+        </div>
+      </mat-form-field>
+    </div>
+
+
+    <div class="arch_users">
+      <p>Контролер</p>
+    </div>
+
+    <div>
+      <div fxLayout="row" class="header_btn_groups">
+        <button mat-button (click)="save()">{{'Save' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div fxLayout="column" class="control_panel">
+
+
+    <div fxLayout="row" fxFlex="90" fxFlexOffset="5" fxLayoutAlign="space-between center">
+      <mat-form-field>
+        <mat-label>Номер рег:</mat-label>
+        <input matInput formControlName="regNumber" placeholder="Номер рег:">
+      </mat-form-field>
+
+
+      <mat-form-field class="field_width">
+        <input matInput formControlName="regDate" [matDatepicker]="regDate" placeholder="Дата регистрации:  *">
+        <mat-datepicker-toggle matSuffix [for]="regDate"></mat-datepicker-toggle>
+        <mat-datepicker #regDate></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="field_width">
+        <input matInput [disabled]="!correspondence.executable" formControlName="executeDueDate"
+               [matDatepicker]="executeDueDate" placeholder="Срок исполнение:  *">
+        <mat-datepicker-toggle matSuffix [for]="executeDueDate"></mat-datepicker-toggle>
+        <mat-datepicker #executeDueDate></mat-datepicker>
+        <div *ngIf="formControls.executeDueDate.errors">
+          <mat-error *ngIf="formControls.executeDueDate.errors.required">Это объязательное поле!</mat-error>
+        </div>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>От кого:</mat-label>
+        <input matInput formControlName="sender" placeholder="От кого:">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxFlex="90" fxFlexOffset="5" fxLayoutAlign="space-between center">
+      <div>
+        <mat-checkbox formControlName="executed">Исполнено</mat-checkbox>
+        <mat-checkbox class="executable" (change)="onChangesExecutable()" formControlName="executable">Исполнимый
+        </mat-checkbox>
+
+      </div>
+
+
+      <mat-form-field>
+        <mat-label>Тема:</mat-label>
+        <input matInput formControlName="body" placeholder="Тема:">
+      </mat-form-field>
+
+
+      <mat-form-field>
+        <mat-label>Кому:</mat-label>
+        <input matInput formControlName="receiver" placeholder="Кому:">
+      </mat-form-field>
+
+      <mat-form-field formGroupName="category" class="field_width">
+        <mat-label>Вид документа</mat-label>
+        <mat-select formControlName="id">
+          <mat-option *ngFor="let item of categories" [value]="item.id">{{item.nameRu}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <app-files-upload *ngIf="correspondence.id" [type]="'correspondences'" [fileCategories]="fileCategories"
+                      [app]="correspondence"></app-files-upload>
+
+  </div>
+
+
+  <div fxLayout="row wrap" fxLayoutAlign="start center">
+    <mat-form-field fxFlex="30" class="block_position">
+      <mat-label>Исх.#:</mat-label>
+      <input matInput formControlName="outNumber" placeholder="Исх.#:">
+      <!--<div *ngIf="submitted && formControls.name.errors">
+        <mat-error *ngIf="formControls.name.errors.required">Это объязательное поле!</mat-error>
+      </div>-->
+    </mat-form-field>
+
+    <mat-form-field fxFlex="30" fxFlexOffset="5">
+      <input matInput formControlName="outDate" [(ngModel)]="correspondenceForm.value.outDate"
+             [matDatepicker]="outDatePicker" placeholder="Исх.{{'Date' | translate}}  *">
+      <mat-datepicker-toggle matSuffix [for]="outDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #outDatePicker></mat-datepicker>
+    </mat-form-field>
+
+  </div>
+
+  <div class="ckeditor" *ngIf="correspondenceForm.controls.outBody.value || !this.correspondenceId">
+    <app-editor [sectionId]="'9'" [text]="correspondenceForm.controls.outBody.value"  (setText)="setText($event)" [hasComment]="false"></app-editor>
+  </div>
+
+</div>

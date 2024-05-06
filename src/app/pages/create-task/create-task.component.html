@@ -1,0 +1,51 @@
+<div fxFlex="80" fxFlexOffset="10">
+  <div fxLayout="row wrap" fxLayoutAlign="center center">
+    <div class="card_1" fxFlex.xs="100" fxFlex.md="49" fxFlex.sm="49" fxLayout="column" fxLayoutAlign="center center">
+      <p class="number">{{currentTasks}}</p>
+      <p class="card_title">{{'NumberOfReceivedMes' | translate}}</p>
+    </div>
+
+    <div class="card_2" fxFlex.xs="100" fxFlex.md="49" fxFlex.sm="49" fxLayout="column" fxLayoutAlign="center center">
+      <p class="number">{{finishedTasks}}</p>
+      <p class="card_title">{{'NumberOfExecutedMes' | translate}}</p>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center center" class="calendar_events">
+    <p class="title" fxFlex.sm="30" fxFlex.xs="100">{{'CalendarOfEvents' | translate}}</p>
+
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <div class="spinner" fxLayout="row" fxFlex.xs="100" fxLayoutAlign="center center">
+      <button mat-button><img src="../../../assets/icons/next_1.svg"></button>
+      <div><span class="month">{{getCurrentMonthStr() | translate }} </span><span class="year">2021</span></div>
+      <button mat-button><img src="../../../assets/icons/next_2.svg"></button>
+    </div>
+
+  </div>
+
+  <div fxLayout="row" class="days" fxLayoutAlign="space-around center">
+    <p>ПН</p>
+    <p>ВТ</p>
+    <p>СР</p>
+    <p>ЧТ</p>
+    <p>ПТ</p>
+    <p>СБ</p>
+    <p>ВС</p>
+  </div>
+
+  <div fxLayout="row wrap" class="calendar">
+    <div [ngClass]="{'day':event.number}" fxFlex="14.28%" *ngFor="let event of events">
+      <p class="number">{{event.number}}</p>
+      <div fxLayout="row" *ngIf="event.events.length" class="event">
+        <p class="name" *ngIf="event.events[0].name">
+          <span class="dot"></span>
+          <span>{{event.events[0].name}}</span>
+        </p>
+        <!--<p class="time">9:00</p>-->
+      </div>
+    </div>
+
+  </div>
+</div>

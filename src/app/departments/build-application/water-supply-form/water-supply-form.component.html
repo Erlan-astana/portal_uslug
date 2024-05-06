@@ -1,0 +1,98 @@
+<div fxLayout="column" class="water_container" [formGroup]="waterInfoForm">
+  <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users" fxFlexOffset="2">
+      <p>{{'WaterSupply' | translate}}:</p>
+    </div>
+    <div>
+      <div fxLayout="row" class="header_btn_groups">
+        <button mat-button (click)="changeRoute(currentNavLinks[prevNavPosition], prevNavPosition)">{{'Back' | translate}}</button>
+        <button mat-button (click)="onUpdateApp()">{{'Next' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+  <div class="form_container">
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'TotWaterDemand' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="total">
+          <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'TotNeedDrinkWater' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="totalDrink">
+          <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'MaxTotalWaterReq' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="maxTotal">
+          <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-list role="list" class="sub_title">
+      <mat-list-item role="listitem">{{'Including' | translate}}</mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'HousehDrinkNeeds' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="dayDrink">
+          <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'HousehDrinkNeeds' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="hourDrink">
+          <button mat-raised-button matSuffix disabled>{{'hour' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'MaxHousehDrinkNeeds' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="maxDrink">
+          <button mat-raised-button matSuffix disabled>{{'M3sek' | translate}}</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'IndustrialNeeds' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="dayIndustrial">
+          <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'IndustrialNeeds' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="hourIndustrial">
+          <button mat-raised-button matSuffix disabled>{{'hour' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'MaxProdNeeds' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="maxIndustrial">
+          <button mat-raised-button matSuffix disabled>{{'M3sek' | translate}}</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'FirefReq' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="firefighting">
+          <button mat-raised-button matSuffix disabled>{{'M3sek' | translate}}</button>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

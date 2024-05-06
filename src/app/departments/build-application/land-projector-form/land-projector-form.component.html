@@ -1,0 +1,50 @@
+<div fxLayout="column" class="projector_container" [formGroup]="projectorForm">
+
+  <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users" fxFlexOffset="2">
+      <p>{{'EarthDataOfTheProject' | translate}}:</p>
+    </div>
+    <div>
+      <div fxLayout="row" class="header_btn_groups">
+        <button mat-button (click)="changeRoute(currentNavLinks[prevPosition], prevPosition)">{{'Back' | translate}}</button>
+        <button mat-button (click)="onUpdateApp()">{{'Next' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div fxLayout="column" class="control_panel">
+
+
+    <div fxLayout="column" fxFlex="90" fxFlexOffset="5" fxLayoutAlign="space-between center">
+      <mat-form-field class="field_width">
+        <input matInput placeholder="{{'SurnameOfTheDeveloperOfTheLandManagementProject' | translate}}:" formControlName="lastName">
+      </mat-form-field>
+      <mat-form-field class="field_width">
+        <input matInput placeholder="{{'DeveloperName' | translate}}:" formControlName="firstName">
+      </mat-form-field>
+      <mat-form-field class="field_width">
+        <input matInput placeholder="{{'DeveloperMiddleName' | translate}}:" formControlName="secondName">
+      </mat-form-field>
+      <mat-form-field class="field_width">
+        <input matInput placeholder="{{'NameOfTheLegalEntityOfTheDeveloper' | translate}}*:" formControlName="orgName">
+      </mat-form-field>
+
+      <mat-form-field class="field_width">
+        <input type="number" matInput placeholder="{{'LandCommissionProtocolNumber' | translate}}:" formControlName="protocolNumber">
+      </mat-form-field>
+      <mat-form-field class="field_width">
+        <input matInput (change)="onDate($event)" [matDatepicker]="protocolDate" placeholder="{{'DateOfTheProtocolOfTheLandCommission' | translate}}:" formControlName="protocolDate">
+        <mat-datepicker-toggle matSuffix [for]="protocolDate"></mat-datepicker-toggle>
+        <mat-datepicker #protocolDate></mat-datepicker>
+      </mat-form-field>
+
+      <!--<mat-form-field class="field_width">
+        <input matInput type="number" placeholder="{{'NumberOfCopiesOfTheLandManagementProject' | translate}}*" formControlName="copyCount">
+      </mat-form-field>-->
+    </div>
+
+  </div>
+
+
+</div>

@@ -1,0 +1,95 @@
+<div class="auth-container" fxLayoutAlign="center center">
+  <mat-card class="container" fxLayout="column" fxFlex="50" fxLayoutGap="5px">
+    <mat-card-header fxLayout="row nowrap" fxLayoutAlign="flex-start center">
+      <img mat-card-avatar class="auth-header-image" width="80" height="40" src="../../../../assets/icons/logo.svg">
+      <mat-card-title class="auth-header-title">Авторизация</mat-card-title>
+    </mat-card-header>
+
+    <div fxFlex="100%">
+      <mat-divider></mat-divider>
+    </div>
+
+    <mat-card-content fxLayout="column" [formGroup]="authForm" *ngIf="!registerContent">
+      <mat-form-field>
+        <mat-label>Логин</mat-label>
+        <input matInput formControlName="username" placeholder="Введите логин" (keyup.enter)="toLogin()">
+        <mat-error *ngIf="login.invalid">{{getLoginErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Пароль</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password"
+               placeholder="Введите пароль" (keyup.enter)="toLogin()">
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Скрыть пароль'"
+                [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-error>
+      </mat-form-field>
+      <mat-error *ngIf="message.length>2">
+        <span *ngIf="message === 'Пользователь не активирован!'"> Чтобы повторно получить письмо для активации перейдите по <a class="reactive_link" (click)="reactivate()">ссылке.</a></span>
+        <span *ngIf="message"> {{message}} </span>
+
+      </mat-error>
+    </mat-card-content>
+
+    <mat-card-content fxLayout="column" [formGroup]="registerForm" *ngIf="registerContent">
+      <mat-form-field>
+        <mat-label>Email *</mat-label>
+        <input matInput formControlName="email" placeholder="Введите логин">
+        <mat-error *ngIf="registerLogin.invalid">{{getRegisterLoginErrorMessage()}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Пароль *</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password"
+               placeholder="Введите пароль">
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Скрыть пароль'"
+                [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="password.invalid">{{getRegisterPasswordErrorMessage()}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Повторите пароль *</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="confirmPassword"
+               placeholder="Повторите пароль">
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Скрыть пароль'"
+                [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{'FirstName' | translate}} *</mat-label>
+        <input matInput formControlName="firstName" placeholder="{{'FirstName' | translate}}">
+        <div *ngIf="submitted && formControls.firstName.errors">
+          <mat-error *ngIf="formControls.firstName.errors.required">Это объязательное поле!</mat-error>
+        </div>
+
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{'LastName' | translate}} *</mat-label>
+        <input matInput formControlName="secondName" placeholder="{{'LastName' | translate}}">
+        <div *ngIf="submitted && formControls.secondName.invalid">
+          <mat-error *ngIf="formControls.secondName.errors.required">Это объязательное поле!</mat-error>
+        </div>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Отчество</mat-label>
+        <input matInput formControlName="lastName" placeholder="Отчество">
+        <!--<div *ngIf="submitted && formControls.lastName.errors">
+          <mat-error *ngIf="formControls.lastName.errors.required">Это объязательное поле!</mat-error>
+        </div>-->
+      </mat-form-field>
+
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign="space-between center">
+      <button mat-button *ngIf="registerContent" color="GREY" (click)="onReset()">Отмена</button>
+      <!-- <button mat-button class="sign-in register" (click)="register(); showRegisterContent()">Регистрация</button> -->
+      <button mat-button class="sign-in" *ngIf="!registerContent" (click)="toLogin()">Войти</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,0 +1,90 @@
+.region{
+  margin-top: 15px;
+
+}
+.mat-select-panel {
+  max-width: 50vh !important;
+}
+.mat-select-panel mat-option.mat-option {
+  height: unset !important;
+}
+
+.mat-option-text.mat-option-text {
+  white-space: normal !important;
+}
+.admin_main{
+  background-color: white;
+}
+.confirm_button {
+  margin-left: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.statistic_form{
+  background: linear-gradient(90deg, #F4F4F4 -94.12%, rgba(255, 255, 255, 0) 100%), #F0F3F9;
+  padding: 20px;
+}
+.statistic_btn_bg{
+  background: #0096D5;
+  color: #FFFFFF;
+}
+.form_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  padding: 25px;
+
+  /* wr_stat */
+
+  .wr_stat-header, .wr_stat-body__intro{
+    padding: 15px;
+    text-align: center;
+    background: #0096D5;
+  }
+
+  .wr_stat-header .title{
+    font-size: 24px;
+    color: white;
+    margin: 0;
+  }
+
+  .h-stat{
+    border-left: 2px solid #0096D5;
+    border-right: 2px solid #0096D5;
+    padding-left: 10px;
+  }
+
+  .wr_stat-body__intro .sub_title_s{
+    font-size: 18px;
+    color: white;
+    text-align: left;
+    margin: 0;
+  }
+
+
+  .table{
+    width: 100%;
+  }
+
+  .table, .table td, .table th{
+    border: 2px solid #0096D5;
+    padding: 10px;
+    border-collapse: collapse;
+  }
+
+  .table td:nth-child(2){
+    width: 85%;
+  }
+  .table td:last-child{
+    text-align: right;
+  }
+
+  .bg-gray {
+    background-color: #F0F3F9;
+    font-weight: bold;
+  }
+}
+.pull-right{
+  float: right;
+}

@@ -1,0 +1,129 @@
+<div fxFlex="76" fxLayout="column" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="7" fxFlexOffset="12">
+  <div fxFlex="100">
+    <button mat-stroked-button (click)="goBack()"><i class="material-icons">arrow_back</i></button>
+  </div>
+
+  <div class="container" fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxFlex="30" fxFlex.sm="0" fxFlex.xs="0" fxLayoutAlign="space-between center">
+      <div class="filter">
+        <p class="filter_text">{{'Filter' | translate}}</p>
+        <mat-button-toggle-group name="filter" aria-label="Font Style">
+          <input matInput disabled>
+          <mat-button-toggle value="bold" fxLayoutAlign="center center">Действие
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+
+
+
+    <div fxLayout="row" [fxFlexOffset.sm]="2" fxFlex.xs="100" fxLayoutAlign="space-around center" class="btn_groups">
+      <button mat-button class="add_role" (click)="showForm()">
+        Добавить услугу в роль
+      </button>
+
+      <!-- <button mat-button class="export">
+         <span>EXCEL</span>
+
+         <img src="../../../../assets/icons/file.svg">
+       </button>-->
+
+      <button mat-button class="refresh" (click)="refresh()">
+        <img src="../../../../assets/icons/refresh.svg">
+      </button>
+
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="isForm">
+    <div>
+      <mat-form-field>
+        <input matInput disabled [value]="roleName">
+      </mat-form-field>
+    </div>
+    <div fxFlex="50" fxLayout="row" style="margin-left: 40px">
+
+        <mat-form-field>
+          <mat-label>Услуги</mat-label>
+          <mat-select [formControl]="serviceControl">
+            <input class="filterOrgs" matInput focused="'true'" type="text" (keyup)="searchByServices($event.target.value)"
+                   autocomplete="off" placeholder="Поиск по услугам">
+            <mat-divider></mat-divider>
+            <mat-option *ngFor="let service of reserveSubservices" matTooltip="{{service.nameRu}}" [value]="service.id">{{service.nameRu}}</mat-option>
+          </mat-select>
+          <!--<div *ngIf="submitted && formControls.roleId.errors">
+            <mat-error *ngIf="formControls.roleId.errors.required">Это объязательное поле!</mat-error>
+          </div>-->
+        </mat-form-field>
+
+
+    </div>
+
+
+    <button mat-stroked-button (click)="validate()">{{'Save' | translate}}</button>
+    <button mat-stroked-button (click)="resetForm();">Отмена</button>
+  </div>
+
+  <div>
+    <p ngClass="table_title">Услуги роли</p>
+    <mat-table [dataSource]="dataSource" ngClass="external_table" class="mat-elevation-z8">
+
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> №.</mat-header-cell>
+        <mat-cell *matCellDef="let element;let i = index"> {{i+1}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>{{'BPCode' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <span>{{element.subservice.code || element.subservice.service.code}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="nameRu">
+        <mat-header-cell *matHeaderCellDef> Краткое наименование</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.subservice.shortNameRu }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="shortNameRu">
+        <mat-header-cell *matHeaderCellDef> Роль</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.role.nameRu }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>Описание</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span *ngIf="element.role">{{element.role.description}} </span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Операции</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row"><!--
+          <button mat-button class="edit">
+            <i class="material-icons" title="Редактировать" (click)="edit(row)">edit</i>
+          </button>-->
+          <button mat-button class="edit" matTooltip="Удалить" (click)="delete(row)">
+            <i class="material-icons">
+              close
+            </i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+  </div>
+</div>
+
+

@@ -1,0 +1,85 @@
+<div fxLayout="column" fxLayoutAlign="space-between start" [ngClass]="{'internal_files': hasInternalFiles()}"
+     class="file_container" *ngIf="fileCategories.length > 0">
+  <div *ngFor="let file of fileCategories" class="file_position" appDragDrop (fileDropped)="onFileDropped($event)">
+    <!--<mat-list role="list" class="sub_title">-->
+    <!--<mat-list-item role="listitem">-->
+    <!--{{file.title}} <span *ngIf="file.required">*</span>-->
+    <!--</mat-list-item>-->
+    <!--<mat-divider></mat-divider>-->
+    <!--</mat-list>-->
+    <div *ngIf="!file.display">
+      <p class="file_title" #fileTitle
+         *ngIf="showFileName(file)">
+        {{file['title'+capitalizeFirstLetter(currentLang)] || file.title}}<span *ngIf="file.required">*</span>
+        <span *ngIf="getInfoText()" class="info_text"> (*.pdf, каждый файл не более 20 Мб, всего не более 80 Мб)</span>
+      </p>
+    </div>
+    <div *ngIf="!file.display" class="internal_files">
+
+
+      <br>
+      <button mat-button class="upload_file" [disabled]="sectionId !== '9'"
+              *ngIf="!showUploadBlock(file)">
+        <input matInput placeholder="" [readonly]="true" class="input_btn">
+        <label matSuffix mat-raised-button class="upload_button" aria-label="attach_file"
+               [for]="file.type"><img src="../../../assets/icons/download_file.svg" alt="" class="img-icon-z">
+          <span>{{'DownloadFile' | translate}}</span>
+        </label>
+      </button>
+      <div class="drag_and_drop_content" matTooltip="{{'DragFilesHere' | translate}}"
+           *ngIf="sectionId === '9' && !showUploadBlock(file)">
+        <span>{{'DragFilesHere' | translate}}</span>
+        <input [id]="file.type" class="input-file" type="file"
+               (change)="handleFileInput($event.target.files, file.type)" multiple>
+      </div>
+
+
+      <div *ngIf="file.categoryFiles">
+        <ng-container *ngIf="file.categoryFiles.length > 0">
+          <mat-list class="field_width" *ngFor="let f of file.categoryFiles">
+            <mat-list-item>
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <a (click)="downloadAppFile(f.objectId || f.uid)">
+              <span *ngIf="checkParallelService(); else corFileName"  class="file_name" matTooltip="{{f.fileName}}" title="{{f.fileName}}">
+                {{(f.fileName || f.name)}} ({{fileSizeToByte(f.size)}})</span>
+                <ng-template #corFileName>
+                  <span class="file_name" matTooltip="{{f.fileName}}" title="{{f.fileName}}">
+                    {{correctFileName(f.fileName || f.name)}} ({{fileSizeToByte(f.size)}})</span>
+                </ng-template>
+
+              </a>
+                <!--<button matSuffix mat-raised-button color="primary" >
+                  Скачать
+                </button>-->
+                <button matSuffix mat-icon-button class="remove_btn" [disabled]="sectionId !== '9'"
+                        (click)="removeFile(f,file.type)">
+
+                </button>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </ng-container>
+      </div>
+
+      <mat-list class="field_width" fxLayout="row" *ngFor="let fileObj of file.categoryFilesUpload">
+        <mat-list-item>
+          <div fxLayout="row" fxLayoutAlign="center center">
+
+            <a (click)="downloadAppFile(fileObj.objectId || fileObj.uid)">
+              <span class="file_name" matTooltip="{{fileObj.file.name}}" title="{{fileObj.file.name}}">{{correctFileName(fileObj.file.name)}} ({{fileSizeToByte(fileObj.file.size)}})</span></a>
+            &nbsp;
+            <button mat-icon-button matSuffix class="remove_btn" [disabled]="sectionId !== '9'"
+                    (click)="removeFile(fileObj,file.type)">
+            </button>
+          </div>
+          <mat-progress-spinner [diameter]="36" *ngIf="fileObj.loading" mode="indeterminate"
+                                visible="loading"></mat-progress-spinner>
+
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+
+
+</div>
+

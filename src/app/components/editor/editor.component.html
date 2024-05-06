@@ -1,0 +1,13 @@
+<main>
+
+  <div class="container">
+    <ckeditor [editor]="Editor" [disabled]="!hasOzoExecutor" (change)="messageChange()" [(ngModel)]="data"
+              (ready)="onReady($event)" [config]="editorConfig" [data]="data"></ckeditor>
+    <div #sidebar class='sidebar'></div>
+  </div>
+  <!-- <div class="row row-info">
+     Your license key is stored in the local storage.
+     <button class="remove-license-key" (click)="resetLicenseKey()">Reset license key</button>
+   </div>-->
+
+</main>

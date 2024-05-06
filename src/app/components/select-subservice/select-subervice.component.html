@@ -1,0 +1,10 @@
+<mat-form-field class="full-width">
+  <mat-label>{{'Services' | translate}}</mat-label>
+  <mat-select [(value)]="selectedSubservice" (selectionChange)="sendSubservice($event.value)">
+    <input class="filterOrgs" matInput focused="'true'" type="text" (keyup)="searchByServices($event.target.value)"
+           autocomplete="off" placeholder="Поиск по услугам">
+    <mat-divider></mat-divider>
+    <mat-option [value]="0">Все</mat-option>
+    <mat-option *ngFor="let service of reserveServices" [value]="service">{{service.shortNameRu || service.nameRu}}</mat-option>
+  </mat-select>
+</mat-form-field>

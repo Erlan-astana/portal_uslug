@@ -1,0 +1,19 @@
+<div class="container" [formGroup]="dynamicForm">
+    <div>
+        <h2> {{'AuctionData' | translate}}</h2>
+    </div>
+
+    <div>
+        <span *ngFor="let item of formParams;">
+            <mat-form-field class="field_width">
+                <mat-label>{{item.name | translate}}</mat-label>
+                <input matInput [formControlName]="item.name" autocomplete="off" [type]="item.type">
+            </mat-form-field>
+        </span>
+
+        <div class="buttons">
+            <button mat-raised-button class="confirm_button" color="primary" (click)="save()">Сохранить</button>
+            <button mat-raised-button class="confirm_button" (click)="cancel()">Закрыть</button>
+        </div>
+    </div>
+</div>

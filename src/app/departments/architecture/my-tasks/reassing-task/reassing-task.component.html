@@ -1,0 +1,27 @@
+<div mat-dialog-content fxLayoutAlign="center center">
+  <p *ngIf="!userContent">Все заявления из раздел «Мои задачи
+    назначенные» <br> будут переданы другому
+    сотруднику. <br>
+    Продолжить?</p>
+
+  <mat-form-field *ngIf="userContent">
+    <mat-label>{{'Users' | translate}}</mat-label>
+    <mat-select [(ngModel)]="selectedUser">
+      <input class="filterOrgs" matInput focused="'true'" type="text" (keyup)="searchByUsers($event.target.value)"
+             autocomplete="off" placeholder="Поиск по пользователям">
+      <mat-divider></mat-divider>
+
+      <mat-option *ngFor="let user of reserveUsers" [value]="user.username">{{user.firstName}} {{user.lastName}}
+        ({{user.username}})
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<!--<div mat-dialog-content>
+  <p >{{data.message}}</p>
+</div>-->
+<div mat-dialog-actions fxLayoutAlign="end end">
+  <button class="continue" *ngIf="!userContent" mat-stroked-button (click)="continue()">Продолжить</button>
+  <button class="continue" *ngIf="userContent" mat-stroked-button  (click)="reassingTasks()">Продолжить</button>
+  <button mat-stroked-button (click)="close()">Отмена</button>
+</div>

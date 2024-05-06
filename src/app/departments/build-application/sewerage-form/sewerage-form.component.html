@@ -1,0 +1,87 @@
+<div fxLayout="column" class="sewerage_container" [formGroup]="sewerageForm">
+  <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users" fxFlexOffset="2">
+      <p>{{'SEWERAGE' | translate}}:</p>
+    </div>
+    <div>
+      <div fxLayout="row" class="header_btn_groups">
+        <button mat-button (click)="changeRoute(currentNavLinks[prevNavPosition], prevNavPosition)">{{'Back' | translate}}</button>
+        <button mat-button (click)="onUpdateApp()">{{'Next' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+  <div class="form_container">
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'TotalWastewater' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="total">
+          <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'TotalWastewaterMax' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="maxTotal">
+          <button mat-raised-button matSuffix disabled>{{'hour' | translate}}</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-list role="list" class="sub_title">
+      <mat-list-item role="listitem">{{'Including' | translate}}</mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'FecalTotal' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="fecal">
+          <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'IndustContamTotal' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="industrial">
+          <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'ConditClean' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="clean">
+          <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="flex-container">
+      <div>
+        <p class="field_title">{{'FecalMax' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="maxFecal">
+          <button mat-raised-button matSuffix disabled>{{'hour' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'ProdMaxContam' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="maxIndustrial">
+          <button mat-raised-button matSuffix disabled>{{'hour' | translate}}</button>
+        </mat-form-field>
+      </div>
+      <div>
+        <p class="field_title">{{'CondCleanMax' | translate}}</p>
+        <mat-form-field>
+          <input type="number" matInput formControlName="maxClean">
+          <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-list role="list" class="sub_title"></mat-list>
+    <mat-form-field class="">
+      <textarea matInput placeholder="{{'QualCompos' | translate}}"></textarea>
+    </mat-form-field>
+
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<div fxFlex="90" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="5" fxFlexOffset="5">
+  <div class="container" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="column">
+      <app-table-filter [parallelForm]="true" *ngIf="isFilterComponent" fxFlex="70"
+                        [displayedColumnsForFilter]="displayedColumnsForFilter"></app-table-filter>
+      <div class="filter" fxLayoutAlign="end center">
+        <button class="filter_btns filter_close_btn" mat-button *ngIf="isFilterComponent" (click)="showFilterComponent()"
+                fxLayoutAlign="center center">{{'Close' | translate}}</button>
+        <button class="filter_btns" mat-button *ngIf="isFilterComponent" (click)="getDocuments()"
+                fxLayoutAlign="center center">{{'Execute' | translate}}</button>
+
+        <button class="filter_btns filter_close_btn" fxFlexOffset="3"  mat-button *ngIf="isFilterComponent" (click)="clearFilter()"
+                fxLayoutAlign="center center">Сбросить</button>
+      </div>
+    </div>
+
+
+
+    <div fxLayout="row" [fxFlexOffset.sm]="2" fxFlex="80" fxFlex.xs="100" *ngIf="!isFilterComponent" fxLayoutAlign="space-between center" class="filter">
+
+      <button mat-button class="filter_btns" *ngIf="!isFilterComponent"
+              (click)="showFilterComponent()" fxLayoutAlign="center center">{{'Filter' | translate}}
+      </button>
+
+      <button mat-button class="refresh" (click)="refresh()">
+        <img src="../../../assets/icons/refresh.svg">
+      </button>
+
+    </div>
+
+
+  </div>
+  <div>
+    <p ngClass="table_title">{{'SpecregJournal' | translate }}</p>
+    <mat-table [dataSource]="dataSource" ngClass="external_table" class="mat-elevation-z8 specreg_table">
+
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> №.</mat-header-cell>
+        <mat-cell *matCellDef="let element;let i = index"> {{ + i+1}}</mat-cell>
+      </ng-container>
+
+    <!--  <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>{{'SpecregDate'| translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <span>{{element.specregDate  | date:'dd.MM.yyyy HH:mm'}}</span>
+        </mat-cell>
+      </ng-container>-->
+
+
+      <ng-container matColumnDef="fio">
+        <mat-header-cell *matHeaderCellDef>{{'FIO' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.specregData.toFirstName || ''}} {{element.specregData.toSecondName || ''}}
+        </mat-cell>
+      </ng-container>
+
+        <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef>{{'Date'| translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let element;let row">
+        <span>{{element.journalDate  | date:'dd.MM.yyyy HH:mm'}}</span>
+      </mat-cell>
+    </ng-container>
+
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Статус</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{getStatusStr(element.operation) }}
+        </mat-cell>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="action" >
+        <mat-header-cell *matHeaderCellDef>{{'Operations' | translate}}</mat-header-cell>
+        <mat-cell class="actions" *matCellDef="let element;let row">
+          <button mat-button class="edit" (click)="showDialogBox(row)">
+            <i class="material-icons">insert_drive_file</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="operatorFio">
+        <mat-header-cell *matHeaderCellDef>{{'OperatorFio' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.userName || ''}}
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+    <ul style="display: none;">
+      <li> Emp Name | Emp code</li>
+      <li
+        *ngFor="let item of dataSource  | paginate:{itemsPerPage: pageSize, currentPage:currentPage, totalItems: totalElements }">
+        {{item.name}} | {{item.id}}
+      </li>
+    </ul>
+    <pagination-controls class="my_pagination" fxLayout="row" fxLayoutAlign="end center" [directionLinks]="false"
+                         (pageChange)="pageChange($event)"></pagination-controls>
+  </div>
+</div>
+
+

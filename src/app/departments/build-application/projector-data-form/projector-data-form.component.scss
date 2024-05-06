@@ -1,0 +1,16 @@
+@import "../../../../app/departments/directory/adm-documents-form/adm-documents-form.component.scss";
+
+mat-form-field {
+  width: 100%;
+
+  input.mat-input-element {
+    height: 25px !important;
+  }
+}
+
+mat-radio-group {
+  mat-radio-button:last-child {
+    margin-left: 5vh;
+  }
+}
+

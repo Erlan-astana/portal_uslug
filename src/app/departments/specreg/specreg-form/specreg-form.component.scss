@@ -1,0 +1,127 @@
+
+
+#objectmapid {
+  height: 400px;
+}
+
+.control_panel {
+  background: #FFFFFF;
+  margin-bottom: 1%;
+  padding: 0 2% 2% 2%;
+  box-shadow: 1px 2px 15px rgba(114, 135, 167, 0.11);
+  border-radius: 7px;
+
+  button {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    color: #fff;
+    background: #0091CE;
+
+  }
+  .header_btn_groups {
+    margin-right: 1%;
+    button:nth-child(1) {
+      margin-right: 3%;
+    }
+  }
+  .mat-form-field-appearance-legacy .mat-form-field-underline {
+    height: 0 !important;
+  }
+  input.mat-input-element {
+    background: #F2F2F2;
+    border-radius: 4px;
+    padding: 10px 0px 10px 10px;
+    width: 90%;
+  }
+
+  .mat-form-field-prefix, .mat-form-field-suffix {
+    top: -10px;
+  }
+
+}
+
+.head_control_panel {
+
+  padding: 6px 0 6px 0;
+  margin-bottom: 1%;
+  p {
+    text-transform: uppercase;
+  }
+  .info_title {
+    font-family: Spectral-Medium, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    text-transform: uppercase;
+    color: #2B3A51;
+    span {
+      color: #0091CE;
+    }
+  }
+  .arch_users {
+    display: flex;
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    line-height: 12px;
+    padding: 0 20px 0 0;
+
+    border-radius: 2px;
+    img {
+      margin-right: 10px;
+    }
+    mat-checkbox {
+      font-family: Spectral-Medium, sans-serif;
+      font-size: 14px;
+      line-height: 12px;
+    }
+  }
+  button {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    color: #fff;
+    background: #0091CE;
+
+  }
+  .information_title {
+    margin-bottom: 5px;
+  }
+
+  .refusal {
+    background: red;
+  }
+  .header_btn_groups {
+    margin-right: 1%;
+    button:nth-child(1) {
+      margin-right: 3%;
+    }
+  }
+
+  .ozo_fields {
+    margin-left: 2%;
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    line-height: 12px;
+  }
+
+}
+
+
+.decree_button {
+  margin-top: 2vh;
+  float: right;
+  width: 100%;
+}
+.map-container{
+  margin-top: 2vh;
+}
+.mat-select-panel {
+  max-width: 50vh !important;
+}
+.mat-select-panel mat-option.mat-option {
+  height: unset !important;
+}
+
+.mat-option-text.mat-option-text {
+  white-space: normal !important;
+}

@@ -1,0 +1,105 @@
+<div fxLayout="column" fxFlex="80" fxFlexOffset="10">
+
+  <app-ownership-header *ngIf="app.id" [task]="task" [sectionId]="sectionId"
+                        (getApplication)="getApplication($event)" [templates]="templates"
+                        [app]="app"></app-ownership-header>
+
+
+  <div class="control_panel">
+    <app-files-upload *ngIf="app.id" [sectionId]="sectionId" [type]="'userapp'" [fileCategories]="appFileCategories"
+                      [app]="app"
+                      (changeSignData)="changeSignData()"></app-files-upload>
+  </div>
+
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+
+    <div fxFlex="55">
+      <app-show-application-accordion *ngIf="app.id" [app]="app"></app-show-application-accordion>
+
+    </div>
+
+
+    <div fxFlex="35">
+      <app-arch-map *ngIf="app.id" [app]="app"></app-arch-map>
+    </div>
+  </div>
+
+  <div class="control_panel" fxFlexOffset="2" *ngIf="task.content.role === 'DEMOLITION_APPARAT'">
+    <app-register-decree [currentUser]="currentUser" [sectionId]="sectionId" *ngIf="app.id" [task]="task"
+                         [app]="app"></app-register-decree>
+  </div>
+
+
+  <div class="template_b"
+       *ngIf="checkAvailableRolesForEditorTemplates(dataTaskDecide.role)">
+    <div class="btn_list">
+      <div *ngFor="let template of templates;">
+        <mat-button-toggle-group class="confirm_button">
+          <mat-button-toggle (click)="setTemplateToMessage(template)"
+                             [ngClass]="{'button_agreement': template.approved, 'btn_warn': !template.approved}"
+                             mat-raised-button> {{template.nameRu}}
+            <span class="active_links"></span>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+  </div>
+
+
+  <div fxLayoutAlign="start center" *ngIf="checkAvailableRolesForEditor(dataTaskDecide.role)">
+    <button mat-stroked-button (click)="previewPdf()">{{'Preview' | translate}}</button>
+
+    <button mat-stroked-button fxFlexOffset="2" (click)="toggleEditor = !toggleEditor">
+      <span *ngIf="!toggleEditor">{{'Enlarge' | translate}}</span>
+      <span *ngIf="toggleEditor">{{'Reduce' | translate}}</span>
+    </button>
+  </div>
+
+
+  <div class="ng_editor" *ngIf="checkAvailableRolesForEditor(dataTaskDecide.role)">
+    <mat-list role="list" class="field_width sub_title">
+      <mat-list-item role="listitem">{{'ApprRefLetter' | translate}}</mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+
+
+    <app-editor [ngClass]="{'zoom_editor': toggleEditor}" [text]="dataTaskDecide.message"
+                [sectionId]="sectionId" (setText)="setText($event)" [hasComment]="false"></app-editor>
+  </div>
+
+  <div class="template_b"
+       *ngIf="checkAvailableRolesForOzo2Editor(dataTaskDecide.role)">
+    <div class="btn_list">
+      <div *ngFor="let template of templates;">
+        <mat-button-toggle-group class="confirm_button">
+          <mat-button-toggle (click)="setTemplateToRecomendation(template)"
+                             [ngClass]="{'button_agreement': template.approved, 'btn_warn': !template.approved}"
+                             mat-raised-button> {{template.nameRu}}
+            <span class="active_links"></span>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayoutAlign="start center" *ngIf="checkAvailableRolesForOzo2Editor(dataTaskDecide.role)">
+    <button mat-stroked-button (click)="previewPdf(dataTaskDecide.recomendation)">
+      {{'Preview' | translate}}</button>
+
+    <button mat-stroked-button fxFlexOffset="2" (click)="toggleRecommendationEditor = !toggleRecommendationEditor">
+      <span *ngIf="!toggleRecommendationEditor">{{'Enlarge' | translate}}</span>
+      <span *ngIf="toggleRecommendationEditor">{{'Reduce' | translate}}</span>
+      </button>
+  </div>
+
+  <div class="ng_editor" [ngClass]="{'zoom_editor': toggleRecommendationEditor}" *ngIf="checkAvailableRolesForOzo2Editor(dataTaskDecide.role)">
+    <mat-list role="list" class="field_width sub_title">
+      <mat-list-item role="listitem">{{'ApprRefLetter' | translate}}</mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+    <app-editor #recommendationEditor [text]="dataTaskDecide.recomendation" *ngIf="checkAvailableRolesForOzo2Editor(dataTaskDecide.role)"
+                [sectionId]="sectionId" (setText)="setRecomendation($event)" [hasComment]="false"></app-editor>
+  </div>
+
+</div>

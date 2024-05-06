@@ -1,0 +1,26 @@
+@import "../../../../app/departments/directory/adm-documents/adm-documents.component.scss";
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  justify-content:flex-start;
+  align-items: flex-start !important;
+  mat-radio-button{
+    margin: 5px;
+  }
+}
+mat-cell {
+  display:flex;
+  justify-content:flex-end;
+}
+.mat-column-position {
+  flex: 0 0 4%;
+}
+.mat-column-subjectName{
+  flex: 0 0 6%;
+}
+.sort_monitoring{
+  font-size: 12px !important;
+  font-family: Spectral-Medium, sans-serif;
+  color: #4C4C4C;
+}

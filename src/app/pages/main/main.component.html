@@ -1,0 +1,5 @@
+<div *ngIf="!isAuthenticated" fxFlex="80" fxFlexOffset="10">
+  <app-login></app-login>
+</div>
+
+<app-create-task *ngIf="isAuthenticated"></app-create-task>

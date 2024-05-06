@@ -1,0 +1,77 @@
+
+
+<div fxLayout="column" fxFlex="100" fxLayoutAlign="space-between center" [formGroup]="serviceForm">
+
+  <h3 fxLayoutAlign="center center" class="role_title">Редактировать БП</h3>
+
+  <mat-form-field>
+    <mat-label>Наименование(Рус)</mat-label>
+    <input matInput formControlName="nameRu" placeholder="Краткое наименование">
+    <div *ngIf="submitted && formControls.nameRu.errors">
+      <mat-error *ngIf="formControls.nameRu.errors.required">Это объязательное поле!</mat-error>
+    </div>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Наименование(Каз)</mat-label>
+    <input matInput formControlName="nameRu" placeholder="Краткое наименование">
+    <div *ngIf="submitted && formControls.nameKk.errors">
+      <mat-error *ngIf="formControls.nameKk.errors.required">Это объязательное поле!</mat-error>
+    </div>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Наименование(Eng)</mat-label>
+    <input matInput formControlName="nameEn" placeholder="Краткое наименование">
+    <div *ngIf="submitted && formControls.nameEn.errors">
+      <mat-error *ngIf="formControls.nameEn.errors.required">Это объязательное поле!</mat-error>
+    </div>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Полное наименование(Рус)</mat-label>
+    <input matInput formControlName="shortNameRu" placeholder="Полное наименование">
+    <div *ngIf="submitted && formControls.shortNameRu.invalid">
+      <mat-error *ngIf="formControls.shortNameRu.errors.required">Это объязательное поле!</mat-error>
+    </div>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Полное наименование(Каз)</mat-label>
+    <input matInput formControlName="shortNameKk" placeholder="Полное наименование">
+    <div *ngIf="submitted && formControls.shortNameKk.invalid">
+      <mat-error *ngIf="formControls.shortNameKk.errors.required">Это объязательное поле!</mat-error>
+    </div>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Полное наименование(Eng)</mat-label>
+    <input matInput formControlName="shortNameEn" placeholder="Полное наименование">
+    <div *ngIf="submitted && formControls.shortNameEn.invalid">
+      <mat-error *ngIf="formControls.shortNameEn.errors.required">Это объязательное поле!</mat-error>
+    </div>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Дни</mat-label>
+    <input matInput formControlName="days" type="number" placeholder="Комментрий">
+    <div *ngIf="submitted && formControls.days.errors">
+      <mat-error *ngIf="formControls.days.errors.required">Это объязательное поле!</mat-error>
+    </div>
+  </mat-form-field>
+
+  <div class="workDaysOnly">
+    <mat-checkbox formControlName="workdaysOnly">Вкл - рабочих дней, откл - календарных дней</mat-checkbox>
+  </div>
+
+
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <button mat-button class="role_add" (click)="update()">{{'Save' | translate}}</button>
+    <button mat-button class="role_cancel" (click)="cancel()">Отмена</button>
+
+
+  </div>
+</div>
+
+
+

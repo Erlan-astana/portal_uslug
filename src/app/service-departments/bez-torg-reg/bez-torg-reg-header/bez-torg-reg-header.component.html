@@ -1,0 +1,128 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users">
+        <p class="info_title">{{'AppInformation' | translate}}<span>№ {{app.idx || app.id}}</span></p>
+    </div>
+    <div class="arch_users" fxLayout="row" fxLayoutAlign="space-between center">
+        <p class="arch-komu">{{'Komu' | translate}}</p>
+        <mat-form-field class="field_width">
+            <mat-select [(value)]="assignee" class="special_mat_select" [disabled]="sectionId !== '9'" disableRipple>
+                <mat-option [value]="0">{{'poPoryadku' | translate}}</mat-option>
+                <mat-option *ngFor="let item of assignees" [value]="item.username">{{item.lastName}} {{item.firstName}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div *ngIf="sectionId !== '3'" fxLayout="row" class="header_btn_groups">
+        <button mat-button [disabled]="sectionId !== '9'" class="refusal" *ngIf="isRework()"
+            (click)="verificationBeforeRefusal()">{{'Refinement' | translate}}
+        </button>
+        <div *ngIf="dataTaskDecide.signedDocument || hasServiceType('TASK')">
+            <button mat-button [disabled]="sectionId !== '9' || disableOnSend == 1" (click)="next()">
+                {{'Next' | translate}}
+            </button>
+        </div>
+    </div>
+</div>
+
+<div fxLayout="column" class="control_panel">
+    <div fxLayout="row wrap" fxLayoutAlign="space-between top">
+        <div class="app_data">
+            <p><span>№ {{app.idx || app.id}}</span> <span class="service_text"> {{getRegionById(app.regionId)}}</span>
+            </p>
+            <p class="service_name">{{task.name}}</p>
+            <p class="service_text">{{task.content.subserviceType || app.subservice.shortNameRu}}</p>
+            <p class="service_text">{{'From' | translate}}{{task.content.from}}</p>
+
+            <div fxLayout="row">
+                <button mat-button *ngIf="task.assignee" class="aisgzk_btn" (click)="showHistory()">{{'movHistory' |
+                    translate}}</button>
+                <button mat-button fxFlexOffset="2" *ngIf="task.assignee" [disabled]="sectionId !== '9'"
+                    class="aisgzk_btn" (click)="showMyOwnTasks()">{{'ReqHistory' | translate}}</button>
+
+                <button mat-button fxFlexOffset="2" [disabled]="sectionId !== '9'" class="aisgzk_btn"
+                    *ngIf="hasGbdAccess && app?.objectInfo?.cadastreNumber" (click)="showAisgzkComponent()">
+                    АИС ГЗК
+                </button>
+            </div>
+        </div>
+
+        <div class="app_data_date">
+            <p><span>{{'Date' | translate}}</span> {{app.createDate | date:'dd.MM.yyyy HH:mm' }}</p>
+            <p><span>{{'dueDate' | translate}}:</span> </p>
+
+            <div fxLayout="column" fxLayoutAlign="space-between end" class="service_btn_groups">
+                <div class="checkbox" *ngIf="showRefusal()">
+                    <mat-checkbox [disabled]="sectionId !== '9'"
+                        [(ngModel)]="isRefusal">
+                        {{'Refusal' | translate}}:
+                    </mat-checkbox>
+                </div>
+                <div class="checkbox" *ngIf="showRefusalCom()">
+                    <mat-checkbox [disabled]="checkboxDisabledCom() || sectionId !== '9'"
+                    [(ngModel)]="tempComRefusal">
+                        {{'Refusal' | translate}}:
+                    </mat-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <app-files-upload [currentUser]="currentUser" [fileCategories]="fileCategories" [app]="app" [sectionId]="sectionId"
+            [taskDecide]="dataTaskDecide">
+        </app-files-upload>
+        <app-files-upload *ngIf="app.id && isSubId([107]) && dataTaskDecide.order > 3" [sectionId]="sectionId" [type]="'userapp'" [fileCategories]="appInternalFiles"
+            [app]="app" (changeSignData)="changeSignData()">
+        </app-files-upload>
+    </div>
+</div>
+
+<div fxLayout="row" *ngIf="hasServiceType('SIGN')" fxLayoutAlign="space-between"
+    class="control_panel">
+    <button mat-button class="header_btn_groups" [disabled]="false" (click)="signAndCompleteLandLeaseExten();">
+        Подписать и Далее
+    </button>
+    <button mat-button class="header_btn_groups" [disabled]="dataTaskDecide.signedDocument" (click)="getSignXml();">
+        Подписать
+        ЭЦП
+    </button>
+</div>
+
+<!-- Список отправленных коммунальщиков со статусами -->
+<mat-table #table [dataSource]="dataSource" [style.margin]="'15px 0px'" *ngIf="isListCommunals()">
+    <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef class="small_column"> No. </mat-header-cell>
+        <mat-cell *matCellDef="let element; let i=index;" class="small_column"> №{{i+1}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="orgNameRu">
+        <mat-header-cell *matHeaderCellDef> Название </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.orgNameRu}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef> Статус </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            {{statuses[element.status]}}
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="startDate">
+        <mat-header-cell *matHeaderCellDef> Дата отправки </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.startDate | date:'dd.MM.yyyy HH:mm'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="endDate">
+        <mat-header-cell *matHeaderCellDef> Дата ответа </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.endDate | date:'dd.MM.yyyy HH:mm'}} </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<div fxLayout="column" class="control_panel" *ngIf="isResolutionText()">
+    <mat-panel-title fxLayoutAlign="center center">Текст резолюции</mat-panel-title>
+
+    <div fxLayoutAlign="space-between">
+        <mat-form-field class="field_width" fxFlex="100">
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" [disabled]="[4].includes(+dataTaskDecide.order) || sectionId !== '9'"
+                cdkAutosizeMinRows="3" cdkAutosizeMaxRows="13" [(ngModel)]="dataTaskDecide.resolutionText"></textarea>
+        </mat-form-field>
+    </div>
+</div>

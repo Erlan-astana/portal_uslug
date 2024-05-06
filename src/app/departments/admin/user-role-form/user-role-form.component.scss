@@ -1,0 +1,15 @@
+@import "../../../../assets/fonts/Spectral/font-stylesheet.css";
+.text{
+  height: 30px;
+  font-family: Spectral-Medium, sans-serif;
+  font-size: 15px;
+  text-align: center;
+  color: #FFFFFF;
+  background: #0096D5;
+  //padding: 0 50px;
+  width: 140px;
+  margin-right: 20px;
+}
+mat-form-field{
+  width: 100%;
+}

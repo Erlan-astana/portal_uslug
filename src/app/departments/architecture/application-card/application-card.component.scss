@@ -1,0 +1,72 @@
+@import "../../../../assets/fonts/Spectral/font-stylesheet.css";
+.control_panel {
+  background: linear-gradient(90deg, #F4F4F4 -94.12%, rgba(255, 255, 255, 0) 100%), #F0F3F9;
+  padding: 10px 0;
+  margin-bottom: 1%;
+
+  .arch_users {
+    display: flex;
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    line-height: 12px;
+    border: 1px solid #0096D5;
+    padding: 0 20px;
+    background: #FFFFFF;
+    border-radius: 2px;
+    img{
+      margin-right: 10px;
+    }
+  }
+  button{
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    color: #fff;
+    background: #0096D5;
+    margin-right: 5%;
+  }
+  .information_title{
+    margin-bottom: 5px;
+  }
+  .applicant{
+    max-width: 60%;
+  }
+}
+
+.form_container {
+
+  .field_width {
+    width: 95%;
+    margin: auto;
+  }
+}
+
+.form_container_head {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.form_container > div {
+  flex: 1;
+  margin: 15px;
+  min-width: 400px;
+}
+
+.field_appInfo {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.viewer_item_container {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.entity_field {
+  width: 100%;
+}

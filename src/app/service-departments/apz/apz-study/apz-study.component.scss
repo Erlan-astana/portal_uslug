@@ -1,0 +1,58 @@
+@import "../../../../assets/fonts/Spectral/font-stylesheet.css";
+.control_panel {
+  background: #FFFFFF;
+  padding: 26px 11px;
+  margin-bottom: 1%;
+  padding-right: 3%;
+  box-shadow: 1px 2px 15px rgba(114, 135, 167, 0.11);
+  border-radius: 7px;
+}
+.ng_editor{
+  width: 630px;
+}
+.sub_title {
+  border-bottom: 2px solid #333;
+  font-family: Spectral-Medium, sans-serif;
+  font-size: 16px;
+  line-height: 12px;
+  margin-bottom: 3px;
+  padding: 0 20px;
+
+  border-radius: 2px;
+}
+.template_b{
+  padding: 10px;
+
+  .btn_list{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .btn_list > div{
+    margin-top: 10px;
+  }
+  .btn_list button{
+    margin-right: 10px;
+  }
+
+  .button_agreement {
+    background: #5cb85c;
+    color: #fff;
+  }
+  .btn_warn{
+    background: #f44336;
+    color: #fff;
+  }
+
+  .confirm_button{
+    margin-right: 10px;
+  }
+}
+.right_button {
+  float: right;
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.zoom_editor{
+  zoom: 2;
+}

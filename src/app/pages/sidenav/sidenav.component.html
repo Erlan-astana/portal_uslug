@@ -1,0 +1,40 @@
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="currentUser">
+    <div class="chancery" routerLink="/" fxLayout="row" fxLayoutAlign="start center" matTooltip="Главная страница">
+      <img src="../../../assets/icons/kancelaria.svg" alt="">
+      <p *ngIf="isRoleArch">{{'Architecture' | translate}}</p>
+      <p *ngIf="isRoleOZO">ИС «ОЗО»</p>
+      <p *ngIf="isRoleCom">ИС СЕМ</p>
+      <p *ngIf="!isRoleCom && !isRoleArch && !isRoleOZO">ИС РГИС</p>
+    </div>
+    <div *ngFor="let list of sections">
+      <div class="parent_menu" >
+        <button mat-button [class.parent_active]="checkForActivity(list.id)" fxLayoutAlign="start center"
+                (click)="setServiceIndex(list.id);  changeRoute(list)" [ngClass]="{'bold_btn':list.id ===9, 'local_btn': currentLang === 'kk'}"><span>{{list.name | translate }}</span>
+
+          <span [ngClass]="{'custom_count':list.id ===8}" *ngIf="list.url" class="count">{{list.count}} </span>
+          <span class="color_Red" *ngIf="list.id === 8">({{unassignedTasks}})</span>
+
+
+        </button>
+        <ul class="child_menu" *ngIf="list.children.length > 0 && checkForActivity(list.id)">
+          <li fxLayout="column" fxLayoutAlign="center" (click)="changeRoute(child)" *ngFor="let child of list.children">
+            {{child.name | translate}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <button class="btn-sidenav" type="button" [disabled]="!currentUser" [ngStyle]="{'min-width.px':getWidhtSize(isSidenav)}"
+            mat-button
+            (click)="drawer.toggle(); isSidenav = !isSidenav">
+      <img *ngIf="isSidenav" src="../../../assets/icons/show_menu.svg">
+      <img *ngIf="!isSidenav" src="../../../assets/icons/menu_hide.svg">
+    </button>
+    <router-outlet></router-outlet>
+  </div>
+
+</mat-drawer-container>

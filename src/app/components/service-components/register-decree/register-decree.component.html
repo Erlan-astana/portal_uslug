@@ -1,0 +1,23 @@
+<mat-panel-title fxLayoutAlign="center center">{{'DocumentRegistration' | translate}}</mat-panel-title>
+
+<div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="checkTaskRoles()">
+
+  <div>
+    <mat-form-field class="field_width" fxFlex="100">
+      <input matInput placeholder="{{'RegNum' | translate}}*" [(ngModel)]="reserveApp.numeration">
+    </mat-form-field>
+  </div>
+
+  <div class="arch_users information_title ">
+    <mat-form-field class="field_width" *ngIf="true">
+      <input matInput [matDatepicker]="picker" placeholder="{{'Date' | translate}}  *"
+             [(ngModel)]="reserveApp.numerationDate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <button mat-button class="toForm" [disabled]="sectionId !== '9'" *ngIf="sectionId !== '3'" (click)="generateRegistrationNumberAndDate()">{{'ToForm' | translate}}</button>
+  </div>
+</div>

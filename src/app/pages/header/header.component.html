@@ -1,0 +1,105 @@
+<header>
+  <div class="header_top_elements" fxLayout="row" fxLayoutAlign="space-between center">
+    <p class="title">{{'Intro' | translate}}</p>
+    <div fxLayout="row">
+      <button class="header_phone_btn">
+        <img src="../../../assets/icons/phone.svg" alt="">
+      </button>
+      <p class="phone_text">{{'SingleContactCenter' | translate}} </p>
+      <p class="phone_number"><a href="tel:31-62-13">31-62-13</a><a href="tel:31-62-14">, 31-62-14</a></p>
+    </div>
+  </div>
+
+  <div fxLayout="row wrap" class="header_middle_elements">
+    <div fxFlex="16" routerLink="/" fxFlexOffset="2" [fxFlexOffset.md]="0" fxFlex.md="18" fxFlex.sm="48" fxFlex.xs="100"
+         fxFlexAlign.sm="center">
+      <a href="http://e-jambyl.kz"><img src="../../../assets/icons/logo.svg" class="logo"></a>
+    </div>
+    <div fxFlex="2" fxFlex.sm="2" class="hr">
+      <hr>
+    </div>
+    <div fxFlex="21" fxFlex.md="14" fxFlex.sm="48" fxFlex.xs="100">
+      <p class="header_text" [ngClass]="{'header_text_kz':currentLang ==='kk'}" *ngIf="currentUser"> <span *ngIf="currentLang === 'ru'">{{'InformationSystem' | translate}}</span> <span *ngIf="isRoleCom">СЕМ</span> <br>
+        <span *ngIf="isRoleArch">{{'ArchAndGradDepartmend' | translate}}</span>
+        <span *ngIf="isRoleOZO">{{'LandRelDep' | translate}}</span>
+        <span *ngIf="!isRoleCom && !isRoleArch && !isRoleOZO">{{'InformationSystemRGIS' | translate}}</span>
+      </p>
+    </div>
+
+    <div fxFlex="22" fxFlex.md="20" fxFlex.sm="40" fxFlex.xs="2">
+      <mat-button-toggle-group name="search" class="search" aria-label="Font Style">
+        <input matInput placeholder="{{'Poisk' | translate}}">
+        <mat-button-toggle value="bold"><img style="margin-top: -13px" src="../../../assets/icons/search.svg" alt="">
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <div fxFlex="23" fxFlex.md="27" [fxFlexOffset.md]="2" [fxFlexOffset.sm]="4" fxFlex.sm="30" fxFlex.xs="35">
+      <button *ngIf="getCorrectUsername()" mat-button class="profile" #profile_btn  [matMenuTriggerFor]="menu"
+              matTooltip="{{getUserIIN()+' ' + getCorrectUsername() +' | ' + getUsername()}}">
+        <span class="profile_iin" *ngIf="getUserIIN()">{{getUserIIN()}}</span>
+        {{getCorrectUsername()}}
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </button>
+
+
+      <button *ngIf="!getCorrectUsername()" (click)="changeRoute()" mat-button class="profile">
+        Войти
+      </button>
+
+
+      <mat-menu #menu="matMenu" class="user_menu">
+        <button mat-menu-item class="profile_btns" (click)="logout()">Авторизация</button>
+        <button mat-menu-item class="profile_btns" (click)="logout()">{{'Exit' | translate}}</button>
+
+      </mat-menu>
+
+
+    </div>
+
+    <div fxFlex="7" fxFlex.md="7" fxFlex.sm="13" fxFlexOffset.xs="2" fxFlex.xs="30">
+      <button mat-button class="lang_kz" (click)="switchLang('kk')"
+              [ngClass]="{'active_lang': currentLang === 'kk'}">
+        <img src="../../../assets/icons/kz.png">
+
+        <span>KAZ</span>
+      </button>
+    </div>
+    <div fxFlex="6" fxFlex.md="7" fxFlex.sm="13" fxFlex.xs="30" (click)="switchLang('ru')">
+      <button mat-button class="lang_ru" [ngClass]="{'active_lang': currentLang === 'ru'}">
+        <img src="../../../assets/icons/ru.png">
+        <span>RUS</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="header_bottom_elements" fxLayout="row" fxLayoutAlign="center center">
+    <div>
+      <button mat-button [disabled]="!currentUser" (click)="goToLink('http://e-jambyl.kz')"><p>{{'Main' | translate}}</p></button>
+    </div>
+    <!--<div class="active">
+      <button mat-button [disabled]="!currentUser" routerLink="/arch"><p>{{'Room' | translate}}</p></button>
+    </div>-->
+    <div *ngIf="isRoleDutyMap">
+      <button mat-button [disabled]="!currentUser" (click)="goToLink('http://dm.e-jambyl.kz')"><p>{{'CallCard' |
+        translate}}</p>
+      </button>
+    </div>
+    <!--<div>
+      <p>{{'Profile' | translate}}</p>
+    </div>-->
+    <!--<div>
+      <p>{{'Services' | translate}}</p>
+    </div>-->
+    <div>
+
+      <button mat-button (click)="showDialogBox()"><p>{{'Help' |
+        translate}}</p>
+      </button>
+    </div>
+
+  </div>
+</header>
+

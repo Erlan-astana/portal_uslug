@@ -1,0 +1,32 @@
+.container {
+  /* To create the column layout. */
+  display: flex;
+
+  /*!* To make the container relative to its children. *!
+  position: relative;*/
+}
+
+.container .ck.ck-editor {
+  /* To stretch the editor to max 700px
+      (just to look nice for this example but it can be any size). */
+
+  max-width: 630px;
+  min-width: 630px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable, .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners{
+  min-height: 400px;
+  max-height: 100%;
+  p{
+    margin: 0 !important;
+  }
+}
+.sidebar {
+  /* Set some size for the sidebar (it can be any). */
+  min-width: 300px;
+
+  /* Add some distance. */
+  padding: 0 10px;
+}

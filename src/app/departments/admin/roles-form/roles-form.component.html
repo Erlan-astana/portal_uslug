@@ -1,0 +1,90 @@
+<div fxFlex="76" fxLayout="column" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="7"
+     fxFlexOffset="12">
+  <div fxFlex="100">
+    <button mat-stroked-button (click)="goBack()"><i class="material-icons">arrow_back</i></button>
+  </div>
+
+  <div *ngIf="subservice.id" class="subservice_content" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <h3>{{subservice.shortNameRu}}</h3>
+      <h3>Код: {{subservice.code || subservice.service.code}}</h3>
+    </div>
+  </div>
+
+  <div fxLayout="column" fxFlex="100" fxFlexOffset="3" fxLayoutAlign="space-between center" [formGroup]="roleForm">
+
+    <h3 fxLayoutAlign="center center" *ngIf="!roleId" class="role_title">Добавить роль</h3>
+    <h3 fxLayoutAlign="center center" *ngIf="roleId" class="role_title">Изменить роль</h3>
+
+    <mat-form-field>
+      <mat-label>Код роли</mat-label>
+      <input matInput formControlName="name" placeholder="Введите код роли">
+      <div *ngIf="submitted && formControls.name.errors">
+        <mat-error *ngIf="formControls.name.errors.required">Это объязательное поле!</mat-error>
+      </div>
+    </mat-form-field>
+
+    <div fxLayout="row" class="name_block" fxLayoutAlign="space-between center">
+      <mat-form-field>
+        <mat-label>Краткое наименование</mat-label>
+        <input matInput formControlName="nameRu" placeholder="Краткое наименование">
+        <div *ngIf="submitted && formControls.nameRu.errors">
+          <mat-error *ngIf="formControls.nameRu.errors.required">Это объязательное поле!</mat-error>
+        </div>
+
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Қысқаша атауы</mat-label>
+        <input matInput formControlName="nameKk" placeholder="Қысқаша атауы">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" class="name_block" fxLayoutAlign="space-between center">
+      <mat-form-field>
+        <mat-label>Полное наименование</mat-label>
+        <input matInput formControlName="shortNameRu" placeholder="Полное наименование">
+        <div *ngIf="submitted && formControls.shortNameRu.invalid">
+          <mat-error *ngIf="formControls.shortNameRu.errors.required">Это объязательное поле!</mat-error>
+        </div>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Толық атауы</mat-label>
+        <input matInput formControlName="shortNameKk" placeholder="Толық атауы">
+
+      </mat-form-field>
+    </div>
+
+    <mat-form-field>
+      <mat-label>Комментрий</mat-label>
+      <input matInput formControlName="description" placeholder="Комментрий">
+      <div *ngIf="submitted && formControls.description.errors">
+        <mat-error *ngIf="formControls.description.errors.required">Это объязательное поле!</mat-error>
+      </div>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Порядковый номер</mat-label>
+      <input matInput formControlName="num" placeholder="Порядковый номер">
+      <div *ngIf="submitted && formControls.num.errors">
+        <mat-error *ngIf="formControls.num.errors.required">Это объязательное поле!</mat-error>
+      </div>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Cрок рассмотрения (часы)</mat-label>
+      <input matInput formControlName="hoursLimit" placeholder="Часы">
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+
+      <button mat-button class="role_add" *ngIf="!roleId" (click)="addRole()">Добавить</button>
+      <button mat-button class="role_add" *ngIf="roleId" (click)="update()">{{'Save' | translate}}</button>
+      <button mat-button class="role_cancel" (click)="cancel()">Отмена</button>
+    </div>
+  </div>
+
+
+</div>
+

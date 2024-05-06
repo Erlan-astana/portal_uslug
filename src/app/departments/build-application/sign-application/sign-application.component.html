@@ -1,0 +1,30 @@
+<div class="completedsummary_container">
+  <h3>{{'Signing' | translate}}</h3>
+  <div class="form_container">
+    <div class="field_width flex-container subscribe_email">
+      <div>
+        <p>{{'ReceiveEmailNotification' | translate }}:</p>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput [formControl]="subscribeEmail" placeholder="Email">
+          <button mat-raised-button matSuffix disabled>
+            <mat-icon>mail</mat-icon>
+          </button>
+          <mat-error *ngIf="subscribeEmail.hasError('email')">
+            {{'EnterValidEmail'|translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <!--<div class="has-error" *ngIf="isCheck">{{'RequiredNextFilesDidNotFilled'|translate}}:<br><br>
+      <span *ngFor="let message of errorMessages">
+        {{message}}<br>
+      </span>
+    </div>-->
+    <div class="field_width buttons_field">
+      <button mat-raised-button class="confirm_button" (click)="goBack()">{{'Back' | translate }}</button>
+      <button mat-raised-button class="confirm_button sign" [disabled]="openWindowForESP"  (click)="sendApplication()">{{'SignApplicationAndSend' | translate }}</button>
+    </div>
+  </div>
+</div>

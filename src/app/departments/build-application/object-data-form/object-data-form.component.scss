@@ -1,0 +1,48 @@
+@import "../../../../app/departments/directory/adm-documents-form/adm-documents-form.component.scss";
+
+mat-form-field {
+  width: 100%;
+
+  input.mat-input-element {
+    height: 25px !important;
+  }
+}
+
+.object_data_cad_btn {
+  .mat-form-field-suffix {
+  top: -15px;
+  }
+  button{
+    line-height: 42px !important;
+  }
+}
+
+#objectmapid {
+  height: 400px;
+}
+
+.instruction{
+  color: #0096D5;
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: Spectral-Medium, sans-serif;
+}
+.without_eskiz{
+  max-width: 80% !important;
+  margin-left: 10%;
+}
+.note{
+  color: rgba(0,0,0,.54);
+  margin-bottom: -3px;
+}
+.mat-select-panel {
+  max-width: 60vh !important;
+  width: 60vh !important;
+}
+.mat-select-panel mat-option.mat-option {
+  height: unset !important;
+}
+
+.mat-option-text.mat-option-text {
+  white-space: normal !important;
+}

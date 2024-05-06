@@ -1,0 +1,30 @@
+@import "../../admin/statistics/statistics.component.scss";
+@import "../service-executors/service-executors.component.scss";
+.report_type{
+  width: 100% !important;
+}
+.report_code{
+  font-family: Spectral-Medium, sans-serif;
+  line-height: 13px;
+  color: #737578;
+}
+.applicant_name{
+  font-family: Spectral-Medium, sans-serif;
+  line-height: 13px;
+  font-size: 16px;
+  p{
+    color: #37393a;
+  }
+  span{
+    color: #0096D5;
+  }
+}
+.mat-column-position {
+  flex: 0 0 4%;
+}
+.mat-column-nameKk {
+  flex: 0 0 8%;
+}
+mat-header-cell, mat-cell {
+  justify-content: center;
+}

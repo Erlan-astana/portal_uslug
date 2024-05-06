@@ -1,0 +1,107 @@
+<div fxFlex="90" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="5" fxFlexOffset="5">
+  <div class="container" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxFlex="30" fxFlex.sm="0" fxFlex.xs="0" fxLayoutAlign="space-between center">
+      <div class="filter">
+        <p class="filter_text">{{'Filter' | translate}}</p>
+        <mat-button-toggle-group name="filter" aria-label="Font Style">
+          <input matInput placeholder="Краткое наименование" [(ngModel)]="name">
+          <mat-button-toggle value="bold" fxLayoutAlign="center center" >Действие
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+
+
+
+    <div fxLayout="row" [fxFlexOffset.sm]="2" fxFlex.xs="100" fxLayoutAlign="space-around center" class="btn_groups">
+      <button mat-button class="add_role" [matMenuTriggerFor]="menu">
+        Создать приказ
+      </button>
+      <mat-menu #menu="matMenu">
+        <button class="add_role" mat-menu-item *ngFor="let category of categories" (click)="create(category)">{{category.nameRu}}</button>
+      </mat-menu>
+
+      <button mat-button class="export" (click)="downloadExcelFile()">
+        <span>EXCEL</span>
+
+        <img src="../../../../assets/icons/file.svg">
+      </button>
+
+      <button mat-button class="refresh" (click)="refresh()">
+        <img src="../../../../assets/icons/refresh.svg">
+      </button>
+
+    </div>
+
+
+  </div>
+  <div>
+    <p ngClass="table_title">{{sectionName | translate }}</p>
+    <mat-table [dataSource]="dataSource" ngClass="external_table" class="mat-elevation-z8">
+
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> №.</mat-header-cell>
+        <mat-cell *matCellDef="let element;let i = index"> {{ + i+1}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>{{'Number'| translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <span>{{element.id}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef>{{'RegDate' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.date | date:'dd.MM.yyyy HH:mm' }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <mat-header-cell *matHeaderCellDef>Категория</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.category.nameRu }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="employee">
+        <mat-header-cell *matHeaderCellDef>{{'Sender' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.employee.firstName}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>{{'Operations' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <button mat-button class="edit" (click)="edit(row.id)">
+            <i class="material-icons">edit</i>
+          </button>
+          <button mat-button class="remove" (click)="delete(row)">
+            <i class="material-icons">close</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <ul style="display: none;">
+      <li> Emp Name | Emp code</li>
+      <li
+        *ngFor="let item of dataSource  | paginate:{itemsPerPage: pageSize, currentPage:currentPage, totalItems: totalElements }">
+        {{item.name}} | {{item.id}}
+      </li>
+    </ul>
+    <pagination-controls class="my_pagination" fxLayout="row" fxLayoutAlign="end center" [directionLinks]="false"
+                         (pageChange)="pageChange($event)"></pagination-controls>
+  </div>
+</div>
+
+

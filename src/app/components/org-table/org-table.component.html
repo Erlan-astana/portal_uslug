@@ -1,0 +1,70 @@
+<div *ngIf="app.id">
+  <mat-table #table [dataSource]="dataSource">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef class="small_column"> No.</mat-header-cell>
+      <mat-cell *matCellDef="let element; let row" class="small_column"> №{{element.id}}</mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
+    </ng-container>
+
+    <!--Checkbox Column-->
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef class="small_column">
+        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+        >
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row" class="small_column">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row) || row.sent"
+        >
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Result Column -->
+    <ng-container matColumnDef="file">
+      <mat-header-cell *matHeaderCellDef> Техусловие</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-button (click)="downloadTechCondition(element)" *ngIf="element.techCondition">
+          Скачать техусловие
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Result Column -->
+    <ng-container matColumnDef="result">
+      <mat-header-cell *matHeaderCellDef> Результат</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <a mat-button *ngIf="element.status !== null" matTooltip="{{statuses[element.status]}}">
+          <span class="active_links">*</span> {{statuses[element.status]}}
+        </a>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="sendDate">
+      <mat-header-cell *matHeaderCellDef> Дата отправки</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.sendDate | date:'dd.MM.yyyy HH:mm'}}</mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="responseDate">
+      <mat-header-cell *matHeaderCellDef> Дата ответа</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.responseDate | date:'dd.MM.yyyy HH:mm'}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+  <button mat-raised-button class="right_button" *ngIf="task.content.role !== 'APZ_HEAD'"
+          [disabled]="sectionId !== '9'" color="primary" (click)="sendOrgStatus()">Отправить</button>
+</div>

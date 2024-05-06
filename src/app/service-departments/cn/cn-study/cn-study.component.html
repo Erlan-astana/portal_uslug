@@ -1,0 +1,83 @@
+<div fxLayout="column" fxFlex="80" fxFlexOffset="10">
+
+  <app-cn-header *ngIf="app.id" [task]="task" [sectionId]="sectionId"
+                 (getApplication)="getApplication($event)"
+                 [app]="app"></app-cn-header>
+
+
+  <div class="control_panel">
+    <app-files-upload *ngIf="app.id" [taskDecide]="dataTaskDecide" [type]="'userapp'" [sectionId]="sectionId" [fileCategories]="appFileCategories"
+                      [app]="app"
+                      (changeSignData)="changeSignData()"></app-files-upload>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+
+    <div fxFlex="55">
+      <app-show-application-accordion *ngIf="app.id" [app]="app"></app-show-application-accordion>
+
+    </div>
+
+
+    <div fxFlex="35">
+      <app-arch-map *ngIf="app.id" [app]="app"></app-arch-map>
+    </div>
+  </div>
+
+
+  <app-chancery-akim *ngIf="app.id && showChanceryAkimBlockByUserRoles(dataTaskDecide.role)" [sectionId]="sectionId" [currentUser]="currentUser" [app]="app"
+                     [taskDecide]="dataTaskDecide" [task]="task"></app-chancery-akim>
+
+
+  <div fxLayout="column" *ngIf="showApprovalSheetBlockByUserRoles(dataTaskDecide.role)"
+       class="control_panel service_components_block">
+    <app-approval-sheet *ngIf="app.id" [task]="task" [sectionId]="sectionId" [currentUser]="currentUser" [app]="app"
+                        [taskDecide]="dataTaskDecide"></app-approval-sheet>
+  </div>
+
+  <div fxLayout="column" class="control_panel service_components_block" *ngIf="app.id && showResolutionBlockByUserRoles(dataTaskDecide.role)">
+    <app-resolution-text  [sectionId]="sectionId" (updateTask)="updateTask()"
+                         [currentUser]="currentUser" [app]="app"
+                         [taskDecide]="dataTaskDecide" [templates]="ozoTemplates"></app-resolution-text>
+  </div>
+
+
+  <div>
+    <div class="template_b"
+         *ngIf="showEditorTemplatesByUserRole(dataTaskDecide.role)">
+      <div class="btn_list">
+        <div *ngFor="let template of ozoTemplates;">
+          <mat-button-toggle-group class="confirm_button">
+            <mat-button-toggle (click)="setTemplate(template)"
+                               [ngClass]="{'button_agreement': template.approved, 'btn_warn': !template.approved}"
+                               mat-raised-button> {{template.nameRu}}
+              <span class="active_links"></span>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayoutAlign="start center" *ngIf="showEditorByUserRoles(dataTaskDecide.role)">
+      <button mat-button (click)="previewPdf()">{{'Preview' | translate}}</button>
+      <button mat-button color="primary" (click)="updateTask()">{{'Save' | translate}}</button>
+      <button mat-stroked-button fxFlexOffset="2" (click)="toggleEditor = !toggleEditor">
+        <span *ngIf="!toggleEditor">{{'Enlarge' | translate}}</span>
+        <span *ngIf="toggleEditor">{{'Reduce' | translate}}</span>
+      </button>
+    </div>
+
+  </div>
+
+
+  <div class="ng_editor"  *ngIf="showEditorByUserRoles(dataTaskDecide.role)">
+    <mat-list role="list" class="field_width sub_title">
+      <mat-list-item role="listitem">{{'ApprRefLetter' | translate}}</mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+
+    <app-editor [ngClass]="{'zoom_editor': toggleEditor}" [text]="dataTaskDecide.message" [sectionId]="sectionId" (setText)="setText($event)"
+                [hasComment]="false"></app-editor>
+  </div>
+</div>
+

@@ -1,0 +1,63 @@
+<h3 class="text-center" *ngIf="!data">Пересчет очереди</h3>
+<h3 *ngIf="data">{{getSpecregStatusStr(data.specreg.operation, statusJournalList)}}</h3>
+<div fxLayout="column" class="control_panel">
+
+
+  <div fxLayout="column wrap" fxFlex="80" fxFlexOffset="5">
+
+    <table *ngIf="data" mat-table [dataSource]="dataSource" class="external_table mat-elevation-z8">
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Параметры</th>
+        <td mat-cell *matCellDef="let element">{{element.name | translate}}</td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef> До изменения</th>
+        <td mat-cell *matCellDef="let element">
+          {{getSpecregColumnByNames('ex', element.name)}}
+        </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef> После изменения</th>
+        <td mat-cell *matCellDef="let element">
+          <!--{{data.specregData['to'+capitalizeFirstLetter(element.name)] | date:'dd.MM.yyyy HH:mm'}}-->
+          {{getSpecregColumnByNames('to', element.name)}}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+
+    <app-dinamic-form *ngIf="specregHistory && !data" [formFields]="formFields"
+                      [formData]="specregHistory"></app-dinamic-form>
+
+    <div class="Reason_File">
+      <app-files-upload *ngIf="data && data.status !== 'EDIT' && data.status !== 'ADD'" [currentUser]="null"
+                        [fileCategories]="fileCategories"
+                        [app]="null" [sectionId]="'22'" [taskDecide]="null"></app-files-upload>
+    </div>
+
+
+  </div>
+  <div class="renumerate_action_block">
+    <div fxLayout="row" fxFlex="100" fxLayoutAlign="end end">
+      <button mat-button *ngIf="!data" (click)="onOkClick(true)" class="succes_btn">Пересчитать</button>
+
+      <button mat-button fxFlexOffset="10" (click)="onOkClick(false)">Отмена</button>
+    </div>
+  </div>
+</div>
+
+
+

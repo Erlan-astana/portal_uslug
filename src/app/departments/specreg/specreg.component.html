@@ -1,0 +1,210 @@
+<div fxFlex="90" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="5" fxFlexOffset="5">
+  <div class="container" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="column">
+      <app-table-filter [parallelForm]="true" *ngIf="isFilterComponent" fxFlex="70"
+                        [displayedColumnsForFilter]="displayedColumnsForFilter"></app-table-filter>
+      <div class="filter" fxLayoutAlign="end center">
+        <button class="filter_btns filter_close_btn" mat-button *ngIf="isFilterComponent"
+                (click)="showFilterComponent()"
+                fxLayoutAlign="center center">{{'Close' | translate}}
+        </button>
+        <button class="filter_btns" mat-button *ngIf="isFilterComponent" (click)="getDocuments()"
+                fxLayoutAlign="center center">{{'Execute' | translate}}
+        </button>
+
+        <button class="filter_btns filter_close_btn" fxFlexOffset="3" mat-button *ngIf="isFilterComponent"
+                (click)="clearFilter()"
+                fxLayoutAlign="center center">Сбросить
+        </button>
+      </div>
+    </div>
+
+
+    <div fxLayout="row" [fxFlexOffset.sm]="2" fxFlex="80" fxFlex.xs="100" *ngIf="!isFilterComponent"
+         fxLayoutAlign="space-between center" class="filter">
+      <button *ngIf="!waitingList" mat-button class="add_role" (click)="redirectToWaitingList()">
+        Исключить из списка очередников
+      </button>
+      <button *ngIf="!waitingList" mat-button class="add_role" (click)="showDuplicates()">
+        Дубликаты ИИН
+      </button>
+      <button *ngIf="!waitingList" mat-button class="add_role" (click)="showRenumerateDialogBox()">
+        Пересчет очереди
+      </button>
+
+      <button *ngIf="waitingList" mat-button class="add_role" (click)="showSelectionSpecregs(false)">
+        Просмотр выбранных
+      </button>
+
+      <button *ngIf="waitingList" mat-button class="add_role" (click)="showSelectionSpecregs(true)">
+        Ранее исключены
+      </button>
+
+
+      <button *ngIf="!waitingList" mat-button class="add_role" (click)="create()">
+        Добавить очередника
+      </button>
+
+
+      <button *ngIf="waitingList" mat-button class="add_role" (click)="cancel()">
+        Отмена
+      </button>
+
+      <!--<button class="add_role" mat-stroked-button (click)="openCommisionModal()">Загрузить Решение <br>
+        комиссии для группы</button>-->
+
+      <button mat-button class="filter_btns" *ngIf="!isFilterComponent"
+              (click)="showFilterComponent()" fxLayoutAlign="center center">{{'Filter' | translate}}
+      </button>
+
+      <!-- <button mat-button class="export" (click)="downloadExcelFile()">
+         <span>EXCEL</span>
+
+         <img src="../../../../assets/icons/file.svg">
+       </button>-->
+
+      <button mat-button class="refresh" (click)="refresh()">
+        <img src="../../../assets/icons/refresh.svg">
+      </button>
+
+    </div>
+
+
+  </div>
+  <div>
+    <p ngClass="table_title">{{'Specreg' | translate }}</p>
+    <mat-table [dataSource]="dataSource" ngClass="external_table" class="mat-elevation-z8 specreg_table">
+
+      <!--Checkbox Column-->
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef class="small_column">
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+          >
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" class="small_column">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row) || row.sent"
+          >
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> №.</mat-header-cell>
+        <mat-cell *matCellDef="let element;let i = index"> {{ + i+1}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>{{'specregDate'| translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <span>{{element.specregDate  | date:'dd.MM.yyyy'}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="SpecRegNumber">
+        <mat-header-cell *matHeaderCellDef>{{'specregNumber' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span>{{element.specregNumber}}</span>
+
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="fio">
+        <mat-header-cell *matHeaderCellDef>{{'FIO' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.secondName}} {{element.firstName}} {{element.lastName}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="iin">
+        <mat-header-cell *matHeaderCellDef>{{'iin' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.iin}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="regAddressRu">
+        <mat-header-cell *matHeaderCellDef>Адрес прописки</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.regAddressRu}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="factAddress">
+        <mat-header-cell *matHeaderCellDef>Адрес фактического проживания</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.factAddressRu}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="phone">
+        <mat-header-cell *matHeaderCellDef>{{'PhoneNumber' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.mobile || element.phone}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="SpecregSourceType">
+        <mat-header-cell *matHeaderCellDef>{{'specregSourceType' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span>{{element.specregSourceType | translate}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Статус</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{getStatusStr(element.specregStatus) }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="SpecregNumberType">
+        <mat-header-cell *matHeaderCellDef>{{'SpecregNumberType' | translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span *ngIf="element.orderNumber">{{element.orderNumber}}</span>
+        </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>{{'Operations' | translate}}</mat-header-cell>
+        <mat-cell class="actions" *matCellDef="let element;let row">
+          <!--<button mat-button class="edit" (click)="showDecreeFiles(row.id)">
+            <i class="material-icons">insert_drive_file</i>
+          </button>-->
+          <button mat-button class="edit" (click)="edit(row.id)">
+            <i class="material-icons">edit</i>
+          </button>
+          <!--<button mat-button class="remove" (click)="delete(row)">
+            <i class="material-icons">close</i>
+          </button>-->
+          <button mat-button class="history">
+            <i class="material-icons" (click)="redirectToHistory(row.id)">history</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+
+    <ul style="display: none;">
+      <li> Emp Name | Emp code</li>
+      <li
+        *ngFor="let item of dataSource.data  | paginate:{itemsPerPage: pageSize, currentPage:currentPage, totalItems: totalElements }">
+        {{item.name}} | {{item.id}}
+      </li>
+    </ul>
+    <pagination-controls class="my_pagination" fxLayout="row" fxLayoutAlign="end center" [directionLinks]="false"
+                         (pageChange)="pageChange($event)"></pagination-controls>
+  </div>
+</div>
+
+<div class="spinner_block" *ngIf="spinnerBlock" fxLayoutAlign="center center">
+  <mat-spinner></mat-spinner>
+</div>
+

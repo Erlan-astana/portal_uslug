@@ -1,0 +1,148 @@
+
+.form-container {
+  .mat-line {
+    white-space: pre-wrap;
+  }
+
+  mat-spinner {
+    left: 40%;
+    margin-top: 10%;
+  }
+
+  .header {
+    padding: 10px 12px 0 17px;
+
+    .title {
+      margin: 0;
+      font-family: Spectral-Medium;
+      font-size: 16px;
+      color: #2272BB;
+      text-transform: uppercase;
+    }
+
+    .close {
+      width: 24px;
+      height: 24px;
+      color: #D2D2D2;
+      cursor: pointer;
+      padding-right: 5px;
+    }
+  }
+
+  .btn-toggle {
+    position: absolute;
+    right: -50px;
+    padding-left: 10px;
+    padding-right: 15px;
+    min-width: auto;
+    height: 40px;
+    background: #2DBB15;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .gzki-content {
+    height: 43vh;
+  }
+
+  .content {
+    padding: 10px 10px 10px 15px;
+
+    .content-divider {
+      margin: 0 2.2em;
+      width: 20.6vw;
+      border-top-width: 2px;
+    }
+
+    .bottom-space {
+      margin-bottom: 0.5em;
+    }
+
+    .error {
+      color: #F05959;
+    }
+
+    .file-container {
+      height: 30px;
+      border: 0.75px solid #0096D5;
+      box-sizing: border-box;
+      border-radius: 4px;
+      font-size: 10px;
+      line-height: 13px;
+      letter-spacing: 0.05em;
+
+      mat-label {
+        margin-left: 34px;
+        display: inline-block;
+        color: #3CBA39;
+        white-space: nowrap;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+      }
+
+      .btn-download {
+        width: 97px;
+        height: 100%;
+        color: #FFFFFF;
+        background: #56CF42;
+        border-radius: 4px;
+        font-size: 10px;
+        line-height: 13px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .actions {
+    margin: 0;
+    padding: 0;
+  }
+
+  .btn-cancel {
+    margin: 0;
+    height: 30px;
+    background: #EFEFEF;
+    border-radius: 0px 0px 0px 2px;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #BFBFBF;
+  }
+
+  .btn-save {
+    margin: 0;
+    height: 30px;
+    background: #56CF42;
+    border-radius: 0px;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+  }
+}
+.scrollable-content {
+  overflow: hidden;
+  height: 65vh !important;
+
+  .mat-card-title-group {
+    display: block !important;
+  }
+
+  .mat-card-content {
+    overflow-y: auto !important;
+  }
+}
+.title-prop{
+  color: dimgray;
+}
+
+.text-prop {
+  font-weight: bold;
+}
+
+.pull-right{
+  float: right;
+  margin-top: 2vh;
+}

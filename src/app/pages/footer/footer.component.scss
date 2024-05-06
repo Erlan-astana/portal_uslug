@@ -1,0 +1,145 @@
+@import "../../../assets/fonts/Spectral/font-stylesheet.css";
+
+footer {
+  .footer_top {
+    background: linear-gradient(180deg, rgba(230, 230, 230, 0.86) -7.11%, rgba(218, 231, 236, 0) 113.73%), #F0F0F0;
+    height: 100%;
+  }
+
+  hr {
+    border: none;
+    border-left: 2px solid #A0D2E8;
+    height: 40%;
+    width: 1px;
+    margin-top: 45px;
+  }
+
+}
+
+.first_row {
+  margin-left: 40px;
+  margin-bottom: 30px;
+  p:first-child {
+    margin-top: 33px;
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #0096D5;
+  }
+  .text {
+    font-family: Spectral-Bold, sans-serif;
+    font-size: 13px;
+    line-height: 28px;
+    color: #305A80;
+    margin: 0;
+  }
+}
+
+.second_row {
+  p:first-child {
+    margin-top: 30px;
+  }
+  p {
+    font-family: Spectral-Bold, sans-serif;
+    font-size: 13px;
+    line-height: 28px;
+    margin: 0;
+    color: #305A80;
+  }
+
+}
+
+.last_row {
+  .share {
+    img {
+      margin-right: 10px;
+    }
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: right;
+    text-transform: uppercase;
+    margin-top: 41px;
+    color: #0096D5;
+    margin-bottom: 15px;
+  }
+
+  .socials {
+    img {
+      margin: 0 22px;
+    }
+
+  }
+}
+
+.footer_bottom {
+  background: #E0E3E7;
+
+  .text {
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    color: #4C4C4C;
+  }
+
+  a {
+    position: absolute;
+    right: 4%;
+    font-family: Spectral-Medium, sans-serif;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    text-decoration-line: underline;
+    color: #7191BA;
+  }
+}
+
+@media only screen and (max-width: 959px) {
+  .footer_bottom {
+    .text {
+      text-align: left;
+    }
+    a {
+      position: static;
+    }
+
+  }
+  .socials {
+    img {
+      margin: 0 10px !important;
+    }
+  }
+  .last_row {
+    .share {
+      font-size: 12px;
+      text-align: center;
+    }
+  }
+
+  .footer_top{
+    hr{
+      display: none;
+    }
+  }
+}
+@media only screen and (max-width: 599px) {
+  .first_row,.second_row{
+    align-items: center !important;
+  }
+  .first_row{
+    margin-left: 0;
+    margin-bottom: 0;
+  }
+  .share {
+    margin-top: 20px !important;
+  }
+  .second_row {
+    p:first-child {
+      margin-top: 20px;
+    }
+  }
+  .last_row{
+    margin-bottom: 20px !important;
+  }
+}

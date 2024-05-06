@@ -1,0 +1,124 @@
+<div fxLayout="column">
+  <mat-panel-title fxLayoutAlign="center center">Лист согласования</mat-panel-title>
+  <div fxLayout="column wrap" fxFlex="100" fxLayoutAlign="space-between" class="ozo_fields checkbox_container">
+    <div>
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.rukozo">Проверка РУК.ОЗО
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showCnRegDocCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.doc"> Рук. отдела контроля и анализа документации
+      </mat-checkbox>
+    </div>
+
+
+
+    <div *ngIf="showCnRegInspectorCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.inspector">Главный инспектор районного акима
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showCnCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.lingual">Проверка канцелярией
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showBezTorgRegKancCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.kanc">Проверка канцелярией
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showCnRegKancCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.kanc">Проверка канцелярией
+      </mat-checkbox>
+    </div>
+    <div *ngIf="showCnCheckboxByServiceId() || showCnRegKancCheckboxByServiceId() || showCnRegJuristCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.jurist">Проверка юриста
+      </mat-checkbox>
+    </div>
+
+
+    <div *ngIf="showCnRegEconomCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.finance">Проверка руководителя финансов
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showCnRegEconomCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.econom">Руководитель экономики
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="!showCnRegApparatCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.apparat">Согласование у Руководителя
+        аппарата
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showZam1CheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.zam1">Согласование Зам акимом 1
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showZam2CheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.zam2">Согласование Зам акимом 2
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showZam3CheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.zam3">Согласование Зам акимом 3
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showZam4CheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.zam4">Согласование Зам акимом 4
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showZam5CheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.zam5">Согласование Зам акимом 5
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showCnRegOrgCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.org"> Руководитель орг отделa
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showCnRegPravCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.prav">Главный инспектор
+        государственного-правового отдела
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showCnRegPravCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.prav_head">Руководитель
+        государственного-правового отдела
+      </mat-checkbox>
+    </div>
+
+    <div *ngIf="showCnRegHeadArchCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.rukarch">Согласование Руководитель
+        архитектуры градостроительства, строительстварайонного акимата
+      </mat-checkbox>
+    </div>
+
+
+    <div *ngIf="showZamCheckboxByServiceId()">
+      <mat-checkbox class="checkbox" [disabled]="true" [(ngModel)]="taskDecide.zamakim">Согласование Зам акима
+      </mat-checkbox>
+    </div>
+
+
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="end end">
+    <button mat-button class="ozo_btn" *ngIf="showApprovalSheetGeneratedFile()"
+            (click)="downloadApprovalSheetGeneratedFile()"
+            [disabled]="sectionId !== '9'">{{'Download' | translate}} Лист согласования
+    </button>
+    <!--<button fxFlexOffset="5" mat-button class="ozo_btn" *ngIf="taskDecide.role === 'CN_REG_EXECUTOR2'"
+            (click)="downloadApprovalSheetGeneratedDocxFile()"
+            [disabled]="sectionId !== '9'">{{'DownloadWord' | translate}}
+    </button>-->
+  </div>
+</div>

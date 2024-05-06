@@ -1,0 +1,16 @@
+<h3 mat-dialog-title class="ss_title">{{ 'ECP' | translate}}</h3>
+<div mat-dialog-content>
+  <div [formGroup]="selectedStorageForm">
+    <div fxLayout="column wrap">
+      <button mat-button (click)="getActiveTokensCall()" [disabled]="activeTokenBtn" class="ss_available_btn">{{ 'addAvailableTokens' | translate}}</button>
+      <mat-form-field class="field_width" >
+        <mat-select placeholder="{{'selectToken' | translate}}" formControlName="selectedStorage">
+          <mat-option *ngFor="let storage of selectStorages" [value]="storage">{{ storage | translate}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onOkClick(null)" class="ss_cancelation_btn">{{ 'Cancellation' | translate }}</button>
+  <button mat-button (click)="onOkClick(selectedStorageForm.controls.selectedStorage.value)" class="ss_sign_send_btn">{{ 'SignApplicationAndSend' | translate}}</button>
+</div>

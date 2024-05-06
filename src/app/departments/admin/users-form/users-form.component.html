@@ -1,0 +1,169 @@
+<div fxFlex="76" fxLayout="column" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="7"
+     fxFlexOffset="12">
+  <div fxFlex="100">
+    <button mat-stroked-button (click)="goBack()"><i class="material-icons">arrow_back</i></button>
+  </div>
+  <br>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <div [formGroup]="emailForm" class="email_form">
+      <mat-form-field>
+        <input matInput formControlName="emailForSearch" placeholder="Email" (keyup.enter)="search()">
+        <div *ngIf="submitted && formControls.emailForSearch.errors">
+          <mat-error *ngIf="formControls.emailForSearch.errors.required">Это объязательное поле!</mat-error>
+          <mat-error *ngIf="formControls.emailForSearch.errors.email">Неправильный формат !</mat-error>
+        </div>
+
+      </mat-form-field>
+
+      <button mat-stroked-button class="user_btns" (click)="search()">{{'Poisk'| translate}}</button>
+    </div>
+    <div>
+      <mat-error class="user_error_message" *ngIf="hasUser === false"> Пользователь с таким email не найден !</mat-error>
+    </div>
+  </div>
+
+  <div fxLayout="row">
+    <div fxLayout="column" [formGroup]="userForm">
+      <div fxLayout="row" class="user_content" fxLayoutAlign="start center">
+        <mat-label class="text" fxLayoutAlign="center center">email *</mat-label>
+
+        <mat-form-field>
+          <input matInput formControlName="email" placeholder="Email">
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" class="user_content" fxLayoutAlign="start center">
+        <mat-label class="text" fxLayoutAlign="center center">{{'LastName' | translate}} *</mat-label>
+
+        <mat-form-field>
+          <input matInput formControlName="lastName" placeholder="{{'LastName' | translate}}">
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" class="user_content" fxLayoutAlign="start center">
+        <mat-label class="text" fxLayoutAlign="center center">{{'FirstName' | translate}} *</mat-label>
+
+        <mat-form-field>
+          <input matInput formControlName="firstName" placeholder="{{'FirstName' | translate}}">
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" class="user_content" fxLayoutAlign="start center">
+        <mat-label class="text" fxLayoutAlign="center center">Отчества</mat-label>
+
+        <mat-form-field>
+          <input matInput formControlName="secondName" placeholder="Отчество">
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" class="user_content" fxLayoutAlign="start center">
+        <mat-label class="text" fxLayoutAlign="center center">Должность</mat-label>
+
+        <mat-form-field>
+          <input matInput formControlName="positionRu" placeholder="Должность">
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" class="user_content" fxLayoutAlign="start center">
+        <mat-label class="text" fxLayoutAlign="center center">Должность каз</mat-label>
+
+        <mat-form-field>
+          <input matInput formControlName="positionKk" placeholder="Должность каз">
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" class="user_content" fxLayoutAlign="start center">
+        <mat-label class="text" fxLayoutAlign="center center">Организация *</mat-label>
+
+        <mat-form-field formGroupName="organization" class="select-organization">
+          <mat-select formControlName="id">
+            <input class="filterOrgs" matInput focused="'true'" type="text"
+                   (keyup)="searchByOrganization($event.target.value)"
+                   autocomplete="off" placeholder="Поиск по группам слоев">
+            <mat-divider></mat-divider>
+            <mat-option *ngFor="let org of organizationsCopy" [value]="org.id">{{org.nameRu}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="row" class="user_content region" fxLayoutAlign="start center">
+        <mat-label class="text" fxLayoutAlign="center center">Регион *</mat-label>
+
+        <!--<mat-form-field >
+          <mat-select formControlName="regionId">
+            <mat-option>Выбрать...</mat-option>
+            <mat-option *ngFor="let region of regions[0].children" [value]="region.id">{{region.nameRu}}</mat-option>
+          </mat-select>
+        </mat-form-field>-->
+
+        <app-select-region [subserviceId]="39" (setSelectedRegionId)="setSelectedRegionId($event)" class="full-width"></app-select-region>
+        <div *ngIf="userSubmitted && userFormControls.regionId.errors">
+          <mat-error *ngIf="userFormControls.regionId.errors.required">Это объязательное поле!</mat-error>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div fxLayoutAlign="center end">
+      <button mat-stroked-button class="user_btns" (click)="validateUser()">{{'Save' | translate}}</button>
+      <button mat-stroked-button class="user_btns" (click)="goBack()">Закрыть</button>
+    </div>
+
+  </div>
+
+  <div *ngIf="hasUser">
+    <button mat-stroked-button (click)="openUserRoleFormModal()">Добавить роль</button>
+  </div>
+
+  <div *ngIf="hasUser && dataSource.length > 0">
+    <p ngClass="table_title"></p>
+    <mat-table [dataSource]="dataSource" ngClass="external_table" class="mat-elevation-z8">
+
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="number">
+        <mat-header-cell *matHeaderCellDef> №.</mat-header-cell>
+        <mat-cell *matCellDef="let element;let i = index"> {{i+1}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="service">
+        <mat-header-cell *matHeaderCellDef>БП</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <span>{{element.subservice.shortNameRu || element.subservice.nameRu}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="role">
+        <mat-header-cell *matHeaderCellDef>{{'RoleCode'| translate}}</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.role.nameRu }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Краткое наименование</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.role.description }}
+        </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Операции</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">
+          <button mat-button class="edit">
+            <i class="material-icons" (click)="edit(row)">edit</i>
+          </button>
+          <button mat-button class="remove">
+            <i class="material-icons" (click)="delete(row)">close</i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>

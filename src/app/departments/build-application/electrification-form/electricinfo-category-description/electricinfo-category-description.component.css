@@ -1,0 +1,14 @@
+.rel_category_title {
+    text-align: center;
+}
+
+.buttons_field {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.confirm_button {
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

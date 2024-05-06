@@ -1,0 +1,86 @@
+<div fxLayout="column" fxFlex="80" fxFlexOffset="10">
+  <div fxFlex="100">
+    <button mat-stroked-button (click)="goBack()"><i class="material-icons">arrow_back</i></button>
+  </div>
+
+  <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users" fxFlexOffset="2">
+
+      <p>История очередности:</p>
+    </div>
+
+
+    <div>
+      <!--<div fxLayout="row" class="header_btn_groups">
+        <button mat-button (click)="save()">{{'Save' | translate}}</button>
+      </div>
+-->
+    </div>
+  </div>
+
+
+  <div fxLayout="column" class="control_panel">
+
+
+    <div fxLayout="row" fxFlex="90" fxFlexOffset="5" fxLayoutAlign="space-between center" *ngIf="specreg">
+      <mat-form-field>
+        <mat-label>ФИО:</mat-label>
+        <input matInput [value]="specreg.lastName + ' ' + specreg.firstName">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>ИИН:</mat-label>
+        <input matInput  [value]="specreg.iin">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Дата рождения:</mat-label>
+        <input matInput  [value]="specreg.birthDate">
+      </mat-form-field>
+    </div>
+
+
+
+  </div>
+
+
+  <table mat-table [dataSource]="dataSource" *ngIf="dataSource.length > 0" class="specreg_history_table mat-elevation-z8">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element;let i = index"> {{i+1}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Номер текущей очередности (предыдущий) </th>
+      <td mat-cell *matCellDef="let element"> {{element.prevOrderNumber}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef> Weight </th>
+      <td mat-cell *matCellDef="let element"> {{element.orderNumber}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef> Год </th>
+      <td mat-cell *matCellDef="let element"> {{element.date | date:'yyyy'}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Статус </th>
+      <td mat-cell *matCellDef="let element"> {{getStatusStr(element.specregStatus) }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+
+
+</div>
+

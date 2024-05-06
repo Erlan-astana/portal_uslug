@@ -1,0 +1,68 @@
+<div fxLayout="column" fxFlex="80" fxFlexOffset="10">
+
+  <app-header-arch-specialist *ngIf="app.id" [task]="task" [sectionId]="sectionId"
+                              (getApplication)="getApplicationAndSaveFiles($event)"
+                              [app]="app"></app-header-arch-specialist>
+
+
+  <app-sketch-header [currentUser]="currentUser" [sectionId]="sectionId" *ngIf="app.id" [task]="task" [app]="app"></app-sketch-header>
+
+
+  <div class="control_panel">
+    <app-files-upload *ngIf="app.id" [sectionId]="sectionId" [type]="'userapp'" [fileCategories]="appFileCategories" [app]="app"
+                      (changeSignData)="changeSignData()"></app-files-upload>
+  </div>
+
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+
+    <app-show-application-accordion *ngIf="app.id" [app]="app"></app-show-application-accordion>
+
+    <div fxFlex="28">
+      <app-arch-map *ngIf="app.id && app.objectInfo.location" [app]="app"></app-arch-map>
+    </div>
+  </div>
+
+  <app-queuing-form [app]="app" [task]="task" (setOrderNumber)="setOrderNumber($event)"
+                    *ngIf="rolesHasSpecregForm() && app.id"></app-queuing-form>
+
+
+
+
+  <div class="template_b"
+       *ngIf="showTemplateByRole()">
+    <div class="btn_list">
+      <div *ngFor="let template of templates;">
+        <mat-button-toggle-group class="confirm_button">
+          <mat-button-toggle (click)="setTemplate(template)"
+                             [ngClass]="{'button_agreement': template.approved, 'btn_warn': !template.approved}"
+                             mat-raised-button> {{template.nameRu}}
+            <span class="active_links"></span>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+  </div>
+
+
+  <div fxLayoutAlign="start center" *ngIf="showEditor()">
+    <button mat-stroked-button (click)="previewPdf()">{{'Preview' | translate}}</button>
+    <button mat-stroked-button  (click)="updateTask()">{{'Save' | translate}}</button>
+    <button mat-stroked-button fxFlexOffset="2" (click)="toggleEditor = !toggleEditor">
+      <span *ngIf="!toggleEditor">{{'Enlarge' | translate}}</span>
+      <span *ngIf="toggleEditor">{{'Reduce' | translate}}</span>
+    </button>
+  </div>
+
+
+  <div class="ng_editor" *ngIf="showEditor()">
+    <mat-list role="list" class="field_width sub_title">
+      <mat-list-item role="listitem">{{'ApprRefLetter' | translate}}</mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+
+
+    <app-editor [ngClass]="{'zoom_editor': toggleEditor}" [text]="dataTaskDecide.message" [sectionId]="sectionId" (setText)="setText($event)" [hasComment]="false"></app-editor>
+
+  </div>
+</div>

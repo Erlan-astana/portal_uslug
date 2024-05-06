@@ -1,0 +1,96 @@
+<div fxLayout="column" class="projector_container" [formGroup]="projectorForm">
+
+  <div fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center" class="head_control_panel">
+    <div class="arch_users" fxFlexOffset="2">
+      <p>{{'DesignerData' | translate}}:</p>
+    </div>
+    <div>
+      <div fxLayout="row" class="header_btn_groups">
+        <button mat-button (click)="changeRoute(currentNavLinks[prevPosition], prevPosition)">{{'Back' | translate}}</button>
+        <button mat-button (click)="onUpdateApp()">{{'Next' | translate}}</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div fxLayout="column" class="control_panel">
+
+    <div fxLayout="row" fxFlex="90" fxFlexOffset="2" fxLayoutAlign="space-between center">
+      <mat-radio-group class="radio_buttons field_width" formControlName="isOrg">
+        <mat-radio-button #radioButton [value]="false" [checked]="!isOrg">
+          <span class="face">{{'Individual' | translate}}</span>
+        </mat-radio-button>
+        <mat-radio-button class="last_radio_btn" #radioButton [value]="true" [checked]="isOrg">
+          <span class="face">{{'Entity' | translate}}</span>
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div fxLayout="column" fxFlex="90" fxFlexOffset="2" fxLayoutAlign="space-between center">
+      <mat-form-field *ngIf="!projectorForm.value.isOrg" class="field_width">
+        <input matInput placeholder="{{'DesignerSurname' | translate}}" formControlName="lastName">
+      </mat-form-field>
+
+
+      <mat-form-field *ngIf="!projectorForm.value.isOrg" class="field_width">
+        <input matInput placeholder="{{'DesignerName' | translate}}" formControlName="firstName">
+      </mat-form-field>
+
+
+      <mat-form-field *ngIf="!projectorForm.value.isOrg" class="field_width">
+        <input matInput placeholder="{{'DesignerMidName' | translate}}" formControlName="secondName">
+      </mat-form-field>
+
+      <mat-form-field *ngIf="projectorForm.value.isOrg" class="field_width">
+        <input matInput placeholder="{{'orgName' | translate}}" formControlName="orgName">
+      </mat-form-field>
+
+      <mat-form-field *ngIf="projectorForm.value.isOrg" class="field_width">
+        <input matInput placeholder="{{'orgBIN' | translate}}" (keypress)="checkEventValueType($event)" formControlName="bin">
+        <div *ngIf="formControls.bin.errors">
+          <mat-error *ngIf="formControls.bin.errors.minlength">БИН должен содержат 12 цифр |
+            Текущая длина содержит {{formControls.bin.errors.minlength.actualLength}} цифр</mat-error>
+          <mat-error *ngIf="formControls.bin.errors.maxlength">БИН должен содержат 12 цифр</mat-error>
+        </div>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxFlex="90" fxFlexOffset="5" fxLayoutAlign="space-between center">
+
+      <mat-form-field *ngIf="!projectorForm.value.isOrg" class="field_width">
+
+        <input matInput placeholder="{{'DesignerIIN' | translate}}" formControlName="iin" id="iin" (keypress)="checkEventValueType($event)" >
+        <div *ngIf="formControls.iin.errors">
+          <mat-error *ngIf="formControls.iin.errors.required">Это объязательное поле!</mat-error>
+          <mat-error *ngIf="formControls.iin.errors.minlength">ИИН должен содержат 12 цифр |
+            Текущая длина содержит {{formControls.iin.errors.minlength.actualLength}} цифр</mat-error>
+          <mat-error *ngIf="formControls.iin.errors.maxlength">ИИН должен содержат 12 цифр |
+            Текущая длина содержит {{formControls.iin.errors.errors.actualLength}} цифр</mat-error>
+        </div>
+      </mat-form-field>
+
+
+      <mat-form-field class="field_width">
+        <input matInput placeholder="{{'DesignerLicNum' | translate}}" formControlName="licenseNumber">
+      </mat-form-field>
+
+
+      <mat-form-field class="field_width">
+        <input type="number" matInput placeholder="{{'DesignerPhoneNum' | translate}}" formControlName="phone">
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout="row" fxFlex="90" fxFlexOffset="5" fxLayoutAlign="space-between center">
+      <mat-form-field class="field_width">
+        <mat-select placeholder="{{'LicCat' | translate}}" formControlName="licenseCategory"
+                    [(value)]="designerInfo.licenseCategory">
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+  </div>
+</div>

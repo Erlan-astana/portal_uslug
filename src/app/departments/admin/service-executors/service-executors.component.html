@@ -1,0 +1,205 @@
+<div fxFlex="76" fxLayout="column" [fxFlexOffset.md]="5" fxFlex.md="90" fxFlex.sm="90" [fxFlexOffset.sm]="7"
+     fxFlexOffset="12">
+  <div fxFlex="100">
+    <button mat-stroked-button (click)="goBack()"><i class="material-icons">arrow_back</i></button>
+  </div>
+
+  <div class="subservice_content" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <h3>{{subservice.shortNameRu}}</h3>
+      <h3>Код: {{subservice.code || subservice.service.code}}</h3>
+    </div>
+    <button mat-button (click)="addRoleToService()" class="add_role">Добавить роль</button>
+  </div>
+
+  <div class="container" fxLayout="row" fxFlexOffset="2" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxFlex="30" fxFlex.sm="0" fxFlex.xs="0" fxLayoutAlign="space-between center">
+      <div class="filter">
+        <p class="filter_text">{{'Filter' | translate}}</p>
+        <mat-button-toggle-group class="service_executor_filter_cont" name="filter" aria-label="Font Style">
+
+
+          <mat-form-field *ngIf="regions.length > 0 && subservice.id !== 39" >
+            <mat-label>Регионы</mat-label>
+            <mat-select [(ngModel)]="regionId">
+              <mat-option>Выбрать...</mat-option>
+              <mat-option *ngFor="let region of regions" [value]="region.id">{{region.nameRu}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <app-select-region *ngIf="subservice.id === 39"  [subserviceId]="subservice.id"
+                             (setSelectedRegionId)="setSelectedRegionId($event)" class="full-width"></app-select-region>
+
+          <mat-button-toggle value="bold" fxFlexOffset="2" fxLayoutAlign="center center" (change)="getMembers()">Действие
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+
+
+    <div fxLayout="row" [fxFlexOffset.sm]="2" fxFlex.xs="100" fxLayoutAlign="space-around center" class="btn_groups">
+      <button mat-button class="add_role" (click)="showForm()">
+        Назначить исполнителей
+      </button>
+
+      <!-- <button mat-button class="export">
+         <span>EXCEL</span>
+
+         <img src="../../../../assets/icons/file.svg">
+       </button>-->
+
+      <button mat-button class="refresh" (click)="refresh()">
+        <img src="../../../../assets/icons/refresh.svg">
+      </button>
+
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="isForm">
+    <!--<div>
+      <mat-form-field>
+        <input matInput disabled [(ngModel)]="subservice.shortNameRu">
+      </mat-form-field>
+    </div>-->
+    <div [formGroup]="userAndRoleForm" fxLayoutAlign="center center" fxFlex="80" fxLayout="row">
+      <div fxFlex="20" style="margin-left: 40px">
+        <mat-form-field>
+          <mat-label>Роли</mat-label>
+          <mat-select formControlName="roleId">
+            <mat-option>Выбрать...</mat-option>
+            <mat-option *ngFor="let role of roles" [value]="role.id">{{role.nameRu}}</mat-option>
+          </mat-select>
+          <div *ngIf="submitted && formControls.roleId.errors">
+            <mat-error *ngIf="formControls.roleId.errors.required">Это объязательное поле!</mat-error>
+          </div>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="45">
+        <mat-form-field>
+          <mat-label>{{'Users' | translate}}</mat-label>
+          <mat-select formControlName="username">
+            <input class="filterOrgs" matInput focused="'true'" type="text" (keyup)="searchByUsers($event.target.value)"
+                   autocomplete="off" placeholder="Поиск по пользователям">
+            <mat-divider></mat-divider>
+
+            <mat-option *ngFor="let user of reserveUsers"  [value]="user.username">{{user.firstName}} {{user.lastName}}
+              ({{user.username}}){{getUserRegionById(user.regionId)}}
+            </mat-option>
+          </mat-select>
+          <div *ngIf="submitted && formControls.username.errors">
+            <mat-error *ngIf="formControls.username.errors.required">Это объязательное поле!</mat-error>
+          </div>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="25">
+        <app-select-region [subserviceId]="subservice.id"
+                           (setSelectedRegionId)="setSelectedRegionIdInUserAndRoleForm($event)" class="full-width"></app-select-region>
+
+      </div>
+
+      <div fxFlex="10" fxLayoutAlign="center center">
+
+        <mat-checkbox matTooltip="При установке галочки, именно этому пользователю будут поступать все заявки.
+        Остальным пользователям находящимся на в данной роли, заявки поступать не будут." formControlName="current"></mat-checkbox>
+
+      </div>
+
+
+    </div>
+
+
+    <button mat-stroked-button (click)="validate()">{{'Save' | translate}}</button>
+    <button mat-stroked-button (click)="resetForm();">Отмена</button>
+  </div>
+
+  <div>
+    <p ngClass="table_title">{{'Users' | translate}} БП</p>
+    <mat-table [dataSource]="dataSource" ngClass="external_table" class="mat-elevation-z8">
+
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> №.</mat-header-cell>
+        <mat-cell *matCellDef="let element;let i = index"> {{i+1}}</mat-cell>
+      </ng-container>
+
+      <!--  <ng-container matColumnDef="nameRu">
+          <mat-header-cell *matHeaderCellDef> Краткое наименование</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.subservice.shortNameRu }}
+          </mat-cell>
+        </ng-container>-->
+
+      <ng-container matColumnDef="roleNameRu">
+        <mat-header-cell *matHeaderCellDef>Роль</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button class="role-edit-btn" mat-button (click)="editRole(element[0].role.id)" matTooltip="Редактировать"><span>{{getRoleName(element)}}</span>
+          </button>
+          <button mat-button class="remove" matTooltip="Удалить" (click)="deleteRole(element[0])">
+            <i class="material-icons">
+              close
+            </i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="region">
+        <mat-header-cell *matHeaderCellDef>Район</mat-header-cell>
+        <mat-cell *matCellDef="let row" fxLayout="row wrap">
+          <ng-container *ngFor="let user of row">
+            <p *ngIf="user.id">{{getUserRoleRegionById(user.userRoleId)}}</p>
+            <br>
+            <!-- Use br if you want to display the roles vertically -->
+          </ng-container>
+        </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="user">
+        <mat-header-cell *matHeaderCellDef>Пользователь</mat-header-cell>
+        <mat-cell *matCellDef="let row" fxLayout="row wrap">
+          <ng-container *ngFor="let user of row">
+            <span *ngIf="user.id" [ngStyle]="{'color':getUserColor(user.current)}">{{ user.lastName +' '+ user.firstName}}({{user.username}}){{getUserRegionById(user.regionId)}}</span>
+            <button *ngIf="user.id" mat-button class="remove" matTooltip="Удалить" (click)="delete(user.userRoleId)">
+              <i class="material-icons">
+                close
+              </i>
+            </button>
+            <!-- Use br if you want to display the roles vertically -->
+          </ng-container>
+        </mat-cell>
+      </ng-container>
+
+      <!--<ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef>Username</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <span *ngIf="element.user">{{element.user.username}} {{element.user.lastName}}</span>
+        </mat-cell>
+      </ng-container>-->
+
+      <!--<ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Операции</mat-header-cell>
+        <mat-cell *matCellDef="let element;let row">&lt;!&ndash;
+          <button mat-button class="edit">
+            <i class="material-icons" title="Редактировать" (click)="edit(row)">edit</i>
+          </button>&ndash;&gt;
+          <button mat-button class="edit" matTooltip="Удалить" (click)="delete(row)">
+            <i class="material-icons">
+              close
+            </i>
+          </button>
+        </mat-cell>
+      </ng-container>-->
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+  </div>
+</div>
+
+

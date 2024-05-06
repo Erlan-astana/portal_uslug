@@ -1,0 +1,11 @@
+@import "../../../../assets/fonts/Spectral/font-stylesheet.css";
+.section_card{
+  width: 80%;
+  background: linear-gradient(90deg, #F4F4F4 -94.12%, rgba(255, 255, 255, 0) 100%), #F0F3F9;
+  mat-card-content{
+    background: #FFFFFF !important;
+  }
+}
+*{
+  font-family: Spectral-Medium, sans-serif !Important;
+}

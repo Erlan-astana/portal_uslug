@@ -1,0 +1,27 @@
+.region_container{
+  display: flex;
+}
+
+::ng-deep .mat-select-content{
+  font-size: inherit;
+}
+// .active{
+  // .mat-button-focus-overlay{
+    //opacity: 1 !important;
+  // }
+// }
+.active_icon{
+  color: #59B957;
+}
+.mat-tree{
+  background: none;
+  // width: 30vh;
+}
+
+.choose_region{
+  width: 100%;
+  color: rgba(0,0,0,.54) !important;
+}
+hr{
+  color: rgba(0,0,0,.42);
+}

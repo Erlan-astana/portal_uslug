@@ -1,0 +1,47 @@
+<div fxLayout="column" fxFlex="80" fxFlexOffset="10">
+
+  <app-header-arch-specialist *ngIf="app.id" [task]="task" [sectionId]="sectionId"
+                              (getApplication)="getApplication($event)"
+                              [app]="app"></app-header-arch-specialist>
+
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+
+    <app-files-upload *ngIf="app.id" [type]="'userapp'" [fileCategories]="appFileCategories" [app]="app"
+                      (changeSignData)="changeSignData()"></app-files-upload>
+
+    <div fxFlex="28">
+      <app-arch-map *ngIf="app.id" [app]="app"></app-arch-map>
+    </div>
+  </div>
+
+
+  <div>
+    <app-show-application-accordion *ngIf="app.id" [app]="app"></app-show-application-accordion>
+  </div>
+  <div class="template_b"
+       *ngIf="hasService('Сформировать') && task.content.executor || this.dataTaskDecide.signedDocument === false">
+    <div class="btn_list">
+      <div *ngFor="let template of templates;">
+        <mat-button-toggle-group class="confirm_button">
+          <mat-button-toggle (click)="setTemplateToMessage(template)"
+                             [ngClass]="{'button_agreement': template.approved, 'btn_warn': !template.approved}"
+                             mat-raised-button> {{template.nameRu}}
+            <span class="active_links"></span>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="ng_editor" *ngIf="task.content.executor">
+    <mat-list role="list" class="field_width sub_title">
+      <mat-list-item role="listitem">{{'ApprRefLetter' | translate}}</mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+
+  </div>
+
+
+</div>

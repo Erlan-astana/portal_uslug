@@ -1,0 +1,74 @@
+<div fxLayout="column" fxFlex="80" fxFlexOffset="10">
+
+ <!-- <app-header-arch-specialist *ngIf="app.id" [task]="task" [sectionId]="sectionId"
+                              (getApplication)="getApplication($event)"
+                              [app]="app"></app-header-arch-specialist>-->
+
+
+  <app-communal-header *ngIf="app.id" [task]="task" [sectionId]="sectionId"
+                       (getApplication)="getApplication($event)" (saveConnections)="saveConnections()"
+                       [app]="app"></app-communal-header>
+  <div class="control_panel">
+    <app-files-upload [taskDecide]="this.dataTaskDecide" *ngIf="dataTaskDecide && app.id" [sectionId]="sectionId" [type]="'userapp'" [fileCategories]="communalFileCategories" [app]="app"
+                      (changeSignData)="communalChangeSignData()"></app-files-upload>
+  </div>
+  <div class="control_panel" *ngIf="hasRecomendation()">
+    <mat-form-field >
+      <mat-label>Рекомендация</mat-label>
+      <textarea (change)="setParentTaskDecide()" matInput
+                cdkTextareaAutosize
+                [disabled]="!editInAvailableRoles(dataTaskDecide.role)"
+                #autosize="cdkTextareaAutosize"
+                [(ngModel)]="dataTaskDecide.recomendation"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"></textarea>
+    </mat-form-field>
+ </div>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <app-show-application-accordion *ngIf="app.id" [app]="app"></app-show-application-accordion>
+
+
+    <div fxFlex="40">
+
+      <app-communal-map *ngIf="app.id && orgApp?.id" [app]="app" [orgApp]="orgApp" [isDraw]="true"></app-communal-map>
+      <button mat-button class="screen_btn" (click)="getMapImgInFormatBase64()">Добавить скриншот(снимок) карты в Editor</button>
+
+    </div>
+  </div>
+
+
+  <div class="template_b"
+       *ngIf="showEditorTemplatesByRole(dataTaskDecide.role)">
+    <div class="btn_list">
+      <div *ngFor="let template of templates;">
+        <mat-button-toggle-group class="confirm_button">
+          <mat-button-toggle (click)="setTemplateToMessage(template)"
+                             [ngClass]="{'button_agreement': template.approved, 'btn_warn': !template.approved}"
+                             mat-raised-button> {{template.nameRu}}
+            <span class="active_links"></span>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div fxLayoutAlign="start center" *ngIf="showTemplatesByRole(dataTaskDecide.role)">
+    <button mat-stroked-button (click)="previewPdf()">{{'Preview' | translate}}</button>
+    <button mat-stroked-button (click)="updateTask()">{{'Save' | translate}}</button>
+    <button mat-stroked-button fxFlexOffset="2" (click)="toggleEditor = !toggleEditor">
+      <span *ngIf="!toggleEditor">{{'Enlarge' | translate}}</span>
+      <span *ngIf="toggleEditor">{{'Reduce' | translate}}</span>
+    </button>
+  </div>
+
+  <div class="ng_editor" *ngIf="showTemplatesByRole(this.dataTaskDecide.role)">
+    <p>Сформировать ТУ / отказ</p>
+
+    <app-editor [ngClass]="{'zoom_editor': toggleEditor}" [sectionId]="sectionId" [text]="dataTaskDecide.message"  (setText)="setText($event)" [hasComment]="false"></app-editor>
+  </div>
+
+
+</div>
+

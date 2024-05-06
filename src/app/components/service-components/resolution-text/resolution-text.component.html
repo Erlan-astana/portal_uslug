@@ -1,0 +1,30 @@
+<div fxFlex="100" class="ozo_fields_editorr ozo_fields" *ngIf="showTemplatesByUserRoles()">
+  <mat-panel-title fxLayoutAlign="center center">Подготовка текста постановления</mat-panel-title>
+
+  <div class="template_b" *ngIf="showResolutionEditorTemplatesByUserRole(taskDecide.role)">
+    <div class="btn_list">
+      <div *ngFor="let template of templates;">
+        <mat-button-toggle-group class="confirm_button">
+          <mat-button-toggle (click)="setTemplateToMessage(template)" [disabled]="sectionId !== '9'"
+                             [ngClass]="{'button_agreement': template.approved, 'btn_warn': !template.approved}"
+                             mat-raised-button> {{template.nameRu}}
+            <span class="active_links"></span>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayoutAlign="start center" class="ozo_fields ozo_preview">
+    <button class="preview_pdf" mat-button (click)="previewPdf()">Предосмотр</button>
+    <button mat-button class="button_agreement" (click)="saveEditor()">{{'Save' | translate}}</button>
+  </div>
+
+  <div *ngIf="taskDecide">
+    <div>
+      <app-editor [text]="taskDecide.orderText"
+                  (setText)="setText($event)" [hasComment]="false"></app-editor>
+    </div>
+
+  </div>
+</div>

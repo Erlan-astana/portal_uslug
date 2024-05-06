@@ -1,0 +1,760 @@
+<div class="form_container">
+  <div fxFlex="row" fxLayoutAlign="start start">
+    <mat-accordion class="field_width_ field_appInfo">
+
+      <!-- Заявление -->
+      <mat-expansion-panel class="list_panel" [expanded]="step === 0" (opened)="setStep(0)">
+        <mat-expansion-panel-header>
+
+          <mat-panel-title class="panel_title"> {{'Application' | translate}}</mat-panel-title>
+          <mat-panel-description [ngStyle]="{'visibility': app.firstName === null ? 'hidden' : 'visible'}"
+                                 class="check_circle">
+            <mat-icon> check_circle</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="viewer_item_container">
+          <div [style.display]="app.org ? 'block' : 'none'">
+            <mat-form-field class="entity_field">
+              <input type="number" matInput placeholder="{{'orgBIN' | translate}}" disabled [(ngModel)]="app.bin">
+            </mat-form-field>
+            <mat-form-field class="entity_field">
+              <input matInput placeholder="{{'orgName' | translate}}*" disabled [(ngModel)]="app.orgName">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="entity_field">
+              <input matInput placeholder="{{'ApplicantLastName' | translate}}*" disabled
+                     [(ngModel)]="app.lastName || nodata">
+            </mat-form-field>
+            <mat-form-field class="entity_field">
+              <input matInput placeholder="{{'ApplicantFirstName' | translate}}*" disabled
+                     [(ngModel)]="app.firstName || nodata">
+            </mat-form-field>
+            <mat-form-field class="entity_field">
+              <input matInput placeholder="{{'ApplicantMiddleName' | translate}}" disabled
+                     [(ngModel)]="app.secondName || nodata">
+            </mat-form-field>
+            <mat-form-field class="entity_field">
+              <input matInput placeholder="{{'ApplicantIIN' | translate}}*" disabled [(ngModel)]="app.iin || nodata">
+            </mat-form-field>
+
+            <mat-form-field *ngIf="app.subservice.id === 18">
+              <mat-label>{{ 'ApplicantCardNumber' | translate }}:</mat-label>
+              <input matInput disabled  placeholder="{{ 'ApplicantCardNumber' | translate }}"
+                     [(ngModel)]="app.identityCardNumber || nodata">
+            </mat-form-field>
+
+            <mat-form-field *ngIf="app.subservice.id === 18">
+              <mat-label>{{ 'IssuedByCard' | translate }}:</mat-label>
+              <input matInput disabled placeholder="{{ 'IssuedByCard' | translate }}"
+                     [(ngModel)]="app.identityCardDistributor || nodata">
+            </mat-form-field>
+          </div>
+          <mat-form-field  fxFlex="100">
+            <mat-label>{{ 'ApplicantAddress' | translate }}:</mat-label>
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" disabled
+                      cdkAutosizeMinRows="2" cdkAutosizeMaxRows="13" [(ngModel)]="app.address || nodata"></textarea>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="{{'ApplicantPhoneNumber' | translate}}*" disabled
+                   [(ngModel)]="app.phone || nodata">
+          </mat-form-field>
+          <div [style.display]="app.otherApplicant ? 'block' : 'none'">
+            <mat-form-field class="entity_field" *ngIf="!app.applicantIsOrg">
+              <input type="number" matInput placeholder="{{ 'CustomerIIN' | translate }}*" disabled
+                     [(ngModel)]="app.applicantIinBin">
+            </mat-form-field>
+            <mat-form-field class="entity_field" *ngIf="app.applicantIsOrg">
+              <input type="number" matInput placeholder="{{ 'CustomerBIN' | translate }}*" disabled
+                     [(ngModel)]="app.applicantIinBin">
+            </mat-form-field>
+            <mat-form-field class="entity_field" *ngIf="!app.applicantIsOrg">
+              <input matInput placeholder="{{ 'CustomerFIO' | translate }}" disabled [(ngModel)]="app.applicantName">
+            </mat-form-field>
+            <mat-form-field class="entity_field" *ngIf="app.applicantIsOrg">
+              <input matInput placeholder="{{ 'CustomerOrgName' | translate }}" disabled
+                     [(ngModel)]="app.applicantName">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <mat-action-row>
+          <button mat-button color="primary" (click)="nextStep()">{{'Next' | translate}}</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+
+      <!-- Данные объекта-->
+      <mat-expansion-panel class="list_panel" *ngIf="app.subservice.id !== 14" [expanded]="step === 1"
+                           (opened)="setStep(1)">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel_title">{{'ObjectData' | translate}}</mat-panel-title>
+          <mat-panel-description
+            [ngStyle]="{'visibility': app.objectInfo.id === null ? 'hidden' : 'visible'}"
+            class="check_circle">
+            <mat-icon>
+              check_circle
+            </mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="viewer_item_container">
+          <div *ngFor="let objField of objFormFields" class="obj_block">
+            <mat-form-field *ngIf="objField.type === 'text' || objField.type ==='number' ">
+              <input matInput placeholder="{{ objField.plcaceHolder | translate}}*" disabled
+                     [(ngModel)]="objField.ngModel || nodata">
+            </mat-form-field>
+
+            <mat-checkbox *ngIf="objField.type === 'checkbox'" class="field_width" [(ngModel)]="objField.ngModel"
+                          disabled>
+              {{objField.plcaceHolder | translate}}*
+            </mat-checkbox>
+
+            <mat-form-field class="field_width" *ngIf="objField.type === 'textarea'" fxFlex="100">
+            <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" disabled
+                      cdkAutosizeMinRows="3" cdkAutosizeMaxRows="13" [(ngModel)]="objField.ngModel"></textarea>
+          </mat-form-field>
+
+
+            <mat-form-field *ngIf="objField.type === 'date'">
+              <input matInput placeholder="{{objField.plcaceHolder | translate}}*" disabled
+                     [ngModel]="objField.ngModel | date:'dd.MM.yyyy'"
+                     (ngModelChange)="objField.ngModel=$event">
+            </mat-form-field>
+
+          </div>
+        </div>
+
+        <div class="field_width" *ngIf="app.subservice.id === 18">
+          <span class="note">{{'PurposeApplicantAppeal' | translate }}:</span>
+          <mat-form-field class="field_width">
+            <mat-label>*{{'FreeField' | translate }}</mat-label>
+            <input matInput placeholder="{{'FreeField' | translate}}" disabled
+                   [(ngModel)]="app.objectInfo.purpose || nodata">
+          </mat-form-field>
+        </div>
+
+        <mat-action-row>
+          <button mat-button color="warn" (click)="prevStep()">{{'Back' | translate}}</button>
+          <button mat-button color="primary" (click)="nextStep()">{{'Next' | translate}}</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <!--Электронные копии документов-->
+      <mat-expansion-panel class="list_panel" [expanded]="step === 2" (opened)="setStep(2)"
+                           *ngIf="appFileCategories.length > 0 ">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel_title"> {{'ElectronicCopiesDocuments' | translate}}</mat-panel-title>
+          <mat-panel-description *ngIf="appFileCategories"
+                                 [ngStyle]="{'visibility': appFileCategories.length > 0 ? 'visible' : 'hidden'}"
+                                 class="check_circle">
+            <mat-icon>
+              check_circle
+            </mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="viewer_item_container">
+          <div class="field_width" *ngFor="let file of appFileCategories">
+            <mat-list role="list" class="sub_title">
+              <mat-list-item role="listitem">{{file.title}} *</mat-list-item>
+              <mat-divider></mat-divider>
+            </mat-list>
+            <mat-form-field *ngIf="file.categoryFiles.length < 1" class="field_width">
+              <input matInput disabled placeholder="{{'NoFiles' | translate}}">
+            </mat-form-field>
+            <ng-container *ngIf="file.categoryFiles.length > 0">
+              <mat-list class="field_width" *ngFor="let f of file.categoryFiles">
+                <mat-list-item>
+                  <mat-form-field class="entity_field">
+                    <input matInput placeholder="{{f.name || 'file.pdf'}}   ({{fileSizeToBytes(f.size)}})" disabled>
+                    <button matSuffix mat-raised-button color="primary" (click)="downloadAppFile(f.objectId)">
+                      {{'Download' | translate}}
+                    </button>
+                  </mat-form-field>
+                </mat-list-item>
+              </mat-list>
+            </ng-container>
+          </div>
+        </div>
+
+        <mat-action-row>
+          <button mat-button color="warn" (click)="prevStep()">{{'Back' | translate}}</button>
+          <button mat-button color="primary" (click)="nextStep()">{{'Next' | translate}}</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+        <!-- Технические условия -->
+        <mat-expansion-panel class="list_panel" *ngIf="app.subservice.id == 152" [expanded]="step === 3" (opened)="setStep(3)">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="panel_title"> {{'technicalConditions' | translate}}</mat-panel-title>
+          </mat-expansion-panel-header>
+        
+          <div class="viewer_item_container" *ngFor="let item of techObj">
+            <mat-form-field class="field_width" *ngIf="item.tr">
+              <input matInput placeholder="{{ item.tr | translate}}" disabled [(ngModel)]="item.val || nodata">
+            </mat-form-field>
+          </div>
+        
+          <mat-action-row>
+            <button mat-button color="primary" (click)="nextStep()">{{'Next' | translate}}</button>
+          </mat-action-row>
+        </mat-expansion-panel>
+
+      <!-- Данные Зем. Проекта -->
+      <mat-expansion-panel *ngIf="app.subservice.id === 23 || app.subservice.id === 63" class="list_panel"
+                           [expanded]="step === 3"
+                           (opened)="setStep(3)">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel_title">
+            Данные Зем. Проекта
+          </mat-panel-title>
+          <mat-panel-description [ngStyle]="{'visibility': app.landInfo.protocolDate === null ? 'hidden' : 'visible'}"
+                                 class="check_circle">
+            <mat-icon>
+              check_circle
+            </mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="viewer_item_container">
+          <mat-form-field class="field_width">
+            <input matInput placeholder="{{'SurnameOfTheDeveloperOfTheLandManagementProject' | translate}}:" disabled
+                   [(ngModel)]="app.landInfo.lastName || nodata">
+          </mat-form-field>
+          <mat-form-field class="field_width">
+            <input matInput placeholder="{{'DeveloperName' | translate}}:" disabled
+                   [(ngModel)]="app.landInfo.firstName || nodata">
+          </mat-form-field>
+          <mat-form-field class="field_width">
+            <input matInput placeholder="{{'DeveloperMiddleName' | translate}}:" disabled
+                   [(ngModel)]="app.landInfo.secondName || nodata">
+          </mat-form-field>
+          <mat-form-field class="field_width">
+            <input matInput placeholder="{{'NameOfTheLegalEntityOfTheDeveloper' | translate}}:" disabled
+                   [(ngModel)]="app.landInfo.orgName || nodata">
+          </mat-form-field>
+          <mat-form-field class="field_width">
+            <input matInput placeholder="{{'LandCommissionProtocolNumber' | translate}}:" disabled
+                   [(ngModel)]="app.landInfo.protocolNumber || nodata">
+          </mat-form-field>
+          <mat-form-field class="field_width">
+            <input matInput placeholder="{{'DateOfTheProtocolOfTheLandCommission' | translate}}:" disabled
+                   [ngModel]="app.landInfo.protocolDate | date:'dd.MM.yyyy'"
+                   (ngModelChange)="app.landInfo.protocolDate=$event">
+          </mat-form-field>
+          <!--<mat-form-field class="field_width">
+            <input matInput placeholder="{{'NumberOfCopiesOfTheLandManagementProject' | translate}}:" disabled
+                   [(ngModel)]="app.landInfo.copyCount || nodata">
+          </mat-form-field>-->
+        </div>
+
+        <mat-action-row>
+          <button mat-button color="warn" (click)="prevStep()">{{'Back' | translate}}</button>
+          <button mat-button color="primary" (click)="nextStep()">{{'Next' | translate}}</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <!-- Электроснабжение -->
+      <mat-expansion-panel class="list_panel" [expanded]="step === 3"
+                           *ngIf="app.id && app.subservice.service.id === 1 && !hasTuFile()"
+                           (opened)="setStep(3)">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel_title">
+            Электроснабжение
+          </mat-panel-title>
+          <mat-panel-description
+            [ngStyle]="{'visibility': app.electricInfo.requiredPower === null ? 'hidden' : 'visible'}"
+            class="check_circle">
+            <mat-icon>
+              check_circle
+            </mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="viewer_item_container">
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'ReqPower' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.requiredPower || nodata">
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'LoadNature' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.phase.nameRu || nodata">
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'LoadNatFreq' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.phasePeriod.nameRu || nodata">
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-list role="list" class="sub_title">
+            <mat-list-item role="listitem">{{'ReliabilityCat' | translate}}</mat-list-item>
+          </mat-list>
+          <div class="flex-container">
+            <div>
+              <!-- <p class="field_title">1 категория *</p> -->
+              <mat-form-field class="field_width">
+                <mat-select placeholder="Категория*" disabled [(ngModel)]="app.electricInfo.relCat || nodata">
+                  <mat-option value="1">1 категория</mat-option>
+                  <mat-option value="2">2 категория</mat-option>
+                  <mat-option value="3">3 категория</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div>
+              <!-- <p class="field_title">2 категория *</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.relCat2 || nodata">
+                <button mat-raised-button matSuffix disabled>кВт (кВА)</button>
+              </mat-form-field> -->
+            </div>
+            <div>
+              <!-- <p class="field_title">3 категория *</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.relCat3 || nodata">
+                <button mat-raised-button matSuffix disabled>кВт (кВА)</button>
+              </mat-form-field> -->
+            </div>
+          </div>
+
+          <mat-list role="list" class="sub_title">
+            <mat-list-item role="listitem">{{'AtReconstruction' | translate}}</mat-list-item>
+          </mat-list>
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'ElBoilers' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.boilerCount || nodata">
+                <button mat-raised-button matSuffix disabled>{{'ShortCount' | translate}}</button>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.boilerPower || nodata">
+                <button mat-raised-button matSuffix disabled>кВт</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'Electroheaters' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.heaterCount || nodata">
+                <button mat-raised-button matSuffix disabled>{{'ShortCount' | translate}}</button>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.heaterPower || nodata">
+                <button mat-raised-button matSuffix disabled>кВт</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'Hotplates' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.stoveCount || nodata">
+                <button mat-raised-button matSuffix disabled>{{'ShortCount' | translate}}</button>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.stovePower || nodata">
+                <button mat-raised-button matSuffix disabled>кВт</button>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'ElFurnaces' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.furnaceCount || nodata">
+                <button mat-raised-button matSuffix disabled>{{'ShortCount' | translate}}</button>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.furnacePower || nodata">
+                <button mat-raised-button matSuffix disabled>кВт</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'ElWaterHeaters' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.waterHeaterCount || nodata">
+                <button mat-raised-button matSuffix disabled>{{'ShortCount' | translate}}</button>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.waterHeaterPower || nodata">
+                <button mat-raised-button matSuffix disabled>кВт</button>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'TransPower1' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.transformerNumber1 || nodata">
+                <button mat-raised-button matSuffix disabled>ТП</button>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.transformerPower1 || nodata">
+                <button mat-raised-button matSuffix disabled>кВА</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'TransPower2' | translate}} *</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.transformerNumber2 || nodata">
+                <button mat-raised-button matSuffix disabled>ТП</button>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.transformerPower2 || nodata">
+                <button mat-raised-button matSuffix disabled>кВА</button>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'ExMaxLoad' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.electricInfo.maxLoad || nodata">
+                <button mat-raised-button matSuffix disabled>кВт (кВА)</button>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <mat-action-row>
+          <button mat-button color="warn" (click)="prevStep()">{{'Back' | translate}}</button>
+          <button mat-button color="primary" (click)="nextStep()">{{'Next' | translate}}</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <!-- Водоснабжение -->
+      <mat-expansion-panel class="list_panel" [expanded]="step === 4" *ngIf="app.subservice.service.id === 1 && app.waterInfo && !hasTuFile()"
+                           (opened)="setStep(4)">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel_title">
+            Водоснабжение
+          </mat-panel-title>
+          <mat-panel-description [ngStyle]="{'visibility': app.waterInfo.total === null ? 'hidden' : 'visible'}"
+                                 class="check_circle">
+            <mat-icon>
+              check_circle
+            </mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="viewer_item_container">
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'TotWaterDemand' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.waterInfo.total || nodata">
+                <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'TotNeedDrinkWater' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.waterInfo.totalDrink || nodata">
+                <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'MaxTotalWaterReq' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.waterInfo.maxTotal || nodata">
+                <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-list role="list" class="sub_title">
+            <mat-list-item role="listitem"> В том числе</mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-list>
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'HousehDrinkNeeds' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.waterInfo.dayDrink || nodata">
+                <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'HousehDrinkNeeds' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.waterInfo.hourDrink || nodata">
+                <button mat-raised-button matSuffix disabled>м3/час</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'MaxHousehDrinkNeeds' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.waterInfo.maxDrink || nodata">
+                <button mat-raised-button matSuffix disabled>м3/секунду</button>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'IndustrialNeeds' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.waterInfo.dayIndustrial || nodata">
+                <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'IndustrialNeeds' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.waterInfo.hourIndustrial || nodata">
+                <button mat-raised-button matSuffix disabled>м3/час</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'MaxProdNeeds' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.waterInfo.maxIndustrial || nodata">
+                <button mat-raised-button matSuffix disabled>м3/секунду</button>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'FirefReq' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.waterInfo.firefighting || nodata">
+                <button mat-raised-button matSuffix disabled>м3/секунду</button>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <mat-action-row>
+          <button mat-button color="warn" (click)="prevStep()">{{'Back' | translate}}</button>
+          <button mat-button color="primary" (click)="nextStep()">{{'Next' | translate}}</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <!-- Канализация -->
+      <mat-expansion-panel class="list_panel" [expanded]="step === 5"
+                           *ngIf="app.subservice.service.id === 1 && app.sewerageInfo && !hasTuFile()"
+                           (opened)="setStep(5)">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel_title">
+            Канализация
+          </mat-panel-title>
+          <mat-panel-description [ngStyle]="{'visibility': app.sewerageInfo.total === null ? 'hidden' : 'visible'}"
+                                 class="check_circle">
+            <mat-icon>
+              check_circle
+            </mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="viewer_item_container">
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'TotalWastewater' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.sewerageInfo.total || nodata">
+                <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">Максимальное {{'TotalWastewater' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.sewerageInfo.maxTotal || nodata">
+                <button mat-raised-button matSuffix disabled>м3/час</button>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-list role="list" class="sub_title">
+            <mat-list-item role="listitem"> В том числе</mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-list>
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'FecalTotal' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.sewerageInfo.fecal || nodata">
+                <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'IndustContamTotal' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.sewerageInfo.industrial || nodata">
+                <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'ConditClean' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.sewerageInfo.clean || nodata">
+                <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'FecalMax' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.sewerageInfo.maxFecal || nodata">
+                <button mat-raised-button matSuffix disabled>м3/час</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'ProdMaxContam' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.sewerageInfo.maxIndustrial || nodata">
+                <button mat-raised-button matSuffix disabled>м3/час</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'CondCleanMax' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.sewerageInfo.maxClean || nodata">
+                <button mat-raised-button matSuffix disabled>{{'m3day' | translate}}</button>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-form-field class="field_width">
+            <textarea matInput disabled
+                      placeholder="{{'QualCompos' | translate}}"></textarea>
+          </mat-form-field>
+        </div>
+
+        <mat-action-row>
+          <button mat-button color="warn" (click)="prevStep()">{{'Back' | translate}}</button>
+          <button mat-button color="primary" (click)="nextStep()">{{'Next' | translate}}</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <!-- Теплоснабжение -->
+      <mat-expansion-panel class="list_panel" [expanded]="step === 6" *ngIf="app.subservice.service.id === 1 && app.heatInfo && !hasTuFile()"
+                           (opened)="setStep(6)">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel_title">
+            Теплоснабжение
+          </mat-panel-title>
+          <mat-panel-description [ngStyle]="{'visibility': app.heatInfo.total === null ? 'hidden' : 'visible'}"
+                                 class="check_circle">
+            <mat-icon>
+              check_circle
+            </mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="viewer_item_container">
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'TotHeatLoad' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.heatInfo.total || nodata">
+                <button mat-raised-button matSuffix disabled>Гкал/час</button>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-list role="list" class="sub_title">
+            <mat-list-item role="listitem"> В том числе</mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-list>
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'Heating' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.heatInfo.heating || nodata">
+                <button mat-raised-button matSuffix disabled>Гкал/час</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'Ventilation' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.heatInfo.ventilation || nodata">
+                <button mat-raised-button matSuffix disabled>Гкал/час</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'HotWaterSupply' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.heatInfo.hotWater || nodata">
+                <button mat-raised-button matSuffix disabled>Гкал/час</button>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'TechNeeds' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.heatInfo.technical || nodata">
+                <button mat-raised-button matSuffix disabled>Гкал/час</button>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <mat-action-row>
+          <button mat-button color="warn" (click)="prevStep()">{{'Back' | translate}}</button>
+          <button mat-button color="primary" (click)="nextStep()">{{'Next' | translate}}</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+      <!-- Газоснабжение -->
+      <mat-expansion-panel class="list_panel" [expanded]="step === 7" *ngIf="app.subservice.service.id === 1 && app.gasInfo && !hasTuFile()"
+                           (opened)="setStep(7)">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="panel_title">
+            Газоснабжение
+          </mat-panel-title>
+          <mat-panel-description [ngStyle]="{'visibility': app.gasInfo.total === null ? 'hidden' : 'visible'}"
+                                 class="check_circle">
+            <mat-icon>
+              check_circle
+            </mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="viewer_item_container">
+          <div class="flex-container">
+            <div>
+              <p class="field_title">{{'TotConsump' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.gasInfo.total || nodata">
+                <button mat-raised-button matSuffix disabled>м3/час</button>
+              </mat-form-field>
+            </div>
+          </div>
+          <mat-list role="list" class="sub_title">
+            <mat-list-item role="listitem"> В том числе</mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-list>
+          <!--<div class="flex-container">
+            <div>
+              <p class="field_title">Отопительный котел (марка, модель, производитель)</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.gasInfo.boilerName || nodata">
+
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">{{'Count' | translate}}</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.gasInfo.boilerAmount || nodata">
+                <button mat-raised-button matSuffix disabled>штука</button>
+              </mat-form-field>
+            </div>
+            <div>
+              <p class="field_title">Требуемая мощность газопотребление*</p>
+              <mat-form-field>
+                <input matInput disabled [(ngModel)]="app.gasInfo.boilerPower || nodata">
+                <button mat-raised-button matSuffix disabled>м3/час</button>
+              </mat-form-field>
+            </div>
+          </div>-->
+        </div>
+
+        <mat-action-row>
+          <button mat-button color="warn" (click)="prevStep()">{{'Back' | translate}}</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
